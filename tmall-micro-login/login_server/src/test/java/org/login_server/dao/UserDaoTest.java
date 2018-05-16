@@ -1,5 +1,7 @@
 package org.login_server.dao;
 
+import java.util.Date;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.login_server.model.User;
@@ -20,7 +22,11 @@ public class UserDaoTest
 		
 		User user = userDao.findByEmail(0, "18757883747@163.com");
 		System.out.println(user);
-		
+	}
+	@Test
+	public void testUpdateLastlogintime()
+	{
+		userDao.updateLastLoginTimeAndIp(1,1L, "123333222", new Date());
 	}
 
 }

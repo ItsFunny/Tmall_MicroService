@@ -13,6 +13,7 @@ package org.login_server.enums;
 */
 public enum UserStatusEnum
 {
+	UNACTIVE,
 	ABLE,
 	DISABLE;
 }

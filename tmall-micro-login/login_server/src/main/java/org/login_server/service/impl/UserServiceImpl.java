@@ -6,6 +6,8 @@
 */
 package org.login_server.service.impl;
 
+import java.util.Date;
+
 import org.login_server.dao.TypeLoginDao;
 import org.login_server.dao.UserDao;
 import org.login_server.model.User;
@@ -39,6 +41,13 @@ public class UserServiceImpl implements IUserService
 		Long userId = Long.parseLong(userIdStr);
 		long tableNum = userId & 1;
 		return userDao.findByEmail((int) tableNum, email);
+	}
+
+	@Override
+	public void updateUserLastLoginTimeAndIp(Long userId, String lastIp)
+	{
+		int tableNum = (int) (userId & 1);
+		userDao.updateLastLoginTimeAndIp(tableNum, userId, lastIp, new Date());
 	}
 
 }

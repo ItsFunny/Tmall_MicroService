@@ -1,0 +1,28 @@
+aaa
+
+${intVar}
+日期:${date?string('yyyy-MM-dd hh:mm:ss')}
+空值:${nullVar!}
+<#assign a=100>
+a=${a}
+
+username:${(user.aa)!}
+
+
+list遍历
+<#list myList as item>
+	${item}
+</#list>
+
+map的遍历
+${map.java}
+<#list map?keys as key>
+${key}:${map[key]}
+</#list>
+
+if语法
+<#if (intVar>19) >
+	intVar=${intVar}
+</#if>
+
+

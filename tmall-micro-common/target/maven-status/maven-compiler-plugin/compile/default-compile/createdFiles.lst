@@ -1,0 +1,10 @@
+com\rebuildtmall\tmall_micro_common\enums\RabbitMQEnum.class
+com\rebuildtmall\tmall_micro_common\event\AbstractAppPublish.class
+com\rebuildtmall\tmall_micro_common\utils\KeyUtils.class
+com\rebuildtmall\tmall_micro_common\App.class
+com\rebuildtmall\tmall_micro_common\converter\JSONMessageConverter.class
+com\rebuildtmall\tmall_micro_common\event\AppPublish.class
+com\rebuildtmall\tmall_micro_common\event\GsonInterfaceAdapter.class
+com\rebuildtmall\tmall_micro_common\event\AppEvent.class
+com\rebuildtmall\tmall_micro_common\utils\JsonUtils.class
+com\rebuildtmall\tmall_micro_common\event\impl\UserOffsitePublisher.class

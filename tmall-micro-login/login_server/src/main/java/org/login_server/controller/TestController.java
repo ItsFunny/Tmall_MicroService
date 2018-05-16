@@ -6,33 +6,57 @@
 */
 package org.login_server.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import static org.assertj.core.api.Assertions.entry;
 
-import org.login_server.test.Test1;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.login_server.model.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
-* 
-* @author joker 
-* @date 创建时间：2018年5月10日 上午11:19:29
-*/
+ * 
+ * @author joker
+ * @date 创建时间：2018年5月10日 上午11:19:29
+ */
 @Controller
 public class TestController
 {
-	@RequestMapping("/test/{key}")
-	public void test(HttpServletRequest request,@PathVariable("key")Integer key)
+	@RequestMapping(value = "/cp1")
+	public ModelAndView index()
 	{
-		Test1.put(key, request.getSession(true));
+		ModelAndView modelAndView = new ModelAndView("cp1");
+		modelAndView.addObject("intVar", 100);
+		modelAndView.addObject("date",new Date());
+		modelAndView.addObject("nullVar",null);
+		
+		User user=new User();
+		user.setUsername("joker");
+		user.setPassword("123");
+		modelAndView.addObject("user",user);
+		
+		
+		List<String>strings=new ArrayList<>();
+		strings.add("joker");
+		strings.add("clown");
+		strings.add("cry");
+		modelAndView.addObject("myList",strings);
+		
+		
+		Map<String, Object>map=new HashMap<String, Object>();
+		map.put("java", "hello");
+		map.put("python", "hello");
+		map.put("c++", "hello");
+		modelAndView.addObject("map",map);
+		
+		return modelAndView;
 	}
-	
-	@RequestMapping("/ban/{key}")
-	public void banTest(HttpServletRequest request,@PathVariable("key")Integer key)
-	{
-		Test1.ban(key);
-	}
-	
-	
 
 }

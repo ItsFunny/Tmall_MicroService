@@ -1,5 +1,10 @@
-D:\JAVA\oxygen_workspace\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\utils\JsonUtils.java
-D:\JAVA\oxygen_workspace\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\enums\RoutingKeyEnum.java
-D:\JAVA\oxygen_workspace\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\App.java
-D:\JAVA\oxygen_workspace\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\constants\RabbitMQConstant.java
-D:\JAVA\oxygen_workspace\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\utils\KeyUtils.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\event\AppPublish.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\event\impl\UserOffsitePublisher.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\utils\JsonUtils.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\event\GsonInterfaceAdapter.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\utils\KeyUtils.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\App.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\enums\RabbitMQEnum.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\event\AppEvent.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\converter\JSONMessageConverter.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-micro-common\src\main\java\com\rebuildtmall\tmall_micro_common\event\AbstractAppPublish.java

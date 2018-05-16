@@ -7,11 +7,13 @@
 package com.rebuildtmall.tmall_batch.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
 * 
 */
-@ConfigurationProperties(prefix = "tmall.datasource")
+@EnableConfigurationProperties
+@ConfigurationProperties(prefix="tmall.datasource")
 public class TmallConfigProperty
 {
 	private String username;

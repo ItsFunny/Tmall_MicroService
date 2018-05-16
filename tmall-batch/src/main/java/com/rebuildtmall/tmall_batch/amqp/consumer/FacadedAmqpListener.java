@@ -8,13 +8,16 @@ package com.rebuildtmall.tmall_batch.amqp.consumer;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.util.CollectionUtils;
 
 import com.rebuildtmall.tmall_batch.amqp.AmqpListener;
+import com.rebuildtmall.tmall_micro_common.event.AppEvent;
 
 /**
  * 
@@ -31,6 +34,12 @@ public class FacadedAmqpListener implements AmqpListener
 		this(Collections.emptyList());
 	}
 
+	public String[] queueNames(List<? extends AmqpListener> listeners)
+	{
+		List<String> list = listeners.stream().map(s -> s.queueName()).collect(Collectors.toList());
+		return list.toArray(new String[listeners.size()]);
+	}
+
 	public FacadedAmqpListener(List<? extends AmqpListener> listeners)
 	{
 		if (CollectionUtils.isEmpty(listeners))
@@ -38,9 +47,11 @@ public class FacadedAmqpListener implements AmqpListener
 			this.consumerMap = Collections.emptyMap();
 			return;
 		}
+		Map<String, Collection<AmqpListener>> m = new HashMap<String, Collection<AmqpListener>>();
 		for (AmqpListener amqpListener : listeners)
 		{
-			Collection<AmqpListener> c = consumerMap.get(amqpListener.queueName());
+			System.out.println(amqpListener.queueName());
+			Collection<AmqpListener> c = m.get(amqpListener.routingKeyValue());
 			if (amqpListener instanceof FacadedAmqpListener)
 			{
 				continue;
@@ -48,22 +59,49 @@ public class FacadedAmqpListener implements AmqpListener
 			if (CollectionUtils.isEmpty(c))
 			{
 				c = new HashSet<>();
-				consumerMap.put(amqpListener.queueName(), c);
+				m.put(amqpListener.routingKeyValue(), c);
 			}
 			c.add(amqpListener);
 		}
+		this.consumerMap = m;
 	}
 
 	@Override
 	public String queueName()
 	{
-		return null;
+		return "*";
 	}
 
 	@Override
-	public void process()
+	public void process(AppEvent event)
 	{
+		String routingKey = event.getRoutingKey();
+		Collection<AmqpListener> listeners = consumerMap.get(routingKey);
+		if (CollectionUtils.isEmpty(listeners))
+		{
+			return;
+		}
+		for (AmqpListener amqpListener : listeners)
+		{
+			amqpListener.process(event);
+		}
 
+	}
+
+	public Map<String, Collection<AmqpListener>> getConsumerMap()
+	{
+		return consumerMap;
+	}
+
+	public void setConsumerMap(Map<String, Collection<AmqpListener>> consumerMap)
+	{
+		this.consumerMap = consumerMap;
+	}
+
+	@Override
+	public String routingKeyValue()
+	{
+		return null;
 	}
 
 }

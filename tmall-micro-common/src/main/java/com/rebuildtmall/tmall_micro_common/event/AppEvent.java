@@ -21,6 +21,11 @@ public class AppEvent extends EventObject
 	private String routingKey;
 	private Serializable data;
 
+	public AppEvent()
+	{
+		super("");
+	}
+
 	public AppEvent(Serializable data, String routingKey)
 	{
 		super(data);
@@ -41,9 +46,10 @@ public class AppEvent extends EventObject
 	 */
 	private static final long serialVersionUID = 7761669551537571664L;
 
-	public Serializable getData()
+	@SuppressWarnings("unchecked")
+	public<T> T getData()
 	{
-		return data;
+		return (T) data;
 	}
 
 	public void setData(Serializable data)

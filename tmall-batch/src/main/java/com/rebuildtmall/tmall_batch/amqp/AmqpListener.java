@@ -6,6 +6,8 @@
 */
 package com.rebuildtmall.tmall_batch.amqp;
 
+import com.rebuildtmall.tmall_micro_common.event.AppEvent;
+
 /**
  * 
  * @author joker
@@ -14,6 +16,8 @@ package com.rebuildtmall.tmall_batch.amqp;
 public interface AmqpListener
 {
 	String queueName();
+	
+	String routingKeyValue();
 
-	void process();
+	void process(AppEvent event);
 }

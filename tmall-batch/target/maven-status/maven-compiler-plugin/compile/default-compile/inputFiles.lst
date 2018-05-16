@@ -1,0 +1,10 @@
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\dao\UserAbnormalDao.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\config\TmallBatchConfig.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\config\TmallConfigProperty.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\TmallBatch.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\amqp\consumer\FacadedAmqpListener.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\service\UserSafeService.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\amqp\consumer\UserOffsiteAmqpListener.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\service\impl\UserSafeServiceImpl.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\amqp\AmqpListener.java
+D:\JAVA\oxygen_workspace\tmall_micro\tmall-batch\src\main\java\com\rebuildtmall\tmall_batch\model\UserOffsiteRecord.java

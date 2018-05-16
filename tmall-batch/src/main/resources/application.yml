@@ -10,12 +10,5 @@ tmall:
     username: root
     password: 123
     driver-class-name: com.mysql.jdbc.Driver
-
-server:
+server: 
   port: 9000
-
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
-  mapper-locations:
-  - classpath:mapper/*.xml

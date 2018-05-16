@@ -17,12 +17,17 @@ import java.util.Date;
 public class User implements Serializable
 {
 	/**
-	* 
-	* @author joker 
-	* @date 创建时间：2018年5月14日 上午9:23:28
-	*/
-	
+	 * 
+	 * @author joker
+	 * @date 创建时间：2018年5月14日 上午9:23:28
+	 */
+
 	private static final long serialVersionUID = 2240562186622070329L;
+
+	public User()
+	{
+	}
+
 	private Long userId;
 	private String username;
 	private String password;

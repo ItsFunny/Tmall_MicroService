@@ -1,17 +1,21 @@
 /**
 *
 * @author joker 
-* @date 创建时间：2018年5月15日 下午9:16:13
+* @date 创建时间：2018年5月16日 上午9:49:18
 * 
 */
 package com.rebuildtmall.tmall_micro_common.event;
 
 /**
-* 
-* @author joker 
-* @date 创建时间：2018年5月15日 下午9:16:13
-*/
+ * 
+ * @author joker
+ * @date 创建时间：2018年5月16日 上午9:49:18
+ */
 public interface AppPublish
 {
-	void publish(AppEvent event);
+	  void publish(AppEvent event);
+
+//	  void publish(String routingKey, AppEvent event);
+//	  
+	  void publish(String exchangeName,String routingKey,AppEvent event);
 }

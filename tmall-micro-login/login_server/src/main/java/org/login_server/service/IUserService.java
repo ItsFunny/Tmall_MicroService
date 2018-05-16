@@ -6,6 +6,7 @@
 */
 package org.login_server.service;
 
+
 import org.login_server.model.User;
 
 /**
@@ -16,4 +17,6 @@ import org.login_server.model.User;
 public interface IUserService
 {
 	User findByEmail(String email);
+	
+	void updateUserLastLoginTimeAndIp(Long userId,String lastIp);
 }
