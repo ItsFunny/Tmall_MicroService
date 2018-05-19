@@ -113,6 +113,7 @@ $(function(){
 	<img id="loginBackgroundImg" class="loginBackgroundImg" src="http://how2j.cn/tmall/img/site/loginBackground.png">
 	
 	<form class="loginForm"  method="post" action="login.do">
+		<input type="hidden" name="redirectUrl" value="${redirectUrl!}">
 		<div id="loginSmallDiv" class="loginSmallDiv">
 			<div class="loginErrorMessageDiv">
 				<div class="alert alert-danger" >
@@ -120,7 +121,6 @@ $(function(){
 				  	<span class="errorMessage"></span>
 				</div>
 			</div>
-			${error!}
 			<div class="login_acount_text">账户登录</div>
 			<div class="loginInput " >
 				<span class="loginInputIcon ">

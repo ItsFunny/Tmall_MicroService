@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import org.springframework.util.CollectionUtils;
 
 import com.rebuildtmall.tmall_batch.amqp.AmqpListener;
-import com.rebuildtmall.tmall_micro_common.event.AppEvent;
+import com.tmall.common.event.AppEvent;
 
 /**
  * 

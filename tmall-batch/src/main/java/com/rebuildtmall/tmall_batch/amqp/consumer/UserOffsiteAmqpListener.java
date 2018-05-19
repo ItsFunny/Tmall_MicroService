@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.rebuildtmall.tmall_batch.amqp.AmqpListener;
 import com.rebuildtmall.tmall_batch.model.UserOffsiteRecord;
 import com.rebuildtmall.tmall_batch.service.UserSafeService;
-import com.rebuildtmall.tmall_micro_common.enums.RabbitMQEnum;
-import com.rebuildtmall.tmall_micro_common.event.AppEvent;
+import com.tmall.common.enums.RabbitMQEnum;
+import com.tmall.common.event.AppEvent;
 
 /**
  * 

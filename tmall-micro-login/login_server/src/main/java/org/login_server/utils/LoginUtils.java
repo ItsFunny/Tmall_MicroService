@@ -8,6 +8,8 @@ package org.login_server.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.util.StringUtils;
+
 /**
  * 
  * @author joker
@@ -32,5 +34,16 @@ public class LoginUtils
 			ip = request.getRemoteAddr();
 		}
 		return ip;
+	}
+
+	public static String getRedirectUrl(HttpServletRequest request)
+	{
+		StringBuffer buffer = request.getRequestURL();
+		String queryString = request.getQueryString();
+		if (!StringUtils.isEmpty(queryString))
+		{
+			buffer.append("?").append(queryString);
+		}
+		return buffer.toString();
 	}
 }

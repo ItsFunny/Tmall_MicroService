@@ -6,8 +6,7 @@
 */
 package org.login_server.service;
 
-
-import org.login_server.model.User;
+import com.tmall.common.model.User;
 
 /**
 * 

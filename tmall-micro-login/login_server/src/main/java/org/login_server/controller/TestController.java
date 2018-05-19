@@ -16,10 +16,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.login_server.model.User;
+import org.login_server.config.KeyProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.tmall.common.model.User;
 
 /**
  * 
@@ -29,6 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class TestController
 {
+	@Autowired
+	private KeyProperties keyProperties;
 	@RequestMapping(value = "/cp1")
 	public ModelAndView index()
 	{
@@ -57,6 +63,12 @@ public class TestController
 		modelAndView.addObject("map",map);
 		
 		return modelAndView;
+	}
+	@RequestMapping("/rsa/test")
+	@ResponseBody
+	public String test()
+	{
+		return keyProperties.getLoginPublicKey().toString();
 	}
 
 }

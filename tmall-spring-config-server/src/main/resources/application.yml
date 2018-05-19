@@ -3,13 +3,15 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
 spring:
   application:
-    name: config-server
+    name: config
   cloud:
     config:
       server:
         git:
-          uri: git@github.com:jokersss/tmall_config.git
+          uri: https://github.com/ItsFunny/tmall-config.git
           username: 18757883747@163.com
-          password: lvcong124536789
+          password: lvcong0402@

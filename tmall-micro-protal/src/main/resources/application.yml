@@ -1,0 +1,9 @@
+server:
+  port: 8001
+  
+key:
+  login-public-key-path: 'classpath:keys/login_public.key'
+  login-private-key-path: 'classpath:keys/login_private.key'
+  portal-public-key-path: 'classpath:keys/portal_public.key'
+  
+debug: true

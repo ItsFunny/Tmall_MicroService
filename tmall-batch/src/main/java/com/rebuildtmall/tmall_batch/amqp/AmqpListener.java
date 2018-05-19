@@ -6,7 +6,7 @@
 */
 package com.rebuildtmall.tmall_batch.amqp;
 
-import com.rebuildtmall.tmall_micro_common.event.AppEvent;
+import com.tmall.common.event.AppEvent;
 
 /**
  * 

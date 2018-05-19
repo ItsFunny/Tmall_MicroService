@@ -33,8 +33,8 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.rebuildtmall.tmall_batch.amqp.AmqpListener;
 import com.rebuildtmall.tmall_batch.amqp.consumer.FacadedAmqpListener;
 import com.rebuildtmall.tmall_batch.amqp.consumer.UserOffsiteAmqpListener;
-import com.rebuildtmall.tmall_micro_common.enums.RabbitMQEnum;
-import com.rebuildtmall.tmall_micro_common.event.impl.UserOffsitePublisher;
+import com.tmall.common.enums.RabbitMQEnum;
+import com.tmall.common.impl.UserOffsitePublisher;
 
 /**
  * 

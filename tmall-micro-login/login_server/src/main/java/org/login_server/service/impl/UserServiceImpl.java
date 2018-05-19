@@ -10,11 +10,12 @@ import java.util.Date;
 
 import org.login_server.dao.TypeLoginDao;
 import org.login_server.dao.UserDao;
-import org.login_server.model.User;
 import org.login_server.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import com.tmall.common.model.User;
 
 /**
  * 

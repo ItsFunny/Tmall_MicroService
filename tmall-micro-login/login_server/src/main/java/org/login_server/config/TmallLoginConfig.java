@@ -23,15 +23,20 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.RabbitConnectionFactoryBean;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.rebuildtmall.tmall_micro_common.enums.RabbitMQEnum;
-import com.rebuildtmall.tmall_micro_common.event.impl.UserOffsitePublisher;
+import com.tmall.common.enums.RabbitMQEnum;
+import com.tmall.common.impl.UserOffsitePublisher;
+import com.tmall.common.service.AbstractRedisService;
+import com.tmall.common.service.INosqlService;
+import com.tmall.common.service.impl.RedisServiceImpl;
 
 import redis.clients.jedis.JedisPool;
 
@@ -40,12 +45,31 @@ import redis.clients.jedis.JedisPool;
 */
 @Configuration
 @EnableConfigurationProperties(value =
-{ TmallConfigProperty.class })
-public class TmallLoginConfig
+{ TmallConfigProperty.class,KeyProperties.class })
+public class TmallLoginConfig implements InitializingBean
 {
 
 	@Autowired
 	private TmallConfigProperty tmallConfigProperty;
+
+	@Autowired
+	private KeyProperties keyProperties;
+	@Bean
+	public JedisPool jedisPool()
+	{
+		JedisPool jedisPool = new JedisPool("localhost", 6379);
+		return jedisPool;
+	}
+
+	@Bean
+	@ConditionalOnBean(value =
+	{ JedisPool.class })
+	public INosqlService redisService()
+	{
+		AbstractRedisService redisService = new RedisServiceImpl();
+		redisService.config(jedisPool());
+		return redisService;
+	}
 
 	@Bean
 	public DataSource dataSource()
@@ -74,13 +98,6 @@ public class TmallLoginConfig
 	}
 
 	@Bean
-	public JedisPool jedisPool()
-	{
-		JedisPool jedisPool = new JedisPool("localhost", 6379);
-		return jedisPool;
-	}
-
-	@Bean
 	public IdWorkerService idWorkerService()
 	{
 		return new IdWorkerServiceTwitter(tmallConfigProperty.getWokerId(), tmallConfigProperty.getDataCenterId());
@@ -103,7 +120,7 @@ public class TmallLoginConfig
 		RabbitTemplate rabbitTemplate = new RabbitTemplate();
 		rabbitTemplate.setConnectionFactory(connectionFactory());
 		rabbitTemplate.setExchange(RabbitMQEnum.USER_ABNORMAL_OFFSITE.getExchangeName());
-//		rabbitTemplate.setMessageConverter(new JSONMessageConverter());
+		// rabbitTemplate.setMessageConverter(new JSONMessageConverter());
 		return rabbitTemplate;
 	}
 
@@ -142,4 +159,11 @@ public class TmallLoginConfig
 		userOffsitePublisher.setRoutingKey(RabbitMQEnum.USER_ABNORMAL_OFFSITE.getRoutingKey());
 		return userOffsitePublisher;
 	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception
+	{
+		keyProperties.init();
+	}
+	
 }

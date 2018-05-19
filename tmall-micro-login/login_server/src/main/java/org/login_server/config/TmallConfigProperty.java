@@ -19,8 +19,10 @@ public class TmallConfigProperty
 	private String driverClassName;
 	private String url;
 
-	private Integer wokerId=0;
-	private Integer dataCenterId=0;
+	private Integer wokerId = 0;
+	private Integer dataCenterId = 0;
+
+
 
 	public String getUsername()
 	{
@@ -81,5 +83,6 @@ public class TmallConfigProperty
 	{
 		this.dataCenterId = dataCenterId;
 	}
+
 
 }

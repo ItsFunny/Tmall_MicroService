@@ -23,7 +23,6 @@ public class SessionListener implements HttpSessionListener
 	public void sessionCreated(HttpSessionEvent arg0)
 	{
 		System.out.println("create session");
-		
 	}
 
 	@Override

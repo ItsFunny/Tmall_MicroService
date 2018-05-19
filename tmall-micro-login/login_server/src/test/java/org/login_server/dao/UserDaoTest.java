@@ -4,10 +4,11 @@ import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.login_server.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.tmall.common.model.User;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -20,7 +21,7 @@ public class UserDaoTest
 	public void testFindByEmail()
 	{
 		
-		User user = userDao.findByEmail(0, "18757883747@163.com");
+		User user = userDao.findByEmail(1, "18757883747@163.com");
 		System.out.println(user);
 	}
 	@Test
