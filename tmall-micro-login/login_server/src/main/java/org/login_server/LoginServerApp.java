@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
  *
  */
 @SpringBootApplication
-// @EnableDiscoveryClient
+//@EnableDiscoveryClient
 @EnableAutoConfiguration(exclude =
 { RabbitAutoConfiguration.class })
 public class LoginServerApp

@@ -6,11 +6,15 @@
 */
 package org.login_server.config;
 
+import java.util.Arrays;
 import java.util.EventListener;
 
+import javax.servlet.Filter;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.ibatis.javassist.tools.framedump;
+import org.login_server.filter.LoginFilter;
 import org.login_server.listener.SessionListener;
 import org.login_server.service.IdWorkerService;
 import org.login_server.service.impl.IdWorkerServiceTwitter;
@@ -27,9 +31,13 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.tmall.common.enums.RabbitMQEnum;
@@ -46,6 +54,7 @@ import redis.clients.jedis.JedisPool;
 @Configuration
 @EnableConfigurationProperties(value =
 { TmallConfigProperty.class,KeyProperties.class })
+@ComponentScan(basePackages= {"org.login_server.controller.*"})
 public class TmallLoginConfig implements InitializingBean
 {
 
@@ -54,6 +63,22 @@ public class TmallLoginConfig implements InitializingBean
 
 	@Autowired
 	private KeyProperties keyProperties;
+	@Bean
+	public ViewResolver freemarkerViewResolver()
+	{
+		FreeMarkerViewResolver viewResolver=new FreeMarkerViewResolver();
+		viewResolver.setPrefix("classpath:/templates/");
+		viewResolver.setSuffix(".html");
+		return viewResolver;
+	}
+	@Bean
+	public FilterRegistrationBean<Filter>filterRegistrationBean()
+	{
+		FilterRegistrationBean<Filter>filterRegistrationBean=new FilterRegistrationBean<>();
+		filterRegistrationBean.setFilter(new LoginFilter());
+		filterRegistrationBean.setUrlPatterns(Arrays.asList("/login"));
+		return filterRegistrationBean;
+	}
 	@Bean
 	public JedisPool jedisPool()
 	{

@@ -6,6 +6,8 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   freemarker:
     suffix: .html
+  application:
+    name: login
 tmall: 
   datasource: 
     url: jdbc:mysql://localhost/cloud_tmall?characterEncoding=utf-8
@@ -18,9 +20,10 @@ key:
   portal-public-key-path: 'classpath:keys/portal_public.key'
 server:
   port: 8000
-
-#mybatis:
-#  configuration:
-#    map-underscore-to-camel-case: true
-#  mapper-locations:
-#  - classpath:mapper/*.xml
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+      
+  instance:
+    hostname: localhost

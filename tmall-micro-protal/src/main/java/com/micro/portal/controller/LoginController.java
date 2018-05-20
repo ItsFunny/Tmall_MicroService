@@ -43,6 +43,13 @@ public class LoginController
 	@Autowired
 	private RestTemplate restTemplate;
 
+	
+	@RequestMapping("/login")
+	public ModelAndView login()
+	{
+		
+		return null;
+	}
 	/**
 	 * 登录服务登录成功后,会跳转到此页面,并且携带一个token,根据token去校验用户token是否过期
 	 * 

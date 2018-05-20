@@ -1,4 +1,5 @@
-package org.login_client;
+package com.tmall.login.client;
+
 
 /**
  * Hello world!

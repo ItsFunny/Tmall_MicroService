@@ -10,5 +10,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/JAVA/jdk1.8.0_144/jre/lib/ext/dnsns.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/jdk1.8.0_144/jre/lib/ext/localedata.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/jdk1.8.0_144/jre/lib/ext/nashorn.jar"/>
+	<classpathentry kind="lib" path="D:/JAVA/jdk1.8.0_144/jre/lib/ext/sunjce_provider.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
