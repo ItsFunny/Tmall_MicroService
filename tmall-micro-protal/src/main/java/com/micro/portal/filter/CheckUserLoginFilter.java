@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.coyote.RequestGroupInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -75,7 +76,7 @@ public class CheckUserLoginFilter implements Filter
 		HttpSession session = request.getSession();
 		System.out.println(session.getId());
 		Object isAuth = session.getAttribute(SessionConstant.markIsAuth);
-//		if (null != isAuth && (boolean) isAuth)
+//		if (null!=isAuth)
 //		{
 //			chain.doFilter(req, resp);
 //			return;
@@ -94,7 +95,6 @@ public class CheckUserLoginFilter implements Filter
 				response.sendRedirect(TmallURLConstant.TMALL_LOGIN_URL+"?redirectUrl="+PortalUtils.getRedirectUrl(request));
 			}
 			String json=redisService.get(String.format(RedisConstant.USER_INFO, primitiveToken));
-//			String json = restTemplate.postForObject(TmallURLConstant.TMALL_LOGIN_SSO_AUTH_TOKEN_URL,  URLEncoder.encode(token, "utf-8"), String.class);
 			if (!StringUtils.isEmpty(json))
 			{
 				User user = JsonUtils.json2Object(json, User.class);
@@ -105,10 +105,9 @@ public class CheckUserLoginFilter implements Filter
 			}
 		}
 		//传入的token无效的时候也会跳转到查询用户是否登录
-	
 		// 查询用户是否登录
 //		response.sendRedirect(TmallURLConstant.TMALL_LOGIN_SSO_CHECKLOGIN_URL + "?redirectUrl="
 //				+ PortalUtils.getRedirectUrl(request));
-		response.sendRedirect(TmallURLConstant.TMALL_LOGIN_URL+"?redirectUrl="+PortalUtils.getRedirectUrl(request));
+		response.sendRedirect(TmallURLConstant.TMALL_LOGIN_URL+"?redirectUrl="+PortalUtils.getRedirectUrl(request)+"&server="+PortalUtils.getServerBaseUrl(request));
 	}
 }

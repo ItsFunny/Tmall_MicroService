@@ -12,7 +12,10 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,11 +37,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.reflect.TypeToken;
 import com.tmall.common.constants.CookieConstant;
 import com.tmall.common.constants.RedisConstant;
 import com.tmall.common.constants.SessionConstant;
 import com.tmall.common.constants.TmallURLConstant;
 import com.tmall.common.enums.RabbitMQEnum;
+import com.tmall.common.enums.TmallUrlEnum;
 import com.tmall.common.event.AppEvent;
 import com.tmall.common.impl.UserOffsitePublisher;
 import com.tmall.common.model.User;
@@ -46,6 +51,8 @@ import com.tmall.common.service.INosqlService;
 import com.tmall.common.utils.JsonUtils;
 import com.tmall.common.utils.KeyUtils;
 import com.tmall.common.utils.RSAUtils;
+
+import ch.qos.logback.core.net.server.ServerListener;
 
 /**
  * 私钥加密,公钥解密
@@ -89,6 +96,7 @@ public class LoginController
 		System.out.println(string);
 		return request.getRequestURL().toString();
 	}
+
 	@RequestMapping("/login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -98,28 +106,30 @@ public class LoginController
 		modelAndView.addObject("redirectUrl", redirectUrl);
 		return modelAndView;
 	}
+
 	// function: 校验token有效性,以及认证是否登录
 	@RequestMapping("/authToken")
-	public void authToken(@RequestBody String token, HttpServletRequest request,
-			HttpServletResponse response) 
+	public void authToken(@RequestBody String token, HttpServletRequest request, HttpServletResponse response)
 	{
 		PrintWriter writer = null;
 		try
 		{
-			token=URLDecoder.decode(token, "utf-8");
+			token = URLDecoder.decode(token, "utf-8");
 			writer = response.getWriter();
 			String primitiveKey = RSAUtils.decryptByPublic(token, keyProperties.getLoginPublicKey());
 			String json = redisService.get(String.format(RedisConstant.USER_INFO, primitiveKey));
 			writer.write(json);
 		} catch (Exception e)
 		{
-			logger.error("解析token发生异常,时间:{}",new Date());
+			logger.error("解析token发生异常,时间:{}", new Date());
 			writer.write("");
-		}finally {
+		} finally
+		{
 			writer.flush();
 			writer.close();
 		}
 	}
+
 	@RequestMapping("/checkLogin")
 	public ModelAndView checkIsLogin(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -146,32 +156,44 @@ public class LoginController
 		}
 		return modelAndView;
 	}
+
 	@RequestMapping("/login.do")
 	public ModelAndView doLogin(@RequestParam Map<String, Object> params, HttpServletRequest request,
 			HttpServletResponse response) throws UnsupportedEncodingException
 	{
 		ModelAndView modelAndView = null;
-		String redirectUrl = StringUtils.isEmpty(params.get("redirectUrl"))
-				? TmallURLConstant.TMALAL_PORTAL_INDEX_URL
+		String redirectUrl = StringUtils.isEmpty(params.get("redirectUrl")) ? TmallURLConstant.TMALAL_PORTAL_INDEX_URL
 				: (String) params.get("redirectUrl");
-		String encryptedToken = CookieUtils.getUserToken(request, CookieConstant.USER_TOKEN);
-		if (!StringUtils.isEmpty(encryptedToken))
-		{
-			String primitiveToken = RSAUtils.decryptByPublic(encryptedToken, keyProperties.getLoginPublicKey());
-			if (!StringUtils.isEmpty(primitiveToken)
-					&& !StringUtils.isEmpty(redisService.get(String.format(RedisConstant.USER_INFO, primitiveToken))))
-			{
-				
-				HttpSession session = request.getSession();
-				System.out.println(session.getId());
-				session.setAttribute(SessionConstant.markIsAuth, true);
-//				request.getSession(true).setAttribute(SessionConstant.markIsAuth, true);
-				String encode = URLEncoder.encode(encryptedToken, "utf-8");
-				System.out.println(encode);
-				modelAndView = new ModelAndView("redirect:" + redirectUrl + "token=" + encode);
-				return modelAndView;
-			}
-		}
+		String server = StringUtils.isEmpty(params.get("server")) ? TmallUrlEnum.TMALL_PORTAL.getServerUrl()
+				: (String) params.get("server");
+		String encryptedToken = "";
+		/*
+		 * 下面这段redis判断其实没必要了,因为既然写了一个filter,filter中是ifPresentReturn 存在则返回,这里就不会执行到了
+		 * 当然我们还需要考虑这种情况,用户直接访问这个controller方法,所以我们需要在filter中设置一个默认返回的页面
+		 */
+		// String encryptedToken = CookieUtils.getUserToken(request,
+		// CookieConstant.USER_TOKEN);
+		// if (!StringUtils.isEmpty(encryptedToken))
+		// {
+		// String primitiveToken = RSAUtils.decryptByPublic(encryptedToken,
+		// keyProperties.getLoginPublicKey());
+		// if (!StringUtils.isEmpty(primitiveToken)
+		// &&
+		// !StringUtils.isEmpty(redisService.get(String.format(RedisConstant.USER_INFO,
+		// primitiveToken))))
+		// {
+		//
+		// HttpSession session = request.getSession();
+		// System.out.println(session.getId());
+		// session.setAttribute(SessionConstant.markIsAuth, true);
+		//// request.getSession(true).setAttribute(SessionConstant.markIsAuth, true);
+		// String encode = URLEncoder.encode(encryptedToken, "utf-8");
+		// System.out.println(encode);
+		// modelAndView = new ModelAndView("redirect:" + redirectUrl + "token=" +
+		// encode);
+		// return modelAndView;
+		// }
+		// }
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		User user = userService.findByEmail(email);
@@ -193,13 +215,26 @@ public class LoginController
 				userOffsitePublisher.publish(appEvent);
 			}
 			userService.updateUserLastLoginTimeAndIp(user.getUserId(), ip);
-			String token = UUID.randomUUID().toString();
+			// 双重保障:1.rsa的私钥只要不被泄露 不可能破解2.如果私钥泄露了,用户还需要凑出userId以及user登录的具体时间
+			String token = UUID.randomUUID().toString() + "-" + user.getUserId() + "-" + System.currentTimeMillis();
 			encryptedToken = RSAUtils.encryptByPrivate(token, keyProperties.getLoginPrivateKey());
 			System.out.println(encryptedToken);
-			CookieUtils.setUserToken(response, CookieConstant.USER_TOKEN, encryptedToken,
-					CookieConstant.USER_TOKEN_EXPIRE);
-			request.getSession().setAttribute(SessionConstant.USER_LOGIN_TOKEN_IN_SESSION, token);
-			
+			// 记录cookie 2018-05-21 将token记录在session中
+//			CookieUtils.setUserToken(response, CookieConstant.USER_TOKEN, encryptedToken,
+//					CookieConstant.USER_TOKEN_EXPIRE);
+			request.getSession(true).setAttribute(SessionConstant.markIsAuth, true);
+			// 记录token对应的地址信息
+			Set<String> serverList = new HashSet<>();
+			String redisKey=String.format(RedisConstant.USER_SERVLER_URL, token);
+			String servers = redisService.get(redisKey);
+			if (!StringUtils.isEmpty(servers))
+			{
+				serverList = new HashSet<>(JsonUtils.json2List(servers, new TypeToken<List<String>>()
+				{
+				}.getType()));
+			}
+			serverList.add(server);
+			redisService.set(redisKey, JsonUtils.obj2Json(serverList));
 			redisService.set(String.format(RedisConstant.USER_INFO, token), JsonUtils.obj2Json(user),
 					RedisConstant.USER_INFO_EXPIRE);
 		}
@@ -208,10 +243,10 @@ public class LoginController
 			modelAndView = new ModelAndView("login", params);
 		} else
 		{
-			String string = URLEncoder.encode(encryptedToken,"utf-8");
+			String string = URLEncoder.encode(encryptedToken, "utf-8");
 			System.out.println(string);
 			request.getSession().setAttribute(SessionConstant.markIsAuth, true);
-			modelAndView = new ModelAndView("redirect:" + redirectUrl + "token=" + string);
+			modelAndView = new ModelAndView("redirect:" + redirectUrl + "token=" + string+"&JSESSIONID="+request.getSession().getId());
 		}
 		return modelAndView;
 	}

@@ -43,14 +43,6 @@
 			<groupId>com.rebuildtmall</groupId>
 			<artifactId>tmall-micro-login-client</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.cloud</groupId>
-					<artifactId>
-						spring-cloud-starter-netflix-eureka-client
-					</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency> 
 
 	</dependencies>

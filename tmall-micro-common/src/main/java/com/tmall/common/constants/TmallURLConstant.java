@@ -14,10 +14,10 @@ package com.tmall.common.constants;
 */
 public interface TmallURLConstant
 {
-	String TMALL_LOGIN_SSO_CHECKLOGIN_URL="http://localhost:8000/checkLogin";
-	String TMALL_LOGIN_SSO_AUTH_TOKEN_URL="http://localhost:8000/authToken";
+	String TMALL_LOGIN_SSO_CHECKLOGIN_URL="http://login.com:8000/checkLogin";
+	String TMALL_LOGIN_SSO_AUTH_TOKEN_URL="http://login.com:8000/authToken";
 	
-	String TMALL_LOGIN_URL="http://localhost:8000/login";
+	String TMALL_LOGIN_URL="http://login.com:8000/login";
 	
 	String TMALAL_PORTAL_INDEX_URL="ssss";
 	

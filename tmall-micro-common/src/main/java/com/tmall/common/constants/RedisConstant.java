@@ -14,5 +14,9 @@ package com.tmall.common.constants;
 public interface RedisConstant
 {
 	String USER_INFO="user_info:%s";
+	
+	String USER_SERVLER_URL="USER_SERVLER_URL:%s";
+	
+	
 	Integer USER_INFO_EXPIRE=7000;
 }

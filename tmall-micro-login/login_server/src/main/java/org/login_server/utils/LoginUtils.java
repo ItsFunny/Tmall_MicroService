@@ -6,6 +6,8 @@
 */
 package org.login_server.utils;
 
+import static org.hamcrest.CoreMatchers.containsString;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.util.StringUtils;
@@ -46,4 +48,5 @@ public class LoginUtils
 		}
 		return buffer.toString();
 	}
+	
 }

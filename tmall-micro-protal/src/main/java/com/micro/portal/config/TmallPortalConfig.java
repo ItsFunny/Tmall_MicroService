@@ -62,14 +62,14 @@ public class TmallPortalConfig implements InitializingBean
 		return servletListenerRegistrationBean;
 	}
 
-	@Bean
-	public FilterRegistrationBean<Filter> checkLoginFilter(INosqlService redisService,FeginLoginServerService serverService)
-	{
-		FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-		filterRegistrationBean.setFilter(new CheckUserLoginFilter(keyProperties,redisService,serverService));
-		filterRegistrationBean.setUrlPatterns(Arrays.asList("/order/test"));
-		return filterRegistrationBean;
-	}
+//	@Bean
+//	public FilterRegistrationBean<Filter> checkLoginFilter(INosqlService redisService,FeginLoginServerService serverService)
+//	{
+//		FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+//		filterRegistrationBean.setFilter(new CheckUserLoginFilter(keyProperties,redisService,serverService));
+//		filterRegistrationBean.setUrlPatterns(Arrays.asList("/order/test"));
+//		return filterRegistrationBean;
+//	}
 
 	@Bean
 	public JedisPool jedisPool()

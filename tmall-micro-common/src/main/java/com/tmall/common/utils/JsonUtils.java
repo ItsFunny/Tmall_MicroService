@@ -7,9 +7,12 @@
 package com.tmall.common.utils;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.tmall.common.event.GsonInterfaceAdapter;
 
 /**
@@ -31,6 +34,10 @@ public class JsonUtils
 	{
 		String json = gson.toJson(object);
 		return json;
+	}
+	public static <T>List<T>json2List(String json,Type type)
+	{
+		return gson.fromJson(json, type);
 	}
 
 	public static <T> T json2Object(String json, Class<T> c)
