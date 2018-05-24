@@ -25,6 +25,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -60,7 +61,7 @@ public class LoginController
 	}
 
 	@RequestMapping("/logout-notify")
-	public void logOut(@Valid String token, BindingResult result,HttpServletRequest request,
+	public void logOut(@Valid String token, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response)
 	{
 		String encryptedToken = request.getParameter("token");
@@ -124,6 +125,14 @@ public class LoginController
 			modelAndView = new ModelAndView(TmallURLConstant.TMALL_LOGIN_URL);
 		}
 		return modelAndView;
+	}
+
+	@RequestMapping("/unAuth")
+	@ResponseBody
+	public String unAuth()
+	{
+		return "unAuth";
+
 	}
 
 }

@@ -27,6 +27,3 @@ server:
       
   instance: 
     hostname: localhost
-mybatis:
-  mapper-locations:
-  - 

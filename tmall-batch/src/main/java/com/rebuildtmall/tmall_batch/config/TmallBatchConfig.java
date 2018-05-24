@@ -88,7 +88,7 @@ public class TmallBatchConfig
 	{
 		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
 		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-		mapperScannerConfigurer.setBasePackage("classpath:spring/*.xml");
+		mapperScannerConfigurer.setBasePackage("dao");
 		return mapperScannerConfigurer;
 	}
 

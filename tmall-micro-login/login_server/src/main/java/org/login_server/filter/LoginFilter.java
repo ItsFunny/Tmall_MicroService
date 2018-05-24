@@ -25,6 +25,9 @@ import com.tmall.common.enums.TmallUrlEnum;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.web.util.WebUtils;
 import org.login_server.utils.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -50,14 +53,15 @@ public class LoginFilter implements Filter
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpSession session = request.getSession();
 		System.out.println(session.getId());
-		 Object isAuth = session.getAttribute(SessionConstant.markIsAuth);
+		Object isAuth = session.getAttribute(SessionConstant.markIsAuth);
 		System.out.println(session.getAttribute(SessionConstant.USER_LOGIN_TOKEN_IN_SESSION));
-//		String encryptedToken = CookieUtils.getUserToken(request, CookieConstant.USER_TOKEN);
-		if (null!=isAuth)
+		// String encryptedToken = CookieUtils.getUserToken(request,
+		// CookieConstant.USER_TOKEN);
+		if (null != isAuth)
 		{
 			String encryptedToken = (String) session.getAttribute(SessionConstant.USER_LOGIN_TOKEN_IN_SESSION);
 			String redirectUrl = StringUtils.isEmpty(request.getParameter("redirectUrl"))
-					? TmallUrlEnum.TMALL_PORTAL.getLoginNotifyUrl()+"?"
+					? TmallUrlEnum.TMALL_PORTAL.getLoginNotifyUrl() + "?"
 					: request.getParameter("redirectUrl");
 			HttpServletResponse response = (HttpServletResponse) arg1;
 			response.sendRedirect(redirectUrl + "token=" + URLEncoder.encode(encryptedToken, "utf-8"));

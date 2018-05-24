@@ -19,11 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.coyote.RequestGroupInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.micro.portal.config.KeyProperties;
+import com.micro.portal.shiro.authentication.EncryptAuthenticationToken;
 import com.micro.portal.utils.PortalUtils;
 import com.tmall.common.constants.RedisConstant;
 import com.tmall.common.constants.SessionConstant;
@@ -76,11 +79,11 @@ public class CheckUserLoginFilter implements Filter
 		HttpSession session = request.getSession();
 		System.out.println(session.getId());
 		Object isAuth = session.getAttribute(SessionConstant.markIsAuth);
-//		if (null!=isAuth)
-//		{
-//			chain.doFilter(req, resp);
-//			return;
-//		}
+		if (null!=isAuth)
+		{
+			chain.doFilter(req, resp);
+			return;
+		}
 		String token = request.getParameter("token");
 		if (!StringUtils.isEmpty(token))
 		{
@@ -100,6 +103,9 @@ public class CheckUserLoginFilter implements Filter
 				User user = JsonUtils.json2Object(json, User.class);
 				session.setAttribute(SessionConstant.markIsAuth, true);
 				session.setAttribute(SessionConstant.USER_IN_SESSION, user);
+				EncryptAuthenticationToken token2=new EncryptAuthenticationToken(user,token);
+				Subject subject = SecurityUtils.getSubject();
+				subject.login(token2);
 				chain.doFilter(req, resp);
 				return;
 			}

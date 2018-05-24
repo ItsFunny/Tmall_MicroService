@@ -53,8 +53,9 @@ import redis.clients.jedis.JedisPool;
 */
 @Configuration
 @EnableConfigurationProperties(value =
-{ TmallConfigProperty.class,KeyProperties.class })
-@ComponentScan(basePackages= {"org.login_server.controller.*"})
+{ TmallConfigProperty.class, KeyProperties.class })
+@ComponentScan(basePackages =
+{ "org.login_server.controller.*" })
 public class TmallLoginConfig implements InitializingBean
 {
 
@@ -63,22 +64,25 @@ public class TmallLoginConfig implements InitializingBean
 
 	@Autowired
 	private KeyProperties keyProperties;
+
 	@Bean
 	public ViewResolver freemarkerViewResolver()
 	{
-		FreeMarkerViewResolver viewResolver=new FreeMarkerViewResolver();
+		FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
 		viewResolver.setPrefix("classpath:/templates/");
 		viewResolver.setSuffix(".html");
 		return viewResolver;
 	}
+
 	@Bean
-	public FilterRegistrationBean<Filter>filterRegistrationBean()
+	public FilterRegistrationBean<Filter> filterRegistrationBean()
 	{
-		FilterRegistrationBean<Filter>filterRegistrationBean=new FilterRegistrationBean<>();
+		FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
 		filterRegistrationBean.setFilter(new LoginFilter());
 		filterRegistrationBean.setUrlPatterns(Arrays.asList("/login"));
 		return filterRegistrationBean;
 	}
+
 	@Bean
 	public JedisPool jedisPool()
 	{
@@ -190,5 +194,5 @@ public class TmallLoginConfig implements InitializingBean
 	{
 		keyProperties.init();
 	}
-	
+
 }
