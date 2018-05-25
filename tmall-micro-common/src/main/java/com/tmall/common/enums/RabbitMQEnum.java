@@ -6,6 +6,8 @@
 */
 package com.tmall.common.enums;
 
+import com.tmall.common.constants.RabbitMQExchangeNameConstant;
+
 /**
  * 
  * @author joker
@@ -13,9 +15,14 @@ package com.tmall.common.enums;
  */
 public enum RabbitMQEnum
 {
+	// 用户异常操作的消息
 	USER_ABNORMAL_OFFSITE("USER_ABNORMAL", "USER_OFFSITE", "OFFSITE"),
 
-	;
+	// 因后台管理而使得用户状态发生改变->强制下线
+	USER_OFFLINE_BY_FORCE(RabbitMQExchangeNameConstant.USER_STATUS_CHANGE, "CHANGE_BY_MANAGER", "OFFLINE"),
+
+	// 因后台管理而使得用户状态发生改变->单单只是状态改变,如添加了权限等
+	USER_STATUS_CHANGE_BY_MANAGER(RabbitMQExchangeNameConstant.USER_STATUS_CHANGE, "CHANGE_BY_MANAGER", "AUTH_CHANGE"),;
 	private String exchangeName;
 	private String queueName;
 	private String routingKey;
