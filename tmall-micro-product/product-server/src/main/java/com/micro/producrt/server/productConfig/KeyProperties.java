@@ -4,7 +4,7 @@
 * @date 创建时间：2018年5月18日 下午5:44:08
 * 
 */
-package com.micro.producrt.server.config;
+package com.micro.producrt.server.productConfig;
 
 
 import java.io.IOException;
@@ -14,8 +14,11 @@ import java.util.Base64;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
@@ -23,6 +26,9 @@ import org.springframework.util.StringUtils;
  * @author joker
  * @date 创建时间：2018年5月18日 下午5:44:08
  */
+
+//@Component
+@EnableConfigurationProperties
 @ConfigurationProperties(prefix = "key")
 public class KeyProperties
 {

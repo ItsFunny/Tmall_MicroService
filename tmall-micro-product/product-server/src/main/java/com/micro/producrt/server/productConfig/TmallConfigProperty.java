@@ -4,25 +4,45 @@
 * @date 创建时间：2018年5月10日 上午10:28:35
 * 
 */
-package com.micro.producrt.server.config;
+package com.micro.producrt.server.productConfig;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
 * 
 */
+//@Component
+//@Configuration
+//@Order(1)
+@EnableConfigurationProperties
 @ConfigurationProperties(prefix = "tmall.datasource")
 public class TmallConfigProperty
 {
+//	@Bean
+//	public static TmallConfigProperty tmallConfigProperty()
+//	{
+//		return new TmallConfigProperty();
+//	}
 	private String username;
+	public TmallConfigProperty(String username, String password, String driverClassName, String url, Integer wokerId,
+			Integer dataCenterId)
+	{
+		super();
+		this.username = username;
+		this.password = password;
+		this.driverClassName = driverClassName;
+		this.url = url;
+		this.wokerId = wokerId;
+		this.dataCenterId = dataCenterId;
+	}
+
 	private String password;
 	private String driverClassName;
 	private String url;
 
 	private Integer wokerId = 0;
 	private Integer dataCenterId = 0;
-
-
 
 	public String getUsername()
 	{
@@ -83,6 +103,5 @@ public class TmallConfigProperty
 	{
 		this.dataCenterId = dataCenterId;
 	}
-
 
 }
