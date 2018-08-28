@@ -1,0 +1,64 @@
+SpringCloud:11532-BE9E-35C8-1C58-E396
+开发规范:
+	系统端口:9000开始
+	服务端口:8000开始 
+	
+	
+	命名规范:除了最大的common包,
+	工程命名:统一采用- 不采用_
+
+	
+
+	
+命名规范:
+	服务层:
+		服务名称以:XXX-server开始,如登录服务:login-server
+		每个服务必有一个parent:parent的命名:tmall-micro-XXX 如登录服务的parent:tmall-micro-XXX	
+		服务包(需要注册到eureka中的包)以:com.tmall.server.XXX.server开头,如登录服务:com.tmall.server.login.server
+		内部的子包以:com.tamll.server开头,如登录服务中的dao模块:com.tmall.server.login.dao service模块:com.tmall.server.login.service	
+		api层外抛的接口规范:类的命名统一为ApiController ,返回值统一为ResultDTO<T>
+		向外提供的接口模块名统一为tmall-server-XXX-spi 提供给zuul使用
+的接口的名字为:IXXXServerFeignXXXService 后面的xxx是具体的模块
+		提供给内部其他服务使用的统一为tmall-server-xxx-client 这个是供给给zuul的
+	服务注册中心层:
+			注册到eureka的applicationName:以服务的核心为主,如登录服务的核心是登录,则Spring.application.name=login
+	系统层:
+		工程的命名以:tmall-system-XXX 为准,如门户系统:tmall-system-portal
+		包的命名以:tmall-system-XXX为基础:如门户系统下的web:tmall-system-portal-controller
+	url命名规范:
+		尽量遵循rest的规则,以 
+		
+依赖规范:
+	common包只能显示依赖于common包中
+	依赖中最上面的是本工程中其余子模块的依赖	
+
+
+端口划分:
+	eureka服务中心:8761
+	登录服务:8000
+	product-server:8001	
+	user-server:8002
+	auth-server:8003
+	管理系统:
+		sso-system:9000
+		management-system:9001
+		admin-ststem:9002
+接口规范:
+	如果只是内部使用,则客户端需要依赖服务方提供的service
+	如果是外抛的,则直接提供给zuul
+
+
+batch的说明:
+	有哪些消息呢:
+		user:
+			user异地登录
+				具体措施:在一个单独的表中记录这个异常信息
+			user CRUD商品:
+				具体措施:在user-product表中记录操作信息,是CRUD中的某种操作
+			
+2018-06-25
+	依赖设定还是有很大的问题,需要重新设置
+
+
+
+

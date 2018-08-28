@@ -1,0 +1,220 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>tmall-system-sso</artifactId>
+
+	<name>tmall-system-sso</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>com.rebuildtmall</groupId>
+		<artifactId>tmall-micro-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<gateway-client.version>0.0.1-SNAPSHOT</gateway-client.version>
+		<user-feign.version>0.0.1-SNAPSHOT</user-feign.version>
+		<auth-feign-service.version>0.0.1-SNAPSHOT</auth-feign-service.version>
+		<tmall-common.version>0.0.1-SNAPSHOT</tmall-common.version>
+		<facaded-service.version>0.0.1-SNAPSHOT</facaded-service.version>
+	</properties>
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-micro-facaded</artifactId>
+			<version>${facaded-service.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.netflix.archaius</groupId>
+			<artifactId>archaius-core</artifactId>
+		</dependency>
+		<!-- <dependency> <groupId>com.rebuildtmall</groupId> <artifactId>tmall-server-login-spi</artifactId> 
+			<version>${login-spi.version}</version> </dependency> -->
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-server-user-spi</artifactId>
+			<version>${user-feign.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>
+						spring-cloud-starter-hystrix
+					</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-micro-common</artifactId>
+			<version>${tmall-micro.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.netflix.hystrix</groupId>
+					<artifactId>hystrix-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-server-auth-spi</artifactId>
+			<version>${auth-feign-service.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>gateway-client</artifactId>
+			<version>${gateway-client.version}</version>
+		</dependency>
+
+		<!-- feign -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.netflix.hystrix</groupId>
+					<artifactId>hystrix-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- hystrix -->
+
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-eureka</artifactId> 
+			<version>1.4.4.RELEASE</version> </dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client -->
+		<!-- https://mvnrepository.com/artifact/com.netflix.eureka/eureka-client -->
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.netflix.hystrix</groupId>
+					<artifactId>hystrix-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.netflix.eureka</groupId>
+					<artifactId>eureka-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!--freemarker -->
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<!-- rabbitmq -->
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+		</dependency>
+		<!--Mysql数据库驱动 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<!-- 数据库工具 -->
+		<dependency>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+		<!-- Jackson Json处理工具包 ,提供消息converter以及其他 -->
+		<!--if spring'version is 4.x change version to 2.8.9 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.3</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<!--gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<!--jedis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+
+
+		<!--Mybatis -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<!--web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+	</profiles>
+</project>

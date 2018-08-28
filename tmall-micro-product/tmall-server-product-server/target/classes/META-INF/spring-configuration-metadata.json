@@ -1,0 +1,27 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.tmall.server.product.server.config.TmallProductProperty",
+      "name": "tmall.config",
+      "type": "com.tmall.server.product.server.config.TmallProductProperty"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.tmall.server.product.server.config.TmallProductProperty",
+      "name": "tmall.config.another-password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.product.server.config.TmallProductProperty",
+      "name": "tmall.config.another-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.product.server.config.TmallProductProperty",
+      "name": "tmall.config.another-username",
+      "type": "java.lang.String"
+    }
+  ]
+}

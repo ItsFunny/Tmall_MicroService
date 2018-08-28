@@ -1,0 +1,34 @@
+server:
+  port: 8001
+key:
+  login-public-key-path: classpath:keys/login_public.key
+  login-private-key-path: classpath:keys/login_private.key
+  portal-public-key-path: classpath:keys/portal_public.key
+debug: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+spring:
+  application:
+    name: portal
+tmall: 
+  datasource: 
+    url: jdbc:mysql://localhost/cloud_tmall?characterEncoding=utf-8
+    username: root
+    password: 123
+    driver-class-name: com.mysql.jdbc.Driver
+
+feign: 
+  hystrix: 
+    enabled: true
+hystrix:  
+  command:  
+      default:  
+        execution:  
+          timeout:  
+            enabled: false  
+      

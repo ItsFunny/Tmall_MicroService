@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>tmall-micro-gateway</artifactId>
+	<packaging>pom</packaging>
+
+	<name>tmall-micro-gateway</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<product-client.version>0.0.1-SNAPSHOT</product-client.version>
+		<gateway-common.version>0.0.1-SNAPSHOT</gateway-common.version>
+		<gateway-servier.version>0.0.1-SNAPSHOT</gateway-servier.version>
+	</properties>
+
+	<parent>
+		<groupId>com.rebuildtmall</groupId>
+		<artifactId>tmall-micro-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+				
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Finchley.RC1</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.rebuildtmall</groupId>
+				<artifactId>product-client</artifactId>
+				<version>${product-client.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.rebuildtmall</groupId>
+				<artifactId>gateway-common</artifactId>
+				<version>${gateway-common.version}</version>
+			</dependency>
+		
+			
+		</dependencies>
+	</dependencyManagement>
+	<modules>
+		<module>gateway-client</module>
+		<module>gateway-common</module>
+		<module>gateway-server</module>
+    <module>tmall-micro-gateway-service</module>
+  </modules>
+</project>

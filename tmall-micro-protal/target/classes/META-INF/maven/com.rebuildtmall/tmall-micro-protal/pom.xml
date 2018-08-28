@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>tmall-micro-protal</artifactId>
+	<packaging>jar</packaging>
+
+	<name>tmall-micro-protal</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>com.rebuildtmall</groupId>
+		<artifactId>tmall-micro-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<product-client.version>0.0.1-SNAPSHOT</product-client.version>
+		<tmall-gateway.version>0.0.1-SNAPSHOT</tmall-gateway.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+
+<!-- 	 	<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>product-client</artifactId>
+			<version>${product-client.version}</version>
+		</dependency> -->
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>gateway-client</artifactId>
+			<version>${tmall-gateway.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+
+
+
+<!-- 		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-micro-login-client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>  -->
+		
+		<!-- shiro -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<!-- 服务降级措施 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-hystrix</artifactId>
+			<version>1.4.4.RELEASE</version>
+		</dependency>
+
+	</dependencies>
+</project>

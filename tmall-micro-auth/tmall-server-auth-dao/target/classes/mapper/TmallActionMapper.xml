@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmall.server.auth.dao.TmallActionDao">
+  <resultMap id="BaseResultMap" type="com.tmall.server.auth.common.model.TmallAction">
+    <id column="action_id" jdbcType="BIGINT" property="actionId" />
+    <result column="action_version" jdbcType="INTEGER" property="actionVersion" />
+    <result column="action_url" jdbcType="VARCHAR" property="actionUrl" />
+    <result column="action_name" jdbcType="VARCHAR" property="actionName" />
+    <result column="action_value" jdbcType="VARCHAR" property="actionValue" />
+    <result column="action_status" jdbcType="INTEGER" property="actionStatus" />
+    <result column="action_description" jdbcType="VARCHAR" property="actionDescription" />
+    <result column="menu_id" jdbcType="BIGINT" property="menuId" />
+    <result column="createor" jdbcType="VARCHAR" property="createor" />
+    <result column="createor_id" jdbcType="BIGINT" property="createorId" />
+    <result column="last_operator" jdbcType="VARCHAR" property="lastOperator" />
+    <result column="last_operator_id" jdbcType="BIGINT" property="lastOperatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    action_id, action_version, action_url, action_name, action_value, action_status, 
+    action_description, menu_id, createor, createor_id, last_operator, last_operator_id, 
+    create_date, update_date
+  </sql>
+  <select id="selectByExample" parameterType="com.tmall.server.auth.common.model.TmallActionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tmall_action
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tmall_action
+    where action_id = #{actionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tmall_action
+    where action_id = #{actionId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tmall.server.auth.common.model.TmallActionExample">
+    delete from tmall_action
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tmall.server.auth.common.model.TmallAction">
+    insert into tmall_action (action_id, action_version, action_url, 
+      action_name, action_value, action_status, 
+      action_description, menu_id, createor, 
+      createor_id, last_operator, last_operator_id, 
+      create_date, update_date)
+    values (#{actionId,jdbcType=BIGINT}, #{actionVersion,jdbcType=INTEGER}, #{actionUrl,jdbcType=VARCHAR}, 
+      #{actionName,jdbcType=VARCHAR}, #{actionValue,jdbcType=VARCHAR}, #{actionStatus,jdbcType=INTEGER}, 
+      #{actionDescription,jdbcType=VARCHAR}, #{menuId,jdbcType=BIGINT}, #{createor,jdbcType=VARCHAR}, 
+      #{createorId,jdbcType=BIGINT}, #{lastOperator,jdbcType=VARCHAR}, #{lastOperatorId,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tmall.server.auth.common.model.TmallAction">
+    insert into tmall_action
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="actionId != null">
+        action_id,
+      </if>
+      <if test="actionVersion != null">
+        action_version,
+      </if>
+      <if test="actionUrl != null">
+        action_url,
+      </if>
+      <if test="actionName != null">
+        action_name,
+      </if>
+      <if test="actionValue != null">
+        action_value,
+      </if>
+      <if test="actionStatus != null">
+        action_status,
+      </if>
+      <if test="actionDescription != null">
+        action_description,
+      </if>
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="createor != null">
+        createor,
+      </if>
+      <if test="createorId != null">
+        createor_id,
+      </if>
+      <if test="lastOperator != null">
+        last_operator,
+      </if>
+      <if test="lastOperatorId != null">
+        last_operator_id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="actionId != null">
+        #{actionId,jdbcType=BIGINT},
+      </if>
+      <if test="actionVersion != null">
+        #{actionVersion,jdbcType=INTEGER},
+      </if>
+      <if test="actionUrl != null">
+        #{actionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="actionName != null">
+        #{actionName,jdbcType=VARCHAR},
+      </if>
+      <if test="actionValue != null">
+        #{actionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="actionStatus != null">
+        #{actionStatus,jdbcType=INTEGER},
+      </if>
+      <if test="actionDescription != null">
+        #{actionDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null">
+        #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="createor != null">
+        #{createor,jdbcType=VARCHAR},
+      </if>
+      <if test="createorId != null">
+        #{createorId,jdbcType=BIGINT},
+      </if>
+      <if test="lastOperator != null">
+        #{lastOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="lastOperatorId != null">
+        #{lastOperatorId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tmall.server.auth.common.model.TmallActionExample" resultType="java.lang.Long">
+    select count(*) from tmall_action
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tmall_action
+    <set>
+      <if test="record.actionId != null">
+        action_id = #{record.actionId,jdbcType=BIGINT},
+      </if>
+      <if test="record.actionVersion != null">
+        action_version = #{record.actionVersion,jdbcType=INTEGER},
+      </if>
+      <if test="record.actionUrl != null">
+        action_url = #{record.actionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actionName != null">
+        action_name = #{record.actionName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actionValue != null">
+        action_value = #{record.actionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actionStatus != null">
+        action_status = #{record.actionStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.actionDescription != null">
+        action_description = #{record.actionDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuId != null">
+        menu_id = #{record.menuId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createor != null">
+        createor = #{record.createor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createorId != null">
+        createor_id = #{record.createorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.lastOperator != null">
+        last_operator = #{record.lastOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastOperatorId != null">
+        last_operator_id = #{record.lastOperatorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tmall_action
+    set action_id = #{record.actionId,jdbcType=BIGINT},
+      action_version = #{record.actionVersion,jdbcType=INTEGER},
+      action_url = #{record.actionUrl,jdbcType=VARCHAR},
+      action_name = #{record.actionName,jdbcType=VARCHAR},
+      action_value = #{record.actionValue,jdbcType=VARCHAR},
+      action_status = #{record.actionStatus,jdbcType=INTEGER},
+      action_description = #{record.actionDescription,jdbcType=VARCHAR},
+      menu_id = #{record.menuId,jdbcType=BIGINT},
+      createor = #{record.createor,jdbcType=VARCHAR},
+      createor_id = #{record.createorId,jdbcType=BIGINT},
+      last_operator = #{record.lastOperator,jdbcType=VARCHAR},
+      last_operator_id = #{record.lastOperatorId,jdbcType=BIGINT},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tmall.server.auth.common.model.TmallAction">
+    update tmall_action
+    <set>
+      <if test="actionVersion != null">
+        action_version = #{actionVersion,jdbcType=INTEGER},
+      </if>
+      <if test="actionUrl != null">
+        action_url = #{actionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="actionName != null">
+        action_name = #{actionName,jdbcType=VARCHAR},
+      </if>
+      <if test="actionValue != null">
+        action_value = #{actionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="actionStatus != null">
+        action_status = #{actionStatus,jdbcType=INTEGER},
+      </if>
+      <if test="actionDescription != null">
+        action_description = #{actionDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null">
+        menu_id = #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="createor != null">
+        createor = #{createor,jdbcType=VARCHAR},
+      </if>
+      <if test="createorId != null">
+        createor_id = #{createorId,jdbcType=BIGINT},
+      </if>
+      <if test="lastOperator != null">
+        last_operator = #{lastOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="lastOperatorId != null">
+        last_operator_id = #{lastOperatorId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where action_id = #{actionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tmall.server.auth.common.model.TmallAction">
+    update tmall_action
+    set action_version = #{actionVersion,jdbcType=INTEGER},
+      action_url = #{actionUrl,jdbcType=VARCHAR},
+      action_name = #{actionName,jdbcType=VARCHAR},
+      action_value = #{actionValue,jdbcType=VARCHAR},
+      action_status = #{actionStatus,jdbcType=INTEGER},
+      action_description = #{actionDescription,jdbcType=VARCHAR},
+      menu_id = #{menuId,jdbcType=BIGINT},
+      createor = #{createor,jdbcType=VARCHAR},
+      createor_id = #{createorId,jdbcType=BIGINT},
+      last_operator = #{lastOperator,jdbcType=VARCHAR},
+      last_operator_id = #{lastOperatorId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where action_id = #{actionId,jdbcType=BIGINT}
+  </update>
+</mapper>

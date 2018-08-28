@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>tmall-micro-user</artifactId>
+	<packaging>pom</packaging>
+
+	<name>tmall-micro-user</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>com.rebuildtmall</groupId>
+		<artifactId>tmall-micro-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<tmall-server-user-common.version>0.0.1-SNAPSHOT</tmall-server-user-common.version>
+		<tmall-server-user-dao.version>0.0.1-SNAPSHOT</tmall-server-user-dao.version>
+		<tmall-server-user-service.version>0.0.1-SNAPSHOT</tmall-server-user-service.version>
+		<tmall-common.version>0.0.1-SNAPSHOT</tmall-common.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.rebuildtmall</groupId>
+				<artifactId>tmall-server-user-common</artifactId>
+				<version>${tmall-server-user-common.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<modules>
+		<module>tmall-server-user-common</module>
+		<module>tmall-server-user-dao</module>
+		<module>tmall-server-user-service</module>
+		<module>tmall-server-user-spi</module>
+		<module>tmall-server-user-server</module>
+    <module>tmall-server-user-client</module>
+  </modules>
+
+</project>

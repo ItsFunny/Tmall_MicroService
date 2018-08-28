@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.tmall.server.user.server.service.UserServiceTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 5.513 s <<< FAILURE! - in com.tmall.server.user.server.service.UserServiceTest
+testUpdateinfo(com.tmall.server.user.server.service.UserServiceTest)  Time elapsed: 0.516 s  <<< ERROR!
+org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'realname' in 'class com.tmall.common.dto.UserDTO'
+	at com.tmall.server.user.server.service.UserServiceTest.testUpdateinfo(UserServiceTest.java:40)
+Caused by: org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'realname' in 'class com.tmall.common.dto.UserDTO'
+	at com.tmall.server.user.server.service.UserServiceTest.testUpdateinfo(UserServiceTest.java:40)
+

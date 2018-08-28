@@ -1,0 +1,82 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config",
+      "type": "com.tmall.server.auth.server.configuaration.TmallConfigProperty"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.amqp-enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.amqp-host",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.amqp-password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.amqp-username",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.data-center-id",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.driver-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.email-account",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.email-host",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.email-pwd",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.mysql-extention",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.username",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.auth.server.configuaration.TmallConfigProperty",
+      "name": "tmall.config.woker-id",
+      "type": "java.lang.Integer"
+    }
+  ]
+}

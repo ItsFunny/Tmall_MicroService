@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.tmall.server.auth.dao.RoleDao">
+	<select id="findUserRoleByUserIdAndStoreId"
+		resultType="com.tmall.server.auth.common.model.TmallRole">
+		select
+		a.role_id,a.store_id,a.role_status,a.role_name,a.role_description
+		,b.parent_user_id from
+		tmall_role a ,tmall_user_role b
+		where b.user_id=#{userId} and a.role_id=b.role_id 
+		<if test="storeId!=null and storeId>=0">and a.store_id=#{storeId}</if>
+		
+	</select>
+
+
+</mapper>

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: tmall-spring-eureka-server
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: joker
+Implementation-Vendor-Id: com.immoc
+Build-Jdk: 1.8.0_171
+Implementation-URL: http://maven.apache.org/tmall-spring-eureka-server
+Created-By: Maven Integration for Eclipse
+

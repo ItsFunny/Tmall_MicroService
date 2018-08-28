@@ -1,0 +1,42 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.tmall.system.admin.config.TmallAdminConfigProperty",
+      "name": "tmall.config.admin",
+      "type": "com.tmall.system.admin.config.TmallAdminConfigProperty"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.tmall.system.admin.config.TmallAdminConfigProperty",
+      "name": "tmall.config.admin.amqp-enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.tmall.system.admin.config.TmallAdminConfigProperty",
+      "name": "tmall.config.admin.auth-detail-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.system.admin.config.TmallAdminConfigProperty",
+      "name": "tmall.config.admin.db-driver-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.system.admin.config.TmallAdminConfigProperty",
+      "name": "tmall.config.admin.db-password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.system.admin.config.TmallAdminConfigProperty",
+      "name": "tmall.config.admin.db-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.system.admin.config.TmallAdminConfigProperty",
+      "name": "tmall.config.admin.db-username",
+      "type": "java.lang.String"
+    }
+  ]
+}
