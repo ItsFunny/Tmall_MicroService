@@ -8,6 +8,9 @@ package com.tmall.system.admin.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,6 +24,9 @@ import com.tmall.common.dto.PropertyDTO;
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.utils.ResultUtils;
+import com.tmall.serer.spi.gateway.feign.store.IGatewayStoreFeignService;
+import com.tmall.server.facade.service.IFacadedService;
+import com.tmall.server.spi.product.IProductServerCategoryFeignService;
 import com.tmall.system.admin.util.AdminUtil;
 
 /**
@@ -40,6 +46,8 @@ public class RestAPIController
 	
 	@Autowired
 	private IFacadedService facadedService;
+	@Autowired
+	private IGatewayStoreFeignService gatewayStoreFeignService;
 
 	// 显示商家下的所有类目
 	@RequestMapping(value = "/category/topLevel/all", method =
@@ -78,15 +86,16 @@ public class RestAPIController
 	
 	@RequiresPermissions("edit_store_update_status")
 	@RequestMapping(value="/store/updateStatus/{storeId}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResultDTO<String>updateStoreStatus(@PathVariable("storeId")Long storeId)
+	public ResultDTO<String>updateStoreStatus(@PathVariable("storeId")Long storeId,HttpServletRequest request)
 	{
 		//修改状态,通过zuul调用接口
-		
-		
-		
-		
-		
-		return ResultUtils.fail();
+		String storeStatusStr=request.getParameter("storeStatus");
+		if(StringUtils.isEmpty(storeStatusStr))
+		{
+			return ResultUtils.fail("storeStatus不能为空");
+		}
+		 
+		return gatewayStoreFeignService.updateStoreStatusByStoreId(storeId, Integer.parseInt(storeStatusStr));
 	}
 
 }

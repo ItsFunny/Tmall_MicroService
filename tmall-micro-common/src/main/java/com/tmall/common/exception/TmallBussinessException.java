@@ -10,16 +10,16 @@ package com.tmall.common.exception;
 import com.netflix.hystrix.exception.HystrixBadRequestException;
 import com.tmall.common.enums.ErrorCodeEnum;
 
+import lombok.Data;
+
 /**
  * 
  * @author joker
  * @date 创建时间：2018年8月18日 下午4:46:41
  */
+@Data
 public class TmallBussinessException extends HystrixBadRequestException
 {
-	
-
-
 	/**
 	 * 
 	 * @author joker
@@ -47,6 +47,9 @@ public class TmallBussinessException extends HystrixBadRequestException
 
 	// 异常信息
 	private String message;
+	
+	//状态码
+	private Integer status;
 
 	public TmallBussinessException(int code, String message)
 	{
@@ -73,25 +76,6 @@ public class TmallBussinessException extends HystrixBadRequestException
 		super(enum1.getMsg());
 		this.code=enum1.getCode();
 		this.message=enum1.getMsg();
-	}
-	public String getMessage()
-	{
-		return message;
-	}
-
-	public void setMessage(String message)
-	{
-		this.message = message;
-	}
-
-	public int getCode()
-	{
-		return code;
-	}
-
-	public void setCode(int code)
-	{
-		this.code = code;
 	}
 
 }

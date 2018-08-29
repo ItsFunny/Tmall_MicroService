@@ -276,9 +276,16 @@
 			
 		</div>
 		<div class="modal-footer">						
+			
+			<@shiro.hasPermission name="edit_store_approve">
 			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">审核通过</button>
+			</@shiro.hasPermission>
+			<@shiro.hasPermission name="edit_store_refuse">
          	<button class="btn btn-danger"  data-dismiss="modal" aria-hidden="true">审核未通过</button>
+         	</@shiro.hasPermission>
+         	<@shiro.hasPermission name="edit_store_close">
             <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭商家</button>
+             </@shiro.hasPermission>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>

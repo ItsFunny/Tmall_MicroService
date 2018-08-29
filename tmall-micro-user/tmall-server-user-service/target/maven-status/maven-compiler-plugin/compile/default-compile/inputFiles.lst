@@ -1,3 +1,9 @@
 /Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-service/src/main/java/com/tmall/server/user/service/impl/UserServiceImpl.java
+/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-service/src/main/java/com/tmall/server/user/service/impl/EmailLoginHandler.java
+/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-service/src/main/java/com/tmall/server/user/service/impl/MobileLoginHandler.java
 /Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-service/src/main/java/com/tmall/server/user/service/App.java
+/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-service/src/main/java/com/tmall/server/user/service/ILoginService.java
 /Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-service/src/main/java/com/tmall/server/user/service/IUserService.java
+/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-service/src/main/java/com/tmall/server/user/service/AbstractLoginHandler.java
+/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-service/src/main/java/com/tmall/server/user/service/impl/LoginServiceImpl.java
+/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-service/src/main/java/com/tmall/server/user/service/ILoginHandler.java

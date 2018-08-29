@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
 import com.tmall.common.exception.TmallErrorDecoder;
+import com.tmall.server.spi.product.IProductServerCategoryFeignService;
 import com.tmall.system.admin.filter.AuthUrlFilter;
 import com.tmall.system.admin.shiro.TmallAuthRealm;
 
@@ -115,10 +116,10 @@ public class AdiminSystemSpringConfiguration
 		shiroFilterFactoryBean.setSecurityManager(securityManager());
 		Map<String, String> filterChainDefinitionMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
 		Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
-		filters.put("authc", authFilter());
+//		filters.put("authc", authFilter());
 		shiroFilterFactoryBean.setLoginUrl("https://www.baidu.com/");
 //		filterChainDefinitionMap.put("/**","authc");
-		filterChainDefinitionMap.put("/admin/**", "authc");
+//		filterChainDefinitionMap.put("/admin/**", "authc");
 		return shiroFilterFactoryBean;
 	}
 }

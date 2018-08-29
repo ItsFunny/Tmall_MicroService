@@ -1,0 +1,6 @@
+com/tmall/serer/spi/gateway/feign/product/IProductServerFeignBrandService.class
+com/tmall/serer/spi/gateway/feign/product/IProductServerFeignCategoryService.class
+com/tmall/serer/spi/gateway/feign/store/IGatewayStoreFeignService.class
+com/tmall/serer/spi/gateway/feign/user/impl/GatewayUserFeignFallback.class
+com/tmall/serer/spi/gateway/feign/product/IProductServerFeignBrandService$ProductServerFallbackService.class
+com/tmall/serer/spi/gateway/feign/user/IGatewayUserFeignService.class

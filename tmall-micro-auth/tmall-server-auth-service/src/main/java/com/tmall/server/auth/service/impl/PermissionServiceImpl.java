@@ -6,8 +6,6 @@
 */
 package com.tmall.server.auth.service.impl;
 
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.any;
 
 import java.util.ArrayList;
 import java.util.List;

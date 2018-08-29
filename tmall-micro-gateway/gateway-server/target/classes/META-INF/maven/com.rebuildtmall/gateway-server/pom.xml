@@ -16,6 +16,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+
 		<!-- <dependency> <groupId>com.rebuildtmall</groupId> <artifactId>product-client</artifactId> 
 			</dependency> -->
 		<dependency>
@@ -33,11 +34,19 @@
 			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
 		</dependency>
 
-
-
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.netflix.eureka</groupId>
+					<artifactId>eureka-client</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.netflix.ribbon</groupId>
+					<artifactId>ribbon-loadbalancer</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-eureka</artifactId> 
 			<version>1.4.4.RELEASE</version> </dependency> -->
@@ -45,6 +54,8 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-hystrix</artifactId>
+			<!-- <exclusions> <exclusion> <groupId>om.netflix.archaius</groupId> <artifactId>archaius-core</artifactId> 
+				</exclusion> </exclusions> -->
 			<version>1.4.4.RELEASE</version>
 		</dependency>
 
@@ -61,5 +72,20 @@
 			</dependency> -->
 
 
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-micro-common</artifactId>
+			<version>${tmall-micro.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.netflix.hystrix</groupId>
+					<artifactId>hystrix-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 </project>

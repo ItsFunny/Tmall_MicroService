@@ -1,0 +1,6 @@
+com/tmall/server/gateway/service/BaseService.class
+com/tmall/server/gateway/service/product/impl/ProductServerBrandServiceImpl.class
+com/tmall/server/gateway/service/product/IProductServerCategoryService.class
+com/tmall/server/gateway/service/App.class
+com/tmall/server/gateway/service/product/impl/ProductServerCategoryService.class
+com/tmall/server/gateway/service/product/IProductServerBrandService.class

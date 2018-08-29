@@ -86,9 +86,18 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-hystrix</artifactId>
+	<!-- 		<exclusions>
+				<exclusion>
+					<groupId>om.netflix.archaius</groupId>
+					<artifactId>archaius-core</artifactId>
+				</exclusion>
+			</exclusions> -->
 			<version>1.4.4.RELEASE</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>com.netflix.archaius</groupId>
+			<artifactId>archaius-core</artifactId>
+		</dependency>
 	</dependencies>
 </project>

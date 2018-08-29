@@ -27,7 +27,16 @@
 			<groupId>com.rebuildtmall</groupId>
 			<artifactId>gateway-client</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-server-product-spi</artifactId>
+			<version>${product-server-spi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-micro-facaded</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 
 		<!-- shiro freemarker 标签依赖 -->

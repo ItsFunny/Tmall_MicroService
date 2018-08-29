@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages="com.tmall.serer.spi.gateway.feign")
+@EnableFeignClients(basePackages= {"com.tmall.serer.spi.product","com.tmall.server.spi.gateway.feign"})
 @EnableCaching
 @ComponentScan(basePackages="com.tmall")
 public class TmallAdminSystem 

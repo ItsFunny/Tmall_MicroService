@@ -27,10 +27,10 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="https.proxyHost" value="localhost"/>
     <property name="os.name" value="Mac OS X"/>
-    <property name="classworlds.conf" value="/Users/joker/Java/oxygen_workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf7091986913686879159.tmp"/>
+    <property name="classworlds.conf" value="/Users/joker/eclipse-workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf136038048853028740.tmp"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/Users/joker/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
-    <property name="http.proxyPort" value="49272"/>
+    <property name="http.proxyPort" value="49731"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -46,7 +46,7 @@
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B -X -e -s /Users/joker/.m2/settings.xml install"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B -X -e install"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="zh"/>
     <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
@@ -61,7 +61,7 @@
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
-    <property name="https.proxyPort" value="49272"/>
+    <property name="https.proxyPort" value="49731"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
   <testcase classname="com.rebuildtmall.tmall_micro_common.AppTest" name="testApp" time="0.003"/>

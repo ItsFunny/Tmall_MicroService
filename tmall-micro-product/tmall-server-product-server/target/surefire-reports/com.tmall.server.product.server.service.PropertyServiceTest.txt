@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.tmall.server.product.server.service.PropertyServiceTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.044 s <<< FAILURE! - in com.tmall.server.product.server.service.PropertyServiceTest
+testProperty(com.tmall.server.product.server.service.PropertyServiceTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'tokenInterceptor': Unsatisfied dependency expressed through field 'jwtUtil'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jwtUtilFactoryBean': FactoryBean threw exception on object creation; nested exception is java.lang.NullPointerException
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jwtUtilFactoryBean': FactoryBean threw exception on object creation; nested exception is java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+

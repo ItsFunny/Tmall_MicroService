@@ -1,1 +1,2 @@
-/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-spi/src/main/java/com/tmall/server/user/spi/App.java
+/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-spi/src/main/java/com/tmall/server/spi/user/App.java
+/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-user/tmall-server-user-spi/src/main/java/com/tmall/server/spi/user/IUserFeignService.java

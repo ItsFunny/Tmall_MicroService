@@ -1,0 +1,16 @@
+com/tmall/server/product/common/model/TmallCategoryExample.class
+com/tmall/server/product/common/model/TmallCategoryExample$Criterion.class
+com/tmall/server/product/common/model/TmallCategory.class
+com/tmall/server/product/common/model/TmallStoreBrand.class
+com/tmall/server/product/common/model/TmallStoreCategoryExample$GeneratedCriteria.class
+com/tmall/server/product/common/model/TmallStoreCategoryExample$Criteria.class
+com/tmall/server/product/common/model/TmallStoreBrandExample$Criterion.class
+com/tmall/server/product/common/model/TmallCategoryExample$Criteria.class
+com/tmall/server/product/common/model/TmallStoreCategory.class
+com/tmall/server/product/common/App.class
+com/tmall/server/product/common/model/TmallCategoryExample$GeneratedCriteria.class
+com/tmall/server/product/common/model/TmallStoreBrandExample$GeneratedCriteria.class
+com/tmall/server/product/common/model/TmallStoreCategoryExample.class
+com/tmall/server/product/common/model/TmallStoreBrandExample.class
+com/tmall/server/product/common/model/TmallStoreCategoryExample$Criterion.class
+com/tmall/server/product/common/model/TmallStoreBrandExample$Criteria.class

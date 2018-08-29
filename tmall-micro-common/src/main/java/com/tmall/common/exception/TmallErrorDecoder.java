@@ -19,31 +19,36 @@ import feign.Util;
 import feign.codec.ErrorDecoder;
 
 /**
-* 
-* @author joker 
-* @date 创建时间：2018年8月18日 下午4:53:24
-*/
-public class TmallErrorDecoder implements ErrorDecoder 
+ * 
+ * @author joker
+ * @date 创建时间：2018年8月18日 下午4:53:24
+ */
+public class TmallErrorDecoder implements ErrorDecoder
 {
-	private Logger logger=LoggerFactory.getLogger(TmallErrorDecoder.class);
+	private Logger logger = LoggerFactory.getLogger(TmallErrorDecoder.class);
+
 	@Override
 	public Exception decode(String methodKey, Response response)
 	{
-		Exception exception=null;
+		Exception exception = null;
 		try
 		{
 			String json = Util.toString(response.body().asReader());
-			
-			if(response.status()==HttpStatus.UNAUTHORIZED.value())
+			if (response.status() > 400 && response.status() < 500)
 			{
-				exception=JsonUtils.json2Object(json, TmallUserException.class);
-			}else {
-				exception=JsonUtils.json2Object(json, TmallBussinessException.class);
+				if (response.status() == HttpStatus.UNAUTHORIZED.value())
+				{
+					exception = JsonUtils.json2Object(json, TmallUserException.class);
+				} else
+				{
+					exception = JsonUtils.json2Object(json, TmallBussinessException.class);
+				}
 			}
 		} catch (IOException e)
 		{
 			logger.error("parse rmi exception occur error");
 		}
-		return exception!=null?exception:new TmallBussinessException(TmallBussinessException.UNKNOWN_EXCEPTION,"系统运行异常");
+		return exception != null ? exception
+				: new TmallBussinessException(TmallBussinessException.UNKNOWN_EXCEPTION, "系统运行异常");
 	}
 }
