@@ -21,7 +21,7 @@
 		<store-server-spi.version>0.0.1-SNAPSHOT</store-server-spi.version>
 	</properties>
 	<dependencies>
-		
+
 		<!-- gateway -->
 		<dependency>
 			<groupId>com.rebuildtmall</groupId>
@@ -35,7 +35,12 @@
 		<dependency>
 			<groupId>com.rebuildtmall</groupId>
 			<artifactId>tmall-micro-facaded</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 

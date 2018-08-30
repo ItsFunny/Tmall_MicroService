@@ -1,9 +1,3 @@
-/**
-*
-* @author joker 
-* @date 创建时间：2018年6月3日 下午10:06:56
-* 
-*/
 package com.tmall.server.auth.server.configuaration;
 
 import java.io.IOException;
@@ -137,7 +131,6 @@ public class TmallAuthServerConfiguration implements WebMvcConfigurer
 	@Bean
 	public FilterRegistrationBean<Filter> filterRegistrationBean()
 	{
-
 		FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
 		filterRegistrationBean.addInitParameter("encoding", "utf-8");
 		filterRegistrationBean.setFilter(new CharsetFilter());

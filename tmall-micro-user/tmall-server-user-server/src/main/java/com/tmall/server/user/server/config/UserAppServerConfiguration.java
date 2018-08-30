@@ -37,6 +37,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.rabbitmq.client.ConnectionFactoryConfigurator;
 import com.tmall.common.config.TmallConfigProperty;
 import com.tmall.common.constants.RabbitMQExchangeNameConstant;
 import com.tmall.common.db.MySQLExtentionSupport;

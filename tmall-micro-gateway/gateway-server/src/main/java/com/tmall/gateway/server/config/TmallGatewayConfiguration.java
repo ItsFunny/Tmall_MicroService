@@ -8,7 +8,6 @@
 package com.tmall.gateway.server.config;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.Filter;
 import javax.sql.DataSource;
 
 import org.mybatis.spring.SqlSessionFactoryBean;

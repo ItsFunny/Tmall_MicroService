@@ -1,9 +1,3 @@
-/**
-*
-* @author joker 
-* @date 创建时间：2018年8月14日 下午10:53:32
-* 
-*/
 package com.tmall.system.admin;
 
 import org.junit.Test;
@@ -31,7 +25,7 @@ public class TestJWT
 	@Test
 	public void test1()
 	{
-		String string="我爱邢娟";
+		String string="ss";
 		AuthTokenDTO tokenDTO=new AuthTokenDTO();
 		UserDTO userDTO=new UserDTO();
 		userDTO.setUsername(string);

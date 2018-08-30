@@ -9,7 +9,6 @@ package com.tmall.server.auth.service.impl;
 import java.util.Collection;
 import java.util.List;
 
-import javax.security.auth.message.AuthException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
