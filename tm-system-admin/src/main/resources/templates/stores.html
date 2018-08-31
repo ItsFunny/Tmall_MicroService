@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商家管理</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/style_other.css">
+	<script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+    
+</head>
+<script>
+	function search()
+	{
+		document.pageForm.pageNum.value=1;
+		document.pageForm.submit();
+	}
+
+</script>
+
+<body class="hold-transition skin-red sidebar-mini"  >
+  <!-- .box-body -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">商家管理</h3>
+                    </div>
+
+                    <div class="box-body">
+
+                        <!-- 数据表格 -->
+                        <div class="table-box">
+
+                            <!--工具栏-->
+                                       
+			                 <form name="pageForm" method="get" action="/admin/store/all">
+			                   <div class="box-tools pull-right">
+                                <div class="has-feedback">
+							        店铺名称：<input  type="text" name="storeName">
+									店铺缩写名称： <input  type="text" name="storeAbbName">
+									状态：
+									<select name="status">
+										<#-- 这里改用js是最👍的,又最简洁的 -->
+										<#if status??>
+										<#if status=="0">
+										<option value="">全部</option>
+										<option value="0" checked="checked">待审核</option>
+										<option value="1">已审核</option>
+										<option value="2">审核未通过</option>
+										<option value="3">已关闭</option>
+										<#elseif status=="1">
+										<option value="">全部</option>
+										<option value="0" checked="checked">待审核</option>
+										<option value="1" checked="checked">已审核</option>
+										<option value="2">审核未通过</option>
+										<option value="3">已关闭</option>
+										<#elseif status=="2">
+											<option value="">全部</option>
+										<option value="0" checked="checked">待审核</option>
+										<option value="1">已审核</option>
+										<option value="2" checked="checked">审核未通过</option>
+										<option value="3">已关闭</option>
+										<#elseif stsatus=="3">
+										<option value="">全部</option>
+										<option value="0" checked="checked">待审核</option>
+										<option value="1">已审核</option>
+										<option value="2">审核未通过</option>
+										<option value="3" checked="checked">已关闭</option>
+										<#else>
+										<option value="" checked="checked">全部</option>
+										<option value="0" checked="checked">待审核</option>
+										<option value="1">已审核</option>
+										<option value="2">审核未通过</option>
+										<option value="3">已关闭</option>
+										</#if>
+										<#else>
+										<option value="">全部</option>
+										<option value="0" checked="checked">待审核</option>
+										<option value="1">已审核</option>
+										<option value="2">审核未通过</option>
+										<option value="3">已关闭</option>
+										</#if>
+									</select>
+									<input type="button" onclick="search()" value="查询" class="btn btn-default" >                                 
+                                </div>
+                            </div>
+				                 <input type="hidden" name="pageNum" value="${pageVO.pageNum!"1"}">
+			                  </form>
+                          
+                            <!--工具栏/-->
+
+			                  <!--数据列表-->
+			                  <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+			                      <thead>
+			                          <tr>
+			                              <th class="" style="padding-right:0px">
+			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
+			                              </th> 
+										  <th class="sorting_asc">商家ID</th>
+										  <th class="sorting">公司名称</th> 
+									      <th class="sorting">店铺名称</th>
+									      <th class="sorting">店铺缩写</th>
+									      <th class="sorting">联系人姓名</th>
+									      <th class="sorting">公司电话</th>
+									      <th class="sorting">状态</th>										
+					                      <th class="text-center">操作</th>
+			                          </tr>
+			                      </thead>
+			                      <tbody>
+			                      <#if pageVO.data??>
+			                      	<#list pageVO.data as item>
+			                      	<tr>
+			                              <td><input  type="checkbox"></td>			                              
+				                          <td>${item.storeId}</td>
+				                          <td>${item.companyName}</td>
+									      <td>${item.storeName}</td>
+									      <td>${item.storeAbbName}</td>
+									      <td>${item.storeContactName}</td>
+									      <td>${item.storeContactPhone}</td>
+		                                  <td>
+		                                  <#if item.storeStatus==0>
+			                                  <span>未审核</span>	
+			                              <#elseif item.storeStatus==1> 
+			                              	  <span>审核通过</span>	
+			                              </#if>
+		                                  </td>
+		                                  <td class="text-center">                                           
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" >详情</button>                                           
+		                                  </td>
+			                          </tr>
+			                          </#list>
+			                      </#if>
+			                      </tbody>
+			                  </table>
+			                 	 <#if (pageVO.totalCount>=1)>
+			                 	 	总共有${pageVO.totalCount}条记录 ${pageVO.pageNum}/${pageVO.maxPage}页 
+				                 <#if pageVO.pageNum==1> <a href="javascript:void(0)">第一页</a> <a href="javascript:void(0)">上一页</a></#if>
+				                 <#if (pageVO.pageNum>1)> <a href="javascript:document.pageForm.pageNum.value=1;document.pageForm.submit();">第一页</a> <a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}-1);document.pageForm.submit();">上一页</a> </#if>
+				                 <#if pageVO.pageNum==pageVO.maxPage> <a href="javascript:void(0)">下一页</a> <a href="javascript:void(0)">最后一页</a> </#if>
+				                 <#if pageVO.pageNum<pageVO.maxPage>  <a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}+1);document.pageForm.submit();">下一页</a> <a href="javascript:document.pageForm.pageNum.value=${pageVO.maxPage};document.pageForm.submit();">最后一页</a> </#if>
+			                 	 <#else>
+			                 	 	没找到任何记录
+			                 	 </#if>>
+			      				
+			                  <!--数据列表/-->                        
+                        </div>
+                        <!-- 数据表格 /-->
+                        
+                        
+                        
+                        
+                     </div>
+                    <!-- /.box-body -->
+                    
+	          
+					    
+                                
+<!-- 商家详情 -->
+<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" >
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">商家详情</h3>
+		</div>
+		<div class="modal-body">							
+			
+			 <ul class="nav nav-tabs">
+			  <li class="active"><a href="#home" data-toggle="tab">基本信息</a></li>
+			  <li><a href="#linkman" data-toggle="tab">联系人</a></li>
+			  <li><a href="#certificate" data-toggle="tab">证件</a></li>
+			  <li><a href="#ceo" data-toggle="tab">法定代表人</a></li>
+			  <li><a href="#bank" data-toggle="tab">开户行</a></li>
+			</ul>							
+			
+			<!-- 选项卡开始 -->         
+		    <div id="myTabContent" class="tab-content">
+			    <div class="tab-pane active in" id="home">
+			      <br>
+			      <table class="table table-bordered table-striped"  width="800px">
+			      	<tr>
+			      		<td>公司名称</td>
+			      		<td>美琪数码经营店</td>
+			      	</tr>
+			      	<tr>
+			      		<td>公司手机</td>
+			      		<td>13900221212</td>
+			      	</tr>
+			      	<tr>
+			      		<td>公司电话</td>
+			      		<td>010-20112222</td>
+			      	</tr>
+			      	<tr>
+			      		<td>公司详细地址</td>
+			      		<td>北京市西三旗建材城西路888号</td>
+			      	</tr>
+			      </table>			      
+      			</div>	
+			    <div class="tab-pane fade" id="linkman">
+			    	<br>
+					<table class="table table-bordered table-striped" >
+			      	<tr>
+			      		<td>联系人姓名</td>
+			      		<td>王美琪</td>
+			      	</tr>
+			      	<tr>
+			      		<td>联系人QQ</td>
+			      		<td>78223322</td>
+			      	</tr>
+			      	<tr>
+			      		<td>联系人手机</td>
+			      		<td>13500223322</td>
+			      	</tr>
+			      	<tr>
+			      		<td>联系人E-Mail</td>
+			      		<td>78223322@qq.com</td>
+			      	</tr>
+			      </table>
+			    </div>
+			    <div class="tab-pane fade" id="certificate">
+					<br>
+					<table class="table table-bordered table-striped" >
+				      	<tr>
+				      		<td>营业执照号</td>
+				      		<td>330106000109206</td>
+				      	</tr>
+				      	<tr>
+				      		<td>税务登记证号</td>
+				      		<td>0292039393011</td>
+				      	</tr>
+				      	<tr>
+				      		<td>组织机构代码证号</td>
+				      		<td>22320320302421</td>
+				      	</tr>				      	
+			     	</table>
+			    </div>
+			    <div class="tab-pane fade" id="ceo">
+					<br>
+					<table class="table table-bordered table-striped" >
+				      	<tr>
+				      		<td>法定代表人</td>
+				      		<td>王小聪</td>
+				      	</tr>
+				      	<tr>
+				      		<td>法定代表人身份证号</td>
+				      		<td>211030198503223122</td>
+				      	</tr>					   			      	
+			     	</table>
+			    </div>
+			    <div class="tab-pane fade" id="bank">
+					<br>
+					<table class="table table-bordered table-striped" >
+				      	<tr>
+				      		<td>开户行名称</td>
+				      		<td>中国建设银行北京市分行</td>
+				      	</tr>
+				      	<tr>
+				      		<td>开户行支行</td>
+				      		<td>海淀支行</td>
+				      	</tr>		
+				      	<tr>
+				      		<td>银行账号</td>
+				      		<td>999000111222</td>
+				      	</tr>			   			      	
+			     	</table>					
+			    </div>
+  			    </div> 			
+           <!-- 选项卡结束 -->          
+			
+			
+		</div>
+		<div class="modal-footer">						
+			
+			<@shiro.hasPermission name="edit_store_approve">
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">审核通过</button>
+			</@shiro.hasPermission>
+			<@shiro.hasPermission name="edit_store_refuse">
+         	<button class="btn btn-danger"  data-dismiss="modal" aria-hidden="true">审核未通过</button>
+         	</@shiro.hasPermission>
+         	<@shiro.hasPermission name="edit_store_close">
+            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭商家</button>
+             </@shiro.hasPermission>
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+		</div>
+	  </div>
+	</div>
+</div>
+
+
+</body>
+
+</html>

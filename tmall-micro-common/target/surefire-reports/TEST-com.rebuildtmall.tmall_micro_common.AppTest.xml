@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="com.rebuildtmall.tmall_micro_common.AppTest" time="0.003" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="com.rebuildtmall.tmall_micro_common.AppTest" time="0.004" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib"/>
@@ -26,7 +26,7 @@
 "/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="os.name" value="Mac OS X"/>
-    <property name="classworlds.conf" value="/Users/joker/eclipse-workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf318178968080918156.tmp"/>
+    <property name="classworlds.conf" value="/Users/joker/eclipse-workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf646866997451859295.tmp"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/Users/joker/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -60,5 +60,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.rebuildtmall.tmall_micro_common.AppTest" name="testApp" time="0.003"/>
+  <testcase classname="com.rebuildtmall.tmall_micro_common.AppTest" name="testApp" time="0.004"/>
 </testsuite>

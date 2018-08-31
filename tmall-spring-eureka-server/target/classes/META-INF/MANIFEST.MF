@@ -4,6 +4,7 @@ Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: joker
 Implementation-Vendor-Id: com.immoc
 Build-Jdk: 1.8.0_171
-Implementation-URL: http://maven.apache.org/tmall-spring-eureka-server
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/tm-parent/tmall-spring-eureka-server
 Created-By: Maven Integration for Eclipse
 

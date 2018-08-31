@@ -1,0 +1,81 @@
+<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+							<a class="btn btn-success">
+								<i class="icon-signal"></i>
+							</a>
+
+							<a class="btn btn-info">
+								<i class="icon-pencil"></i>
+							</a>
+
+							<a class="btn btn-warning">
+								<i class="icon-group"></i>
+							</a>
+
+							<a class="btn btn-danger">
+								<i class="icon-cogs"></i>
+							</a>
+						</div>
+
+						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+							<span class="btn btn-success"></span>
+
+							<span class="btn btn-info"></span>
+
+							<span class="btn btn-warning"></span>
+
+							<span class="btn btn-danger"></span>
+						</div>
+					</div><!-- #sidebar-shortcuts -->
+					<div id="menu_style" class="menu_style">
+					<ul class="nav nav-list" id="nav_list">
+					     <li class="home"><a href="javascript:void(0)" name="home.html" class="iframeurl" title=""><i class="icon-home"></i><span class="menu-text"> 系统首页 </span></a></li>
+					     
+					     
+					     <#if menus??>
+					     	<#list menus as item>
+					     	 <li><a href="${item.menuUrl!""}" class="dropdown-toggle"><i class="icon-desktop"></i><span class="menu-text"> ${item.menuName!"meimingzi"} </span><b class="arrow icon-angle-down"></b></a>
+							   <ul class="submenu">
+							   	 <#if item.childs??>
+							   	 	<#list item.childs as child>
+		                        	 <li class="home"><a  href="javascript:void(0)" name="${child.menuUrl!""}"  title="${child.menuName!""}" class="iframeurl"><i class="icon-double-angle-right"></i>${child.menuName!""}</a></li>
+		                         	</#list>>
+								 </#if>
+								</ul>
+							</li>
+					     	</#list>
+					     </#if>
+					</ul>
+					</div>
+					<script type="text/javascript">
+           $("#menu_style").niceScroll({  
+	        cursorcolor:"#888888",  
+	        cursoropacitymax:1,  
+         	touchbehavior:false,  
+	        cursorwidth:"5px",  
+	        cursorborder:"0",  
+	        cursorborderradius:"5px"  
+            }); 
+          </script>
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+					</div>
+                    <script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					</script>
+				</div>
+
+				<div class="main-content">
+                <script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+					<div class="breadcrumbs" id="breadcrumbs">
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="index.html">首页</a>
+							</li>
+							<li class="active"><span class="Current_page iframeurl"></span></li>
+                            <li class="active" id="parentIframe"><span class="parentIframe iframeurl"></span></li>
+							<li class="active" id="parentIfour"><span class="parentIfour iframeurl"></span></li>
+						</ul>
+					</div>

@@ -162,7 +162,10 @@ public class KeyProperty
 		{
 			try
 			{
-				inputStream.close();
+				if(null!=inputStream)
+				{
+					inputStream.close();
+				}
 			} catch (IOException e)
 			{
 				e.printStackTrace();

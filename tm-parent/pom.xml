@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.tmall</groupId>
+	<artifactId>tm-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>tm-parent</name>
+	<description>Demo project for Spring Boot</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.4.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<!-- project dependenci -->
+		<my-library.version>0.0.2-SNAPSHOT</my-library.version>
+		<tmall-facaded.version>0.0.1-SNAPSHOT</tmall-facaded.version>
+		<gateway-spi.version>0.0.1-SNAPSHOT</gateway-spi.version>
+
+		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
+		<tmall-micro-common.version>0.0.1-SNAPSHOT</tmall-micro-common.version>
+		<spring-cloud-zuul.version>2.0.1.RELEASE</spring-cloud-zuul.version>
+		<spring-cloud-config.version>2.0.1.RELEASE</spring-cloud-config.version>
+		<spring-cloud-eureka-client.version>2.0.1.RELEASE</spring-cloud-eureka-client.version>
+		<spring-cloud-eureka-server.version>2.0.1.RELEASE</spring-cloud-eureka-server.version>
+		<spring-cloud-hystrix.version>2.0.1.RELEASE</spring-cloud-hystrix.version>
+		<spring-cloud-openfeign.version>2.0.1.RELEASE</spring-cloud-openfeign.version>
+		<spring-cloud-ribbon.version>2.0.1.RELEASE</spring-cloud-ribbon.version>
+	</properties>
+
+	<dependencies>
+		<!--lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- 个人依赖库 -->
+		<dependency>
+			<groupId>com.joker</groupId>
+			<artifactId>library</artifactId>
+			<version>${my-library.version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> 
+			</dependency> -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+				<version>${spring-cloud-zuul.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+				<version>${spring-cloud-eureka-server.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+				<version>${spring-cloud-eureka-client.version}</version>
+			</dependency>
+
+			<!-- config -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-config</artifactId>
+				<version>${spring-cloud-config.version}</version>
+			</dependency>
+			<!-- hystrix -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+				<version>${spring-cloud-hystrix.version}</version>
+			</dependency>
+			<!-- openfeign -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-openfeign</artifactId>
+				<version>${spring-cloud-openfeign.version}</version>
+			</dependency>
+			<!-- ribbon -->
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+				<version>${spring-cloud-ribbon.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.tmall</groupId>
+	<artifactId>tm-facade</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>tm-facade</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<auth-server-spi.version>0.0.1-SNAPSHOT</auth-server-spi.version>
+		<product-server-spi.version>0.0.1-SNAPSHOT</product-server-spi.version>
+		<store-server-spi.version>0.0.1-SNAPSHOT</store-server-spi.version>
+		<user-server-spi.version>0.0.1-SNAPSHOT</user-server-spi.version>
+		<tmall-micro-common.version>0.0.1-SNAPSHOT</tmall-micro-common.version>
+	</properties>
+
+	<dependencies>
+		<!-- common -->
+		<dependency>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-micro-common</artifactId>
+			<version>${tmall-micro-common.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-server-auth-spi</artifactId>
+			<version>${auth-server-spi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-server-product-spi</artifactId>
+			<version>${product-server-spi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-server-store-spi</artifactId>
+			<version>${store-server-spi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-server-user-spi</artifactId>
+			<version>${user-server-spi.version}</version>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
