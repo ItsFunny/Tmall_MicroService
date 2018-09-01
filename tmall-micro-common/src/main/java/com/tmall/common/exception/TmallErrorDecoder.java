@@ -49,10 +49,22 @@ public class TmallErrorDecoder implements ErrorDecoder
 			{
 				String detail = detailObj.toString();
 				String[] strings = detail.split(":");
+				if(strings.length<1)
+				{
+					exception=new RuntimeException("抛出格式错误,格式必须为 code:detail 格式");
+					return exception;
+				}
 				Integer code = Integer.parseInt(strings[0]);
-				exception=new TmallBussinessException(ErrorCodeEnum.getEnum(code));
+				if(isBeginWith(strings[0], '2'))
+				{
+					exception=new TmallUserException(ErrorCodeEnum.getEnum(code));
+				}else {
+					exception=new TmallBussinessException(ErrorCodeEnum.getEnum(code));
+				}
+				
 			}else {
-				exception=new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION);
+				Object msg=map.get("message");
+				exception=new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION,msg==null?"未知错误,系统异常":msg.toString());
 			}
 		} catch (IOException e)
 		{
@@ -61,4 +73,10 @@ public class TmallErrorDecoder implements ErrorDecoder
 		return exception != null ? exception
 				: new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION);
 	}
+	public boolean isBeginWith(String string,char c)
+	{
+		char[] arr = string.toCharArray();
+		return ((Character)arr[0]).equals(c);
+	}
+	
 }

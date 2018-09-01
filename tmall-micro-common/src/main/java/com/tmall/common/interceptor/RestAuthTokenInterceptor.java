@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tmall.common.constants.AuthConstant;
 import com.tmall.common.dto.AuthTokenDTO;
+import com.tmall.common.enums.ErrorCodeEnum;
 import com.tmall.common.exception.TmallBussinessException;
 import com.tmall.common.exception.TmallUserException;
 import com.tmall.common.utils.JWTUtils;
@@ -49,11 +50,12 @@ public class RestAuthTokenInterceptor implements HandlerInterceptor
 					return true;
 				}
 				response.setStatus(TmallBussinessException.ILLEGAL_ARGUMETN_EXCEPTION);
-				throw new TmallUserException(TmallBussinessException.ILLEGAL_ARGUMETN_EXCEPTION, "用户身份信息已过期");
+				throw new TmallUserException(ErrorCodeEnum.USER_TOKEN_EXPIRED);
 			} catch (Exception e)
 			{
 				response.setStatus(TmallBussinessException.ILLEGAL_ARGUMETN_EXCEPTION);
-				throw new TmallUserException(TmallBussinessException.ILLEGAL_ARGUMETN_EXCEPTION, "无效的用户身份信息");
+				throw new TmallUserException(ErrorCodeEnum.USER_TOKEN_INVALID);
+//				throw new TmallUserException(TmallBussinessException.ILLEGAL_ARGUMETN_EXCEPTION, "无效的用户身份信息");
 			}
 		}
 	}

@@ -9,6 +9,8 @@ package com.tmall.common.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.tmall.common.enums.ErrorCodeEnum;
+
 /**
 * 
 * @author joker 
@@ -17,6 +19,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code=HttpStatus.UNAUTHORIZED)
 public class TmallUserException extends TmallBussinessException
 {
+	
+	public TmallUserException(ErrorCodeEnum enum1)
+	{
+		super(enum1);
+	}
+	public TmallUserException(ErrorCodeEnum enum1,String msg)
+	{
+		super(enum1,msg);
+	}
+	public TmallUserException(ErrorCodeEnum enum1,Throwable cause)
+	{
+		super(enum1,cause);
+	}
+	
 	public TmallUserException(String message)
 	{
 		super(TmallBussinessException.UNAUTHENTICATED_EXCEPTION, message);

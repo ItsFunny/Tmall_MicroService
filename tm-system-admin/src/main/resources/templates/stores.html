@@ -22,7 +22,39 @@
 		document.pageForm.pageNum.value=1;
 		document.pageForm.submit();
 	}
-
+	function showStoreDetail(storeId){
+		$.ajax({
+			    url:"/admin/api/v1/store/detail/"+storeId,    //请求的url地址
+			    dataType:"json",   //返回格式为json
+			    async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+			    //ata:{"id":"value"},    //参数值
+			    type:"GET",   //请求方式
+			    beforeSend:function(){
+			        //请求前的处理
+			    },
+			    success:function(req){
+			        //请求成功时处理
+			    },
+			    complete:function(data){
+			        //请求完成的处理
+			      	 if(data.code==1){
+			      	 	var company=data.data.companyInfo;
+			        	$("#companyName").val(company.companyName);
+			        	$("#companyPhone").val(company.companyPhone);
+			        	$("#companyMobilePhone").val(companyMobilePhone);
+			        	$("#companyAddress").val(company.companyAddress);
+			        	var user=data.data.userInfo;
+			        }else{
+			        	alert(data.msg);
+			        }
+			    },
+			    error:function(){
+			        //请求出错处理
+			        alert("服务器故障,请稍后再试");
+			        return;
+			    }
+		});
+	}
 </script>
 
 <body class="hold-transition skin-red sidebar-mini"  >
@@ -132,7 +164,7 @@
 		                                  </td>
 		                                  <td class="text-center">
 		                                  <@shiro.hasPermission name="edit_store_show_detail">                                        
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" >详情</button>                                           
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" onclick="showStoreDetail(${item.storeId})">详情</button>                                           
 		                                 </@shiro.hasPermission>
 		                                  </td>
 			                          </tr>
@@ -188,19 +220,19 @@
 			      <table class="table table-bordered table-striped"  width="800px">
 			      	<tr>
 			      		<td>公司名称</td>
-			      		<td>美琪数码经营店</td>
+			      		<td id="companyName">美琪数码经营店</td>
 			      	</tr>
 			      	<tr>
 			      		<td>公司手机</td>
-			      		<td>13900221212</td>
+			      		<td id="companyPhone">13900221212</td>
 			      	</tr>
 			      	<tr>
 			      		<td>公司电话</td>
-			      		<td>010-20112222</td>
+			      		<td id="companyMobilePhone">010-20112222</td>
 			      	</tr>
 			      	<tr>
 			      		<td>公司详细地址</td>
-			      		<td>北京市西三旗建材城西路888号</td>
+			      		<td id="companyAddress">北京市西三旗建材城西路888号</td>
 			      	</tr>
 			      </table>			      
       			</div>	

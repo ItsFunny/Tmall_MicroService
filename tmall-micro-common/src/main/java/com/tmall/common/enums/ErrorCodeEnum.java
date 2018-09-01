@@ -10,6 +10,7 @@ package com.tmall.common.enums;
 * server-auth服务1开头
 * server-user服务2开头
 * server-store服务3开头
+* server-user服务4开头
 * system-admin系统 SYS开头 1开头
 * @author joker 
 * @date 创建时间：2018年8月21日 下午10:55:41
@@ -27,12 +28,16 @@ public enum ErrorCodeEnum
 	 * user-server
 	 */
 	USER_NOT_EXIST_2001(2001,"用户不存在"),
-	
+	USER_TOKEN_INVALID(2002,"无效的用户token信息"),
+	USER_TOKEN_EXPIRED(2003,"用户token信息过期,重新登录"),
 	/*
 	 * store-server
 	 */
 	STORE_INTERNAL_SERVER_3001(3001,"服务调用,内服服务出错"),
 	STORE_NOT_EXIST_3002(3002,"店铺信息不存在"),
+	
+
+	
 	
 	SYS_ADMIN_SERVER_10001(10001,"服务内部错误"),
 	;
