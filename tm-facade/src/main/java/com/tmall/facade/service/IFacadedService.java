@@ -12,6 +12,7 @@ import com.joker.library.model.PageRequestDTO;
 import com.joker.library.model.PageResponseDTO;
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
+import com.tmall.common.dto.StoreDetail;
 
 
 /**
@@ -28,7 +29,7 @@ public interface IFacadedService
 	/*
 	 * store
 	 */
-	ResultDTO<StoreDTO>findStoreDetail(Long storeId);
+	ResultDTO<StoreDetail>findStoreDetail(Long storeId);
 	ResultDTO<StoreDTO>findStoreByAbbName(String abbName);
 	ResultDTO<PageResponseDTO<List<StoreDTO>>>findStoresByPage( PageRequestDTO pageRequestDTO);
 	

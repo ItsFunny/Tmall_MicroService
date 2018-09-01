@@ -30,7 +30,8 @@
 
 		<!-- common -->
 		<dependency>
-			<groupId>com.rebuildtmall</groupId>i中
+			<groupId>com.rebuildtmall</groupId>
+			i中
 			<artifactId>tmall-micro-common</artifactId>
 			<version>${tmall-micro-common.version}</version>
 		</dependency>
@@ -49,13 +50,12 @@
 		</dependency>
 
 		<!-- 模板引擎的依赖库 支持 -->
+		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-support</artifactId> 
+			</dependency> <dependency> <groupId>org.freemarker</groupId> <artifactId>freemarker</artifactId> 
+			</dependency> -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
 		<!--mybatis spring整合包 -->
 		<dependency>

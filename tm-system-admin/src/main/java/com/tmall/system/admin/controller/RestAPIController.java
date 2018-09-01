@@ -15,13 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
+import com.tmall.common.dto.StoreDetail;
 import com.tmall.common.utils.ResultUtils;
 import com.tmall.facade.service.IFacadedService;
 import com.tmall.server.spi.gateway.store.IGatewayStoreFeignService;
+import com.tmall.server.spi.store.IStoreServerFeignService;
 
 /**
  * 迫于非前后端分离,采取本地调用服务接口然后再开放接口的方式 method name shoud be followed by thie
@@ -34,7 +37,6 @@ import com.tmall.server.spi.gateway.store.IGatewayStoreFeignService;
 @RequestMapping("/admin/api/v1")
 public class RestAPIController
 {
-
 //	@Autowired
 //	private IProductServerCategoryFeignService categoryFeignSerivce;
 	
@@ -42,6 +44,9 @@ public class RestAPIController
 //	private IFacadedService facadedService;
 	@Autowired
 	private IGatewayStoreFeignService gatewayStoreFeignService;
+	
+	@Autowired
+	private IStoreServerFeignService storeServerFeignService;
 
 	// 显示商家下的所有类目
 //	@RequestMapping(value = "/category/topLevel/all", method =
@@ -77,6 +82,24 @@ public class RestAPIController
 //		//调用store服务的接口  ,,这里记得改为通过zuul调用
 //		return facadedService.findStoreDetail(storeId);
 //	}
+	/*
+	 * 显示店铺详情
+	 */
+	@RequiresPermissions(value= {"edit_store_show_detail"})
+	@RequestMapping(value="/store/detail/{storeId}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<StoreDetail>showStoreDetail(@PathVariable("storeId")Long storeId,HttpServletRequest request)
+	{
+		try
+		{
+			ResultDTO<StoreDetail> resultDTO = storeServerFeignService.findStoreDetail(storeId);
+			return resultDTO;
+		} catch (Exception e)
+		{
+			return ResultUtils.fail();
+		}
+		
+
+	}
 	
 	@RequiresPermissions("edit_store_update_status")
 	@RequestMapping(value="/store/updateStatus/{storeId}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -88,7 +111,6 @@ public class RestAPIController
 		{
 			return ResultUtils.fail("storeStatus不能为空");
 		}
-		 
 		return gatewayStoreFeignService.updateStoreStatusByStoreId(storeId, Integer.parseInt(storeStatusStr));
 	}
 

@@ -10,8 +10,12 @@ package com.tmall.common.interceptor;
 
 
 
+import java.util.Collection;
+import java.util.Map;
+
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import io.jsonwebtoken.lang.Collections;
 
 /**
 * 在feign请求时做一些额外的配置
@@ -25,7 +29,11 @@ public class FeignBasicAuthRequestInterceptor implements RequestInterceptor
 	@Override
 	public void apply(RequestTemplate template)
 	{
-		template.header("Authorization", System.getProperty("auth.token"));
+		Map<String, Collection<String>> headers = template.headers();
+		if(!headers.containsKey("Authorization")||Collections.isEmpty(headers.get("Authorization")))
+		{
+			template.header("Authorization", System.getProperty("auth.token"));
+		}
 	}
 
 }

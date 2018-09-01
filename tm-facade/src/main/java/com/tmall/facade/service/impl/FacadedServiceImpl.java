@@ -15,6 +15,7 @@ import com.joker.library.model.PageRequestDTO;
 import com.joker.library.model.PageResponseDTO;
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
+import com.tmall.common.dto.StoreDetail;
 import com.tmall.facade.service.IFacadedService;
 import com.tmall.facade.service.ILoginService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
@@ -41,7 +42,7 @@ public class FacadedServiceImpl implements IFacadedService
 	}
 
 	@Override
-	public ResultDTO<StoreDTO> findStoreDetail(Long storeId)
+	public ResultDTO<StoreDetail> findStoreDetail(Long storeId)
 	{
 		return storeServerFeignService.findStoreDetail(storeId);
 	}

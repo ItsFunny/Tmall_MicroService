@@ -29,6 +29,7 @@ import com.tmall.common.dto.AuthTokenDTO;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.common.exception.TmallBussinessException;
 import com.tmall.common.utils.JWTUtils;
+import com.tmall.server.spi.store.IStoreServerFeignService;
 
 /**
  * 
@@ -42,6 +43,9 @@ import com.tmall.common.utils.JWTUtils;
 public class TestController
 {
 	private Logger logger = LoggerFactory.getLogger(TestController.class);
+	
+	@Autowired
+	private IStoreServerFeignService storeServerFeginService;
 
 	@Autowired
 	private JWTUtils jwtUtils;
@@ -81,6 +85,13 @@ public class TestController
 			System.out.println(string);
 		}
 		return modelAndView;
+	}
+	
+	@RequestMapping("/test4")
+	public ModelAndView test4()
+	{
+		storeServerFeginService.test();
+		return new ModelAndView("test");
 	}
 	
 //	

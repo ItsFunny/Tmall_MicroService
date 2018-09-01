@@ -27,7 +27,9 @@
 		<my-library.version>0.0.2-SNAPSHOT</my-library.version>
 		<tmall-facaded.version>0.0.1-SNAPSHOT</tmall-facaded.version>
 		<gateway-spi.version>0.0.1-SNAPSHOT</gateway-spi.version>
-
+		<user-spi.version>0.0.1-SNAPSHOT</user-spi.version>		
+		
+		
 		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
 		<tmall-micro-common.version>0.0.1-SNAPSHOT</tmall-micro-common.version>
 		<spring-cloud-zuul.version>2.0.1.RELEASE</spring-cloud-zuul.version>

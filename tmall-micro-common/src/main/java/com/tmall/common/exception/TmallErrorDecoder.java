@@ -7,12 +7,14 @@
 package com.tmall.common.exception;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 
-import com.tmall.common.utils.JsonUtils;
+import com.joker.library.utils.JsonUtil;
+import com.tmall.common.enums.ErrorCodeEnum;
 
 import feign.Response;
 import feign.Util;
@@ -33,22 +35,30 @@ public class TmallErrorDecoder implements ErrorDecoder
 		Exception exception = null;
 		try
 		{
+			// InputStream in = response.body().asInputStream();
+			// int index=0;
+			// StringBuilder sb=new StringBuilder();
+			// while((index=in.read())!=-1)
+			// {
+			// sb.append((char)index);
+			// }
 			String json = Util.toString(response.body().asReader());
-			if (response.status() > 400 && response.status() < 500)
+			Map<Object, Object> map = JsonUtil.json2Map(json, HashMap.class);
+			Object detailObj = map.get("msg");
+			if (null != detailObj)
 			{
-				if (response.status() == HttpStatus.UNAUTHORIZED.value())
-				{
-					exception = JsonUtils.json2Object(json, TmallUserException.class);
-				} else
-				{
-					exception = JsonUtils.json2Object(json, TmallBussinessException.class);
-				}
+				String detail = detailObj.toString();
+				String[] strings = detail.split(":");
+				Integer code = Integer.parseInt(strings[0]);
+				exception=new TmallBussinessException(ErrorCodeEnum.getEnum(code));
+			}else {
+				exception=new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION);
 			}
 		} catch (IOException e)
 		{
 			logger.error("parse rmi exception occur error");
 		}
 		return exception != null ? exception
-				: new TmallBussinessException(TmallBussinessException.UNKNOWN_EXCEPTION, "系统运行异常");
+				: new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION);
 	}
 }

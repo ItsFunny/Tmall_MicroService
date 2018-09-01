@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,11 +27,14 @@ import com.joker.library.utils.KeyUtils;
 import com.tmall.common.constants.AuthConstant;
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.UserDTO;
+import com.tmall.common.enums.ErrorCodeEnum;
 import com.tmall.common.enums.UserStatusEmun;
 import com.tmall.common.utils.JWTUtils;
 import com.tmall.common.utils.ResultUtils;
 import com.tmall.server.user.service.ILoginHandler;
 import com.tmall.server.user.service.IUserService;
+import com.tmall.server.user.common.exception.TmallUserException;
+import com.tmall.server.user.common.model.TmallUser;
 import com.tmall.server.user.service.AbstractLoginHandler.FormUser;
 
 /**
@@ -158,5 +162,17 @@ public class UserServerAPIController
 			return ResultUtils.fail("sorry, check your previous password");
 		}
 		// request.getParameter("oldP")
+	}
+	@RequestMapping(value="/{userId}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<UserDTO>findByUserId(@PathVariable("userId")Long userId)
+	{
+		TmallUser user = userService.findUserByUserId(userId);
+		if(null==user)
+		{
+			throw new TmallUserException(ErrorCodeEnum.USER_NOT_EXIST_2001);
+		}
+		UserDTO userDTO=new UserDTO();
+		user.to(userDTO);
+		return ResultUtils.sucess(userDTO);
 	}
 }

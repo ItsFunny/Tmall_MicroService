@@ -52,7 +52,7 @@ public class IndexController
 		{
 			//显示具体的总结信息
 		}
-		ModelAndView modelAndView = new ModelAndView("indexPage",params);
+		ModelAndView modelAndView = new ModelAndView("index",params);
 		return modelAndView;
 	}
 

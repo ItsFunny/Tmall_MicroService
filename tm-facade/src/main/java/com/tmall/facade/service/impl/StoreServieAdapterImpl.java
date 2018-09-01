@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
+import com.tmall.common.dto.StoreDetail;
 import com.tmall.facade.service.IStoreServiceAdapter;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 
@@ -26,7 +27,7 @@ public class StoreServieAdapterImpl implements IStoreServiceAdapter
 	private IStoreServerFeignService storeServerFeignService;
 
 	@Override
-	public ResultDTO<StoreDTO> findStoreDetail(Long storeId)
+	public ResultDTO<StoreDetail> findStoreDetail(Long storeId)
 	{
 		return storeServerFeignService.findStoreDetail(storeId);
 	}

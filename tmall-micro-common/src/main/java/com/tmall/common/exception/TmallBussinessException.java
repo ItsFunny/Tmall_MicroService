@@ -75,7 +75,15 @@ public class TmallBussinessException extends HystrixBadRequestException
 	{
 		super(enum1.getMsg());
 		this.code=enum1.getCode();
+		
 		this.message=enum1.getMsg();
 	}
+	public TmallBussinessException(ErrorCodeEnum enum1,Throwable cause)
+	{
+		super(enum1.getMsg(),cause);
+		this.code=enum1.getCode();
+		this.message=enum1.getMsg();
+	}
+
 
 }

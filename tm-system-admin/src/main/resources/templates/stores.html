@@ -130,8 +130,10 @@
 			                              	  <span>审核通过</span>	
 			                              </#if>
 		                                  </td>
-		                                  <td class="text-center">                                           
+		                                  <td class="text-center">
+		                                  <@shiro.hasPermission name="edit_store_show_detail">                                        
 		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" >详情</button>                                           
+		                                 </@shiro.hasPermission>
 		                                  </td>
 			                          </tr>
 			                          </#list>
