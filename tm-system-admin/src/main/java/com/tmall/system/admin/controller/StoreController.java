@@ -18,6 +18,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.joker.library.model.PageRequestDTO;
@@ -72,7 +73,7 @@ public class StoreController
 			pageRequestDTO.getData().put("status", status);
 			params.put("status", status);
 		}
-		ResultDTO<PageResponseDTO<List<StoreDTO>>> result = gatewayStoreFeignService.findStoresByPage(pageRequestDTO);
+		ResultDTO<PageResponseDTO<List<StoreDTO>>> result = gatewayStoreFeignService.showAllStores(pageRequestDTO);
 		if(result.isSuccess())
 		{
 			params.put("pageVO", result.getData());
@@ -82,6 +83,12 @@ public class StoreController
 			modelAndView=new ModelAndView("error",params);
 		}
 		return modelAndView;
+	}
+	@ResponseBody
+	@RequestMapping(value="/test")
+	public ResultDTO<StoreDTO> test()
+	{
+		return gatewayStoreFeignService.findAuthStore("tmall_admin");
 	}
 	
 }
