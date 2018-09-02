@@ -30,6 +30,7 @@ public enum ErrorCodeEnum
 	USER_NOT_EXIST_2001(2001,"用户不存在"),
 	USER_TOKEN_INVALID(2002,"无效的用户token信息"),
 	USER_TOKEN_EXPIRED(2003,"用户token信息过期,重新登录"),
+	USER_NOT_LOGIN(2004,"用户尚未登录"),
 	/*
 	 * store-server
 	 */

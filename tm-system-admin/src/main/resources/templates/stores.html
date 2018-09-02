@@ -26,27 +26,31 @@
 		$.ajax({
 			    url:"/admin/api/v1/store/detail/"+storeId,    //请求的url地址
 			    dataType:"json",   //返回格式为json
-			    async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+			    async:false,//请求是否异步，默认为异步，这也是ajax重要特性
 			    //ata:{"id":"value"},    //参数值
 			    type:"GET",   //请求方式
 			    beforeSend:function(){
 			        //请求前的处理
 			    },
-			    success:function(req){
+			    success:function(data){
 			        //请求成功时处理
-			    },
-			    complete:function(data){
-			        //请求完成的处理
-			      	 if(data.code==1){
+			         if(data.code==1){
+			         	var store=data.data.store;
+			         	$("#storeId").val(store.storeId);
+			         	$("#status"+store.storeStatus).hide();
 			      	 	var company=data.data.companyInfo;
-			        	$("#companyName").val(company.companyName);
-			        	$("#companyPhone").val(company.companyPhone);
-			        	$("#companyMobilePhone").val(companyMobilePhone);
-			        	$("#companyAddress").val(company.companyAddress);
+			        	$("#companyName").html(company.companyName);
+			        	$("#companyPhone").html(company.companyPhone);
+			        	$("#companyMobilePhone").html(company.companyMobilePhone);
+			        	$("#companyAddress").html(company.companyAddress);
 			        	var user=data.data.userInfo;
 			        }else{
 			        	alert(data.msg);
 			        }
+			    },
+			    complete:function(data){
+			        //请求完成的处理
+			      	
 			    },
 			    error:function(){
 			        //请求出错处理
@@ -54,6 +58,30 @@
 			        return;
 			    }
 		});
+	}
+	function updateStoreStatus(status){
+		var storeId=$("#storeId").val();
+		if(null==storeId || storeId<0){
+			alert("店铺编号不能为空");
+			return;
+		}
+		$.ajax({
+			url: "/admin/api/v1/store/updateStatus/"+storeId,
+			dataType: "json",
+			async: false,
+			type: "get",
+			data: {"status":status},
+		 	success:function(data){
+		        //请求成功时处理
+		        alert(data.msg);
+		        location.reload();
+		    },
+	        error:function(){
+		        //请求出错处理
+		        alert("服务器故障,请稍后再试");
+		        return;
+		    }
+		})
 	}
 </script>
 
@@ -159,7 +187,11 @@
 		                                  <#if item.storeStatus==0>
 			                                  <span>未审核</span>	
 			                              <#elseif item.storeStatus==1> 
-			                              	  <span>审核通过</span>	
+			                              	  <span>审核通过</span>
+			                              <#elseif item.storeStatus==2>
+			                              	  <span>审核未通过</span>	
+		                              	  <#elseif item.storeStatus==3>
+		                              	  <span>已被关闭</span>
 			                              </#if>
 		                                  </td>
 		                                  <td class="text-center">
@@ -180,21 +212,12 @@
 				                 <#if pageVO.pageNum<pageVO.maxPage>  <a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}+1);document.pageForm.submit();">下一页</a> <a href="javascript:document.pageForm.pageNum.value=${pageVO.maxPage};document.pageForm.submit();">最后一页</a> </#if>
 			                 	 <#else>
 			                 	 	没找到任何记录
-			                 	 </#if>>
-			      				
+			                 	 </#if>
 			                  <!--数据列表/-->                        
                         </div>
                         <!-- 数据表格 /-->
-                        
-                        
-                        
-                        
                      </div>
                     <!-- /.box-body -->
-                    
-	          
-					    
-                                
 <!-- 商家详情 -->
 <div class="modal fade" id="sellerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" >
@@ -220,19 +243,19 @@
 			      <table class="table table-bordered table-striped"  width="800px">
 			      	<tr>
 			      		<td>公司名称</td>
-			      		<td id="companyName">美琪数码经营店</td>
+			      		<td id="companyName"></td>
 			      	</tr>
 			      	<tr>
 			      		<td>公司手机</td>
-			      		<td id="companyPhone">13900221212</td>
+			      		<td id="companyPhone"></td>
 			      	</tr>
 			      	<tr>
 			      		<td>公司电话</td>
-			      		<td id="companyMobilePhone">010-20112222</td>
+			      		<td id="companyMobilePhone"></td>
 			      	</tr>
 			      	<tr>
 			      		<td>公司详细地址</td>
-			      		<td id="companyAddress">北京市西三旗建材城西路888号</td>
+			      		<td id="companyAddress"></td>
 			      	</tr>
 			      </table>			      
       			</div>	
@@ -309,16 +332,17 @@
 			
 			
 		</div>
-		<div class="modal-footer">						
-			
+		<#-- 这里需要进行判断,就是说如果原先店铺是处于审核通过状态,则审核通过这个按钮不会出现, 用了一个投机取巧的方式,写死id来hide-->
+		<div class="modal-footer" id="buttons">
+			<input type="hidden" id="storeId" name="storeId">
 			<@shiro.hasPermission name="edit_store_approve">
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">审核通过</button>
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" id="status1" onclick="updateStoreStatus(1)">审核通过</button>
 			</@shiro.hasPermission>
 			<@shiro.hasPermission name="edit_store_refuse">
-         	<button class="btn btn-danger"  data-dismiss="modal" aria-hidden="true">审核未通过</button>
+         	<button class="btn btn-danger"  data-dismiss="modal" aria-hidden="true" id="status0" onclick="updateStoreStatus(2)">审核不通过</button>
          	</@shiro.hasPermission>
          	<@shiro.hasPermission name="edit_store_close">
-            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭商家</button>
+            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="status2" onclick="updateStoreStatus(3) ">关闭商家</button>
              </@shiro.hasPermission>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>

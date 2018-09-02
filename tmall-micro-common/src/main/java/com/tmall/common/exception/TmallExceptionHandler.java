@@ -40,6 +40,7 @@ public class TmallExceptionHandler
 		// 这个http不能这样写,感觉
 		return "http://" + host + ":" + port;
 	}
+	
 	// 处理语法逻辑异常
 	@ResponseBody
 	@ResponseStatus(value = HttpStatus.OK)

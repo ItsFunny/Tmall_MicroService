@@ -25,6 +25,7 @@ public class StoreDetail implements Serializable
 	*/
 	private static final long serialVersionUID = -4332521557320499242L;
 	
+	private StoreDTO store;
 	private UserDTO userInfo;
 	private CompanyDTO companyInfo;
 	

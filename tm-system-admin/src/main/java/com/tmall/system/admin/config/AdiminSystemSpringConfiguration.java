@@ -106,6 +106,7 @@ public class AdiminSystemSpringConfiguration
 		Map<String, String> filterChainDefinitionMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
 		Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
 		filters.put("authc", authFilter());
+		shiroFilterFactoryBean.setUnauthorizedUrl("/noauth");
 		shiroFilterFactoryBean.setLoginUrl("https://www.baidu.com/");
 		filterChainDefinitionMap.put("/**","authc");
 		filterChainDefinitionMap.put("/admin/**", "authc");

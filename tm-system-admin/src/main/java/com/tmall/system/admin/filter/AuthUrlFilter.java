@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 import javax.annotation.PostConstruct;
+import javax.mail.Session;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -35,9 +36,12 @@ import com.joker.library.utils.CommonUtils;
 import com.tmall.common.constants.AuthConstant;
 import com.tmall.common.constants.TmallURLConstant;
 import com.tmall.common.dto.AuthTokenDTO;
+import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.common.utils.JWTUtils;
 import com.tmall.common.utils.JsonUtils;
+import com.tmall.server.spi.gateway.auth.IGatewayAuthFeignService;
+import com.tmall.server.spi.gateway.user.IGatewayUserFeignService;
 import com.tmall.system.admin.config.TmallAdminConfigProperty;
 import com.tmall.system.admin.model.TmallUsernamePasswordToken;
 import com.tmall.system.admin.util.ApplicationContextUtil;
@@ -55,6 +59,10 @@ public class AuthUrlFilter implements Filter
 
 	@Autowired
 	private LoadBalancerClient loadBalancerClient;
+	
+	@Autowired
+	private IGatewayAuthFeignService authFeignService;
+	
 
 	@Autowired
 	private JWTUtils jwtUtils;
@@ -85,7 +93,7 @@ public class AuthUrlFilter implements Filter
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException
 	{
-
+		
 		Subject subject = SecurityUtils.getSubject();
 		if (null != subject && null != subject.getPrincipal())
 		{
@@ -106,7 +114,10 @@ public class AuthUrlFilter implements Filter
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 		String token = null;
+		
+		token = req.getHeader(AuthConstant.AUTH_HEADER);
 		token = (String) req.getSession().getAttribute(AuthConstant.AUTH_IN_SESSION);
+	
 		if (StringUtils.isEmpty(token))
 		{
 			token = req.getParameter("token");
@@ -116,23 +127,34 @@ public class AuthUrlFilter implements Filter
 				return;
 			}
 		}
-		AuthTokenDTO authTokenDTO = jwtUtils.parseByAuthPublicKey(token);
-		if (null == authTokenDTO || (System.currentTimeMillis()>authTokenDTO.getInvalidTime()))
+		ResultDTO<UserDTO> resultDTO = authFeignService.checkAndGetUserActions(token);
+		if(!resultDTO.isSuccess())
 		{
-			//token过期
 			sendRedirect(req, resp);
 			return;
-		} else
-		{
-			// 存在token,对token有效性校验
-			UserDTO adminUserDTO = authTokenDTO.getData();
-			subject.login(new TmallUsernamePasswordToken(adminUserDTO, token));
-//			HttpSession session = req.getSession(true);
-//			session.setAttribute(AuthConstant.AUTH_IN_SESSION, token);
-			System.setProperty("auth.token", token);
-			chain.doFilter(request, response);
-			return;
 		}
+		subject.login(new TmallUsernamePasswordToken(resultDTO.getData(), token));
+		req.getSession().setAttribute(AuthConstant.AUTH_IN_SESSION, token);
+		chain.doFilter(request, response);
+		return;
+//		这是之前的版本,就是token传递了敏感信息	
+//		AuthTokenDTO authTokenDTO = jwtUtils.parseByAuthPublicKey(token);
+//		if (null == authTokenDTO || (System.currentTimeMillis()>authTokenDTO.getInvalidTime()))
+//		{
+//			//token过期
+//			sendRedirect(req, resp);
+//			return;
+//		} else
+//		{
+//			// 存在token,对token有效性校验
+//			UserDTO adminUserDTO = authTokenDTO.getData();
+//			subject.login(new TmallUsernamePasswordToken(adminUserDTO, token));
+////			HttpSession session = req.getSession(true);
+////			session.setAttribute(AuthConstant.AUTH_IN_SESSION, token);
+//			System.setProperty("auth.token", token);
+//			chain.doFilter(request, response);
+//			return;
+//		}
 	}
 
 	private void sendRedirect(HttpServletRequest req, HttpServletResponse resp) throws IOException

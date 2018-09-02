@@ -73,7 +73,7 @@ public class StoreController
 			pageRequestDTO.getData().put("status", status);
 			params.put("status", status);
 		}
-		ResultDTO<PageResponseDTO<List<StoreDTO>>> result = gatewayStoreFeignService.showAllStores(pageRequestDTO);
+		ResultDTO<PageResponseDTO<List<StoreDTO>>> result = gatewayStoreFeignService.findStoresByPage(pageRequestDTO);
 		if(result.isSuccess())
 		{
 			params.put("pageVO", result.getData());
@@ -84,11 +84,11 @@ public class StoreController
 		}
 		return modelAndView;
 	}
-	@ResponseBody
-	@RequestMapping(value="/test")
-	public ResultDTO<StoreDTO> test()
-	{
-		return gatewayStoreFeignService.findAuthStore("tmall_admin");
-	}
+//	@ResponseBody
+//	@RequestMapping(value="/test")
+//	public ResultDTO<StoreDTO> test()
+//	{
+//		return gatewayStoreFeignService.findAuthStore("tmall_admin");
+//	}
 	
 }

@@ -9,21 +9,25 @@ package com.tmall.system.admin.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
+import com.tmall.common.enums.StoreStatusEnum;
 import com.tmall.common.utils.ResultUtils;
 import com.tmall.facade.service.IFacadedService;
 import com.tmall.server.spi.gateway.store.IGatewayStoreFeignService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
+import com.tmall.system.admin.util.AdminUtil;
 
 /**
  * 迫于非前后端分离,采取本地调用服务接口然后再开放接口的方式 method name shoud be followed by thie
@@ -98,17 +102,22 @@ public class RestAPIController
 		return resultDTO;
 	}
 
-	@RequiresPermissions("edit_store_update_status")
 	@RequestMapping(value = "/store/updateStatus/{storeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResultDTO<String> updateStoreStatus(@PathVariable("storeId") Long storeId, HttpServletRequest request)
+	public ResultDTO<String> updateStoreStatus(@PathVariable("storeId") Long storeId,
+			@RequestParam("status") Integer status)
 	{
-		// 修改状态,通过zuul调用接口
-		String storeStatusStr = request.getParameter("storeStatus");
-		if (StringUtils.isEmpty(storeStatusStr))
+		// 这里好像只能通过代码控制权限了啊,,除非将这些接口一个一个对应的拆开
+		if (status.equals(StoreStatusEnum.PASS.ordinal()))
 		{
-			return ResultUtils.fail("storeStatus不能为空");
+			AdminUtil.checkStringPermission("edit_store_approve");
+		} else if (status.equals(StoreStatusEnum.VERIFY_FAIL.ordinal()))
+		{
+			AdminUtil.checkStringPermission("edit_store_refuse");
+		} else if (status.equals(StoreStatusEnum.CLOSE.ordinal()))
+		{
+			AdminUtil.checkStringPermission("edit_store_close");
 		}
-		return gatewayStoreFeignService.updateStoreStatusByStoreId(storeId, Integer.parseInt(storeStatusStr));
+		// 修改状态,通过zuul调用接口
+		return gatewayStoreFeignService.updateStoreStatusByStoreId(storeId, status);
 	}
-
 }
