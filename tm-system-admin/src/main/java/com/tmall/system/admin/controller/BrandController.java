@@ -25,7 +25,6 @@ public class BrandController
 	public ModelAndView showAllBrands(HttpServletRequest request,HttpServletResponse response)
 	{
 		
-		
 		ModelAndView modelAndView=new ModelAndView("brands");
 		
 		

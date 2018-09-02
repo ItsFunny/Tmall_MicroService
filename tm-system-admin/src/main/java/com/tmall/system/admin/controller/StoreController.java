@@ -84,6 +84,16 @@ public class StoreController
 		}
 		return modelAndView;
 	}
+	/*
+	 * 显示待审核商家的列表
+	 */
+	public ModelAndView showWaitVerifyStores(HttpServletRequest request,HttpServletResponse response)
+	{
+		ModelAndView modelAndView=null;
+		
+		
+		return modelAndView;
+	}
 //	@ResponseBody
 //	@RequestMapping(value="/test")
 //	public ResultDTO<StoreDTO> test()

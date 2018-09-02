@@ -105,43 +105,43 @@
 							        店铺名称：<input  type="text" name="storeName">
 									店铺缩写名称： <input  type="text" name="storeAbbName">
 									状态：
-									<select name="status">
+									<select name="status" value="${status!""}">
 										<#-- 这里改用js是最👍的,又最简洁的 -->
 										<#if status??>
 										<#if status=="0">
 										<option value="">全部</option>
-										<option value="0" checked="checked">待审核</option>
+										<option value="0" selected>待审核</option>
 										<option value="1">已审核</option>
 										<option value="2">审核未通过</option>
 										<option value="3">已关闭</option>
 										<#elseif status=="1">
 										<option value="">全部</option>
-										<option value="0" checked="checked">待审核</option>
-										<option value="1" checked="checked">已审核</option>
+										<option value="0" >待审核</option>
+										<option value="1" selected>已审核</option>
 										<option value="2">审核未通过</option>
 										<option value="3">已关闭</option>
 										<#elseif status=="2">
 											<option value="">全部</option>
-										<option value="0" checked="checked">待审核</option>
+										<option value="0" >待审核</option>
 										<option value="1">已审核</option>
-										<option value="2" checked="checked">审核未通过</option>
+										<option value="2" selected>审核未通过</option>
 										<option value="3">已关闭</option>
 										<#elseif stsatus=="3">
 										<option value="">全部</option>
 										<option value="0" checked="checked">待审核</option>
 										<option value="1">已审核</option>
 										<option value="2">审核未通过</option>
-										<option value="3" checked="checked">已关闭</option>
+										<option value="3" selected>已关闭</option>
 										<#else>
-										<option value="" checked="checked">全部</option>
-										<option value="0" checked="checked">待审核</option>
+										<option value="" selected>全部</option>
+										<option value="0" >待审核</option>
 										<option value="1">已审核</option>
 										<option value="2">审核未通过</option>
 										<option value="3">已关闭</option>
 										</#if>
 										<#else>
-										<option value="">全部</option>
-										<option value="0" checked="checked">待审核</option>
+										<option value="" selected>全部</option>
+										<option value="0" >待审核</option>
 										<option value="1">已审核</option>
 										<option value="2">审核未通过</option>
 										<option value="3">已关闭</option>
