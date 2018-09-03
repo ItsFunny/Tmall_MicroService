@@ -51,12 +51,6 @@ public class TmallBussinessException extends HystrixBadRequestException
 	//状态码
 	private Integer status;
 
-	public TmallBussinessException(int code, String message)
-	{
-		super(code+":"+message);
-		this.code = code;
-		this.message = message;
-	}
 
 	public TmallBussinessException(String message, Throwable cause)
 	{
@@ -64,12 +58,6 @@ public class TmallBussinessException extends HystrixBadRequestException
 		this.message = message;
 	}
 
-	public TmallBussinessException(int code, String message, Throwable cause)
-	{
-		super(message, cause);
-		this.code = code;
-		this.message = message;
-	}
 	
 	public TmallBussinessException(ErrorCodeEnum enum1)
 	{

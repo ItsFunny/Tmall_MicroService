@@ -9,6 +9,8 @@ package com.tmall.common.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.tmall.common.enums.ErrorCodeEnum;
+
 /**
  * bena转换之间出错
  * 
@@ -19,17 +21,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class TmallParseBeanException extends TmallBussinessException
 {
 
-	public TmallParseBeanException(int code, String message)
-	{
-		super(code, message);
-		// TODO Auto-generated constructor stub
-	}
 	
-	public TmallParseBeanException(Object original, Object destination,int code, String message)
+
+	public TmallParseBeanException(ErrorCodeEnum enum1)
 	{
-		super(code, message);
-		this.original=original;
-		this.destination=destination;
+		super(enum1);
+		// TODO Auto-generated constructor stub
 	}
 
 	private Object original;

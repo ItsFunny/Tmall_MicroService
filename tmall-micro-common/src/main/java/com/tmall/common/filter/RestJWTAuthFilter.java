@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 
 import com.tmall.common.constants.AuthConstant;
 import com.tmall.common.dto.AuthTokenDTO;
+import com.tmall.common.enums.ErrorCodeEnum;
 import com.tmall.common.exception.TmallBussinessException;
 import com.tmall.common.utils.JWTUtils;
 
@@ -61,7 +62,8 @@ public class RestJWTAuthFilter implements Filter
 		String header = req.getHeader(AuthConstant.AUTH_HEADER);
 		if (StringUtils.isEmpty(header))
 		{
-			throw new TmallBussinessException(TmallBussinessException.UNAUTHENTICATED_EXCEPTION, "用户尚未登录");
+//			throw new TmallBussinessException(TmallBussinessException.UNAUTHENTICATED_EXCEPTION, "用户尚未登录");
+			throw new TmallBussinessException(ErrorCodeEnum.USER_NOT_LOGIN);
 		} else
 		{
 			try
@@ -69,7 +71,8 @@ public class RestJWTAuthFilter implements Filter
 				AuthTokenDTO dto = jwtUtil.parseByAuthPublicKey(header);
 				if (System.currentTimeMillis() > dto.getInvalidTime())
 				{
-					throw new TmallBussinessException(TmallBussinessException.ILLEGAL_ARGUMETN_EXCEPTION, "用户身份信息已过期");
+//					throw new TmallBussinessException(TmallBussinessException.ILLEGAL_ARGUMETN_EXCEPTION, "用户身份信息已过期");
+					throw new TmallBussinessException(ErrorCodeEnum.USER_TOKEN_EXPIRED);
 				} else
 				{
 					chain.doFilter(request, response);
@@ -77,7 +80,7 @@ public class RestJWTAuthFilter implements Filter
 				}
 			} catch (Exception e)
 			{
-				throw new TmallBussinessException(TmallBussinessException.ILLEGAL_ARGUMETN_EXCEPTION, "用户身份信息已过期");
+				throw new TmallBussinessException(ErrorCodeEnum.USER_TOKEN_INVALID);
 			}
 		}
 	}

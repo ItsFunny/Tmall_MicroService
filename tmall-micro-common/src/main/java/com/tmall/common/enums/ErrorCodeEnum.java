@@ -18,7 +18,7 @@ package com.tmall.common.enums;
 public enum ErrorCodeEnum
 {
 	UNKNOWN_EXCEPTION(0,"服务故障,未知原因"),
-	
+	MISSING_ARGUMENT(1,"缺少参数:%s"),
 	/*
 	 * auth-server
 	 */
@@ -43,7 +43,13 @@ public enum ErrorCodeEnum
 	SYS_ADMIN_SERVER_10001(10001,"服务内部错误"),
 	;
 	
-	
+	public static ErrorCodeEnum parseEnum(ErrorCodeEnum enum1,Object ...args)
+	{
+		String msg = enum1.getMsg();
+		String newMsg = String.format(msg, args);
+		enum1.setMsg(newMsg);
+		return enum1;
+	}
 	public static ErrorCodeEnum getEnum(int code)
 	{
 		ErrorCodeEnum[] enums = ErrorCodeEnum.values();

@@ -39,7 +39,8 @@ public class RestAuthTokenInterceptor implements HandlerInterceptor
 		if (StringUtils.isEmpty(header))
 		{
 			response.setStatus(HttpStatus.UNAUTHORIZED.ordinal());
-			throw new TmallUserException(TmallBussinessException.UNAUTHENTICATED_EXCEPTION,"用户尚未登录");
+//			throw new TmallUserException(TmallBussinessException.UNAUTHENTICATED_EXCEPTION,"用户尚未登录");
+			throw new TmallUserException(ErrorCodeEnum.USER_NOT_LOGIN);
 		} else
 		{
 			try

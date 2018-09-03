@@ -33,16 +33,7 @@ public class TmallUserException extends TmallBussinessException
 		super(enum1,cause);
 	}
 	
-	public TmallUserException(String message)
-	{
-		super(TmallBussinessException.UNAUTHENTICATED_EXCEPTION, message);
-	}
 
-	public TmallUserException(int code, String message)
-	{
-		super(code, message);
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	* 
