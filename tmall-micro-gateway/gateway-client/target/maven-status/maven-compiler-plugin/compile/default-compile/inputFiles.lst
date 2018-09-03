@@ -1,6 +1,0 @@
-/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-gateway/gateway-client/src/main/java/com/tmall/serer/spi/gateway/feign/store/IGatewayStoreFeignService.java
-/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-gateway/gateway-client/src/main/java/com/tmall/serer/spi/gateway/feign/product/IProductServerFeignService.java
-/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-gateway/gateway-client/src/main/java/com/tmall/serer/spi/gateway/feign/user/impl/GatewayUserFeignFallback.java
-/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-gateway/gateway-client/src/main/java/com/tmall/serer/spi/gateway/feign/product/IProductServerFeignBrandService.java
-/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-gateway/gateway-client/src/main/java/com/tmall/serer/spi/gateway/feign/product/IProductServerFeignCategoryService.java
-/Users/joker/Java/oxygen_workspace/tmall_micro/tmall-micro-gateway/gateway-client/src/main/java/com/tmall/serer/spi/gateway/feign/user/IGatewayUserFeignService.java

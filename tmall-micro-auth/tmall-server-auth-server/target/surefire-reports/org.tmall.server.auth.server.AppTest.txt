@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: org.tmall.server.auth.server.AppTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.03 s - in org.tmall.server.auth.server.AppTest
