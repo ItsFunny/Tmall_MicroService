@@ -6,8 +6,8 @@
 */
 package com.tmall.facade.service;
 
+
 import com.tmall.common.dto.ResultDTO;
-import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
 
 /**
@@ -20,4 +20,9 @@ public interface IStoreServiceAdapter
 	ResultDTO<StoreDetail>findStoreDetail(Long storeId);
 	//只有1行代码的话直接给facaded,而不是自行处理
 //	ResultDTO<StoreDTO>findStoreByStoreAbbName(String storeAbbName);
+	
+	
+	
+	
+	
 }

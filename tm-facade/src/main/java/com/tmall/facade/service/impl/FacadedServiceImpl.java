@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 
 import com.joker.library.model.PageRequestDTO;
 import com.joker.library.model.PageResponseDTO;
+import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
 import com.tmall.facade.service.IFacadedService;
 import com.tmall.facade.service.ILoginService;
+import com.tmall.server.spi.product.IBrandServerFeignService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 
 /**
@@ -63,6 +65,12 @@ public class FacadedServiceImpl implements IFacadedService
 	public ResultDTO<String> updateStoreStatus(Long storeId, Integer storeStatus)
 	{
 		return storeServerFeignService.updateStoreStatusByStoreId(storeId, storeStatus);
+	}
+
+	@Override
+	public ResultDTO<PageResponseDTO<List<BrandDTO>>> findBrandsByPage(PageRequestDTO pageRequestDTO)
+	{
+		return storeServerFeignService.findBrandsByPage(pageRequestDTO);
 	}
 	
 }

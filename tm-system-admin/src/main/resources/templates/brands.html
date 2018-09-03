@@ -15,6 +15,11 @@
     
 </head>
 <body class="hold-transition skin-red sidebar-mini">
+	<form name="pageForm" method="get" action="/admin/brand/all">
+		<input type="hidden" name="pageNum">
+		
+	
+	</form>
   <!-- .box-body -->
                     <div class="box-header with-border">
                         <h3 class="box-title">品牌管理</h3>
@@ -51,40 +56,44 @@
 			                              </th> 
 										  <th class="sorting_asc">品牌ID</th>
 									      <th class="sorting">品牌名称</th>									      
-									      <th class="sorting">品牌首字母</th>									     				
+									      <th class="sorting">品牌描述</th>	
+									      <th class="sorting">品牌所属分类</th>									     				
 					                      <th class="text-center">操作</th>
 			                          </tr>
 			                      </thead>
 			                      <tbody>
-			                          <tr>
+			                      <#if pageVO??>
+									<#list pageVO.data as item>			                      
+										 <tr>
 			                              <td><input  type="checkbox" ></td>			                              
-				                          <td>1</td>
-									      <td>联想</td>									     
-		                                  <td>L</td>		                                 
+				                          <td>${item.brandId}</td>
+									      <td>${item.brandName}</td>									     
+		                                  <td>${item.brandDesc}</td>
+		                                  <td>${item.brandTypeName}</td>		                                 
 		                                  <td class="text-center">                                           
 		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           
 		                                  </td>
-			                          </tr>
-									  <tr>
-			                              <td><input  type="checkbox"></td>			                              
-				                          <td>2</td>
-									      <td>华为</td>									     
-		                                  <td>H</td>		                                 
-		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           
-		                                  </td>
-			                          </tr>
-									  <tr>
-			                              <td><input  type="checkbox"></td>			                              
-				                          <td>3</td>
-									      <td>三星</td>									     
-		                                  <td>S</td>		                                 
-		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           
-		                                  </td>
-			                          </tr>
+			                          	</tr>
+									</#list>
+			                      <#else>
+			                     	无符合条件的记录
+			                      </#if>
+			                         
 			                      </tbody>
 			                  </table>
+			                  
+			                 <#if pageVO.pageNum<=1><a href="javascript:void(0)">第一页</a><a href="javascript:void(0)">上一页</a> 
+			                 <#else>
+			                 	<a href="javascript:document.pageForm.pageNum.value=1;docuent.pageForm.submit();">第一页</a> <a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}-1);document.pageForm.submit();">上一页</a>
+			                 </#if> 
+			                 
+			                 <#if ((pageVO.pageNum)>=(pageVO.maxPage))><a href="javascript:void(0)">下一页</a><a href="javascript:void(0)">最后一页</a>
+			                 <#else> 
+			                 	<a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}+1);document.pageForm.submit();">下一页</a>
+			                 	<a href="javascript:document.pageForm.pageNum.value=${pageVO.maxPage};document.pageForm.submit();">最后一页</a>
+			                 </#if>
+			                 总共有${pageVO.totalCount} 条记录, ${pageVO.pageNum}/${pageVO.maxPage} 
+			                  
 			                  <!--数据列表/-->                        
 							  
 							 

@@ -44,39 +44,57 @@ public class TmallErrorDecoder implements ErrorDecoder
 			// }
 			String json = Util.toString(response.body().asReader());
 			Map<Object, Object> map = JsonUtil.json2Map(json, HashMap.class);
+			Double codeObj = (Double) map.get("code");
 			Object detailObj = map.get("msg");
-			if (null != detailObj)
+			String errorMsg = detailObj == null ? "空指针错误" : detailObj.toString();
+			if (Integer.valueOf(codeObj.intValue()).equals(0))
 			{
-				String detail = detailObj.toString();
-				String[] strings = detail.split(":");
-				if(strings.length<1)
+				exception = new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION, errorMsg);
+				return exception;
+			} else
+			{
+				Integer code = Integer.parseInt(codeObj.toString());
+				if (code >= 2000 && code < 3000)
 				{
-					exception=new RuntimeException("抛出格式错误,格式必须为 code:detail 格式");
-					return exception;
-				}
-				Integer code = Integer.parseInt(strings[0]);
-				if(isBeginWith(strings[0], '2'))
+					exception = new TmallUserException(ErrorCodeEnum.getEnum(code));
+				} else
 				{
-					exception=new TmallUserException(ErrorCodeEnum.getEnum(code));
-				}else {
-					exception=new TmallBussinessException(ErrorCodeEnum.getEnum(code));
+					exception = new TmallBussinessException(ErrorCodeEnum.getEnum(code), errorMsg);
 				}
-				
-			}else {
-				Object msg=map.get("message");
-				exception=new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION,msg==null?"未知错误,系统异常":msg.toString());
 			}
+			// if (null != detailObj)
+			// {
+			// String detail = detailObj.toString();
+			// String[] strings = detail.split(":");
+			// if(strings.length<1)
+			// {
+			// exception=new RuntimeException("抛出格式错误,格式必须为 code:detail 格式");
+			// return exception;
+			// }
+			// Integer code = Integer.parseInt(strings[0]);
+			// if(isBeginWith(strings[0], '2'))
+			// {
+			// exception=new TmallUserException(ErrorCodeEnum.getEnum(code));
+			// }else {
+			// exception=new TmallBussinessException(ErrorCodeEnum.getEnum(code));
+			// }
+			//
+			// }else {
+			// Object msg=map.get("message");
+			// exception=new
+			// TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION,msg==null?"未知错误,系统异常":msg.toString());
+			// }
 		} catch (IOException e)
 		{
 			logger.error("parse rmi exception occur error");
 		}
-		return exception != null ? exception
-				: new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION);
+		return exception != null ? exception : new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION);
 	}
-	public boolean isBeginWith(String string,char c)
+
+	public boolean isBeginWith(String string, char c)
 	{
 		char[] arr = string.toCharArray();
-		return ((Character)arr[0]).equals(c);
+		return ((Character) arr[0]).equals(c);
 	}
-	
+
 }

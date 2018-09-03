@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.joker.library.model.PageRequestDTO;
 import com.joker.library.model.PageResponseDTO;
+import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
@@ -32,9 +33,11 @@ public interface IFacadedService
 	ResultDTO<StoreDetail>findStoreDetail(Long storeId);
 	ResultDTO<StoreDTO>findStoreByAbbName(String abbName);
 	ResultDTO<PageResponseDTO<List<StoreDTO>>>findStoresByPage( PageRequestDTO pageRequestDTO);
-	
 	ResultDTO<String>updateStoreStatus(Long storeId,Integer storeStatus);
 	
-	
+	/*
+	 * brand
+	 */
+	ResultDTO<PageResponseDTO<List<BrandDTO>>>findBrandsByPage(PageRequestDTO pageRequestDTO);	
 	
 }

@@ -6,9 +6,14 @@
 */
 package com.tmall.facade.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.joker.library.model.PageRequestDTO;
+import com.joker.library.model.PageResponseDTO;
+import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
@@ -16,10 +21,10 @@ import com.tmall.facade.service.IStoreServiceAdapter;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 
 /**
-* 
-* @author joker 
-* @date 创建时间：2018年8月28日 上午11:13:34
-*/
+ * 
+ * @author joker
+ * @date 创建时间：2018年8月28日 上午11:13:34
+ */
 @Service
 public class StoreServieAdapterImpl implements IStoreServiceAdapter
 {
@@ -32,10 +37,11 @@ public class StoreServieAdapterImpl implements IStoreServiceAdapter
 		return storeServerFeignService.findStoreDetail(storeId);
 	}
 
-//	@Override
-//	public ResultDTO<StoreDTO> findStoreByStoreAbbName(String storeAbbName)
-//	{
-//		return storeServerFeignService.findStoreByAbbName(storeAbbName);
-//	}
+
+	// @Override
+	// public ResultDTO<StoreDTO> findStoreByStoreAbbName(String storeAbbName)
+	// {
+	// return storeServerFeignService.findStoreByAbbName(storeAbbName);
+	// }
 
 }
