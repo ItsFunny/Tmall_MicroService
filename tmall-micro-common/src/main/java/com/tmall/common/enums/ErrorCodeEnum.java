@@ -11,6 +11,8 @@ package com.tmall.common.enums;
 * server-user服务2开头
 * server-store服务3开头
 * server-user服务4开头
+* MQ 		5开头
+* common 0开头
 * system-admin系统 SYS开头 1开头
 * @author joker 
 * @date 创建时间：2018年8月21日 下午10:55:41
@@ -19,6 +21,8 @@ public enum ErrorCodeEnum
 {
 	UNKNOWN_EXCEPTION(0,"服务故障,未知原因"),
 	MISSING_ARGUMENT(1,"缺少参数:%s"),
+	TRANSCATION_ROLLBACK_ON_PURPOSE(2,"原因:%s,手动抛异常,回滚事务"),
+	FIND_MULTIPLE_RECORDS(3,"找到多条记录,本应该只有1条记录"),
 	/*
 	 * auth-server
 	 */
@@ -36,8 +40,25 @@ public enum ErrorCodeEnum
 	 */
 	STORE_INTERNAL_SERVER_3001(3001,"服务调用,内服服务出错"),
 	STORE_NOT_EXIST_3002(3002,"店铺信息不存在"),
+	STORE_MISSING_ARGUMENT(3003,"缺少参数:%s"),
+	STORE_WRONG_CLASS_TYPE(3004,"错误的参数类型,需要的参数类型为:%s,传递的参数类型为:%s"),
 	
-
+	@Deprecated
+	STORE_MQ_NOT_SUPPORT_TYPE(3003,"store发送消息的对象类型不是正确的类型"),
+	@Deprecated
+	STORE_MQ_MISSING_ARGUMETN(3004,"store 服务发送消息的时候缺少参数:%s"),
+	
+	
+	/*
+	 * MQ
+	 */
+	MQ_ILLEGAL_CORRELATIONDATA(5000,"消息体中的CorrelationData类型不正确,正确的类型应该是TmallCorrealtionData"),
+	MQ_CALLBACK_ARGUMENT_CANT_BE_NULL(5001,"消息队列回调函数中callBackData不能为空"),
+	MQ_MESSAGE_CANT_FIND_MATCH_RECORD_FORM_DB(5002,"无法在数据库中找到对应的消息"),
+	MQ_ADD_JOB_TO_QUEUE_FAIL(5003,"往任务消息队列中添加任务失败"),
+	
+	MQ_MESSAGE_MISSING(5004,"消息丢失了"),
+	
 	
 	
 	SYS_ADMIN_SERVER_10001(10001,"服务内部错误"),

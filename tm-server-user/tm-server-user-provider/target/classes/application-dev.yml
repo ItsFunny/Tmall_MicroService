@@ -1,6 +1,6 @@
 spring:
   application:
-    name: USER
+    name: USER 
 tmall:
   config:
     url: jdbc:mysql://localhost/tmall_micro_user?characterEncoding=utf-8&useSSL=false
@@ -16,11 +16,21 @@ tmall:
     amqp-host: localhost
     amqp-username: guest
     amqp-password: guest
+    db: 
+      db1-driver-class-name: com.mysql.jdbc.Driver
+      db1-url: jdbc:mysql://localhost/tmall_micro_user?characterEncoding=utf-8&useSSL=false
+      db1-username: root
+      db1-passsword: 123456
+      db2-driver-class-name: com.mysql.jdbc.Driver
+      db2-password: 123456 
+      db2-url: jdbc:mysql://localhost/tmall_micro_user?characterEncoding=utf-8&useSSL=false
+      db2-username: root
   key:
     auth-public-key-path: classpath:keys/auth_public.key
     auth-private-key-path: classpath:keys/auth_private.key
     sso-public-key-path: classpath:keys/sso_public.key
     sso-private-key-path: classpath:keys/sso_private.key
+    
 eureka:
   client: 
     service-url:

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.joker.library.dto.ResultDTO;
 import com.joker.library.utils.CommonUtils;
 import com.tmall.common.config.TmallConfigProperty;
-import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.enums.ErrorCodeEnum;
 import com.tmall.common.utils.ResultUtils;
 

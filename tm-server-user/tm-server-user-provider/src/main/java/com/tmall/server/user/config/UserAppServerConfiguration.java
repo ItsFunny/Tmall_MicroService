@@ -32,13 +32,13 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.joker.library.mq.AppEventPublisher;
+import com.joker.library.mq.AppEventRabbitMQPublish;
+import com.joker.library.mq.LogEventPublisher;
 import com.tmall.common.config.TmallConfigProperty;
 import com.tmall.common.constants.RabbitMQExchangeNameConstant;
 import com.tmall.common.db.MySQLExtentionSupport;
 import com.tmall.common.db.factory.MySQLExtentionFactoryBean;
-import com.tmall.common.event.AppEventLogPublisher;
-import com.tmall.common.event.AppEventPublisher;
-import com.tmall.common.event.AppEventRabbitMQPublisher;
 import com.tmall.common.service.AbstractRedisService;
 import com.tmall.common.service.INosqlService;
 import com.tmall.common.service.impl.RedisServiceImpl;
@@ -209,10 +209,10 @@ public class UserAppServerConfiguration
 	{
 		if (tmallConfigProperty.getAmqpEnabled())
 		{
-			return new AppEventRabbitMQPublisher();
+			return new AppEventRabbitMQPublish();
 		} else
 		{
-			return new AppEventLogPublisher();
+			return new LogEventPublisher();
 		}
 	}
 

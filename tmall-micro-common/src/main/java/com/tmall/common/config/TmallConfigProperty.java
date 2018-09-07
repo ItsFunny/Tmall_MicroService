@@ -14,9 +14,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "tmall.config")
 public class TmallConfigProperty
 {
-	//applicationName
+	// applicationName
 	private String applicationName;
-	
+
 	private String username;
 	private String password;
 	private String driverClassName;
@@ -26,26 +26,24 @@ public class TmallConfigProperty
 	private Integer dataCenterId = 0;
 
 	private Boolean amqpEnabled;
-	
+
 	private String emailAccount;
 	private String emailPwd;
 	private String emailHost;
-	
-	//mysql 的扩展
+
+	// mysql 的扩展
 	private String mysqlExtention;
-	
-	//rabbitmq
+
+	// rabbitmq
 	private String amqpHost;
 	private String amqpUsername;
 	private String amqpPassword;
-	
-	
-	
-	
-	
-	
-	
+	private Integer amqpPort;
 
+	public Boolean isEnabled()
+	{
+		return amqpEnabled;
+	}
 
 	public String getUsername()
 	{
@@ -197,5 +195,14 @@ public class TmallConfigProperty
 		this.applicationName = applicationName;
 	}
 
+	public Integer getAmqpPort()
+	{
+		return amqpPort;
+	}
+
+	public void setAmqpPort(Integer amqpPort)
+	{
+		this.amqpPort = amqpPort;
+	}
 
 }

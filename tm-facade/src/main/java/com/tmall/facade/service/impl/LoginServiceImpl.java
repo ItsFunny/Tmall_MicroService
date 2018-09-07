@@ -12,9 +12,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.joker.library.dto.ResultDTO;
 import com.tmall.common.constants.AuthConstant;
 import com.tmall.common.dto.AuthTokenDTO;
-import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.common.utils.JWTUtils;
 import com.tmall.common.utils.ResultUtils;

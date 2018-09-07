@@ -13,6 +13,7 @@ tmall:
     email-pwd: lvcong1215
     email-host: smtp.163.com
     mysql-extention: user:2
+    amqp-port: 5672
     amqp-host: localhost
     amqp-username: guest
     amqp-password: guest

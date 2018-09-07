@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.joker.library.dto.ResultDTO;
 import com.tmall.common.config.FeignConfiguration;
 import com.tmall.common.dto.BrandDTO;
-import com.tmall.common.dto.ResultDTO;
 
 /**
 * 

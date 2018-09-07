@@ -11,14 +11,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
-* 
-* @When
-* @Description
-* @Detail
-* @author joker 
-* @date 创建时间：2018年7月28日 下午9:52:07
-*/
-@ConfigurationProperties(prefix="tmall.config.admin")
+ * 
+ * @When
+ * @Description
+ * @Detail
+ * @author joker
+ * @date 创建时间：2018年7月28日 下午9:52:07
+ */
+@ConfigurationProperties(prefix = "tmall.config.admin")
 public class TmallAdminConfigProperty
 {
 	private String authDetailUrl;
@@ -26,7 +26,7 @@ public class TmallAdminConfigProperty
 	private String dbUsername;
 	private String dbPassword;
 	private String dbDriverClassName;
-	
+
 	private boolean amqpEnabled;
 
 	public String getAuthDetailUrl()
@@ -88,6 +88,5 @@ public class TmallAdminConfigProperty
 	{
 		this.amqpEnabled = amqpEnabled;
 	}
-	
 
 }

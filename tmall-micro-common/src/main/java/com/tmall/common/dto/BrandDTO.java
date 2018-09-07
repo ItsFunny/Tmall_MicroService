@@ -21,6 +21,8 @@ public class BrandDTO
 	private String brandName;
 	private String brandDesc;
 	private Integer brandTypeId;
+	//排序号
+	private Integer brandDisSeq;
 	
 
 	// type
@@ -29,6 +31,8 @@ public class BrandDTO
 	private String pictureUrl;
 	//store
 	private Long storeId;
+	
+	
 	
 
 

@@ -6,27 +6,43 @@
 */
 package com.tmall.system.admin.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.jca.cci.RecordTypeNotSupportedException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tmall.common.dto.ResultDTO;
+import com.joker.library.dto.ResultDTO;
+import com.joker.library.mq.AppEvent;
+import com.joker.library.utils.JsonUtil;
+import com.tmall.common.dto.BrandDTO;
+import com.tmall.common.dto.RecordDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
+import com.tmall.common.dto.UserDTO;
 import com.tmall.common.enums.StoreStatusEnum;
+import com.tmall.common.mq.TmallMQEnum;
 import com.tmall.common.utils.ResultUtils;
-import com.tmall.facade.service.IFacadedService;
+import com.tmall.server.spi.gateway.brand.IGatewayBrandService;
 import com.tmall.server.spi.gateway.store.IGatewayStoreFeignService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
+import com.tmall.system.admin.model.BrandFormModel;
+import com.tmall.system.admin.service.IBrandService;
 import com.tmall.system.admin.util.AdminUtil;
 
 /**
@@ -49,7 +65,14 @@ public class RestAPIController
 	private IGatewayStoreFeignService gatewayStoreFeignService;
 
 	@Autowired
+	private IGatewayBrandService gatewayBrandService;
+
+	@Autowired
 	private IStoreServerFeignService storeServerFeignService;
+	
+	
+	@Autowired
+	private IBrandService brandService;
 
 	// 显示商家下的所有类目
 	// @RequestMapping(value = "/category/topLevel/all", method =
@@ -93,6 +116,7 @@ public class RestAPIController
 	/*
 	 * 显示店铺详情
 	 */
+
 	@RequiresPermissions(value =
 	{ "edit_store_show_detail" })
 	@RequestMapping(value = "/store/detail/{storeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -119,5 +143,37 @@ public class RestAPIController
 		}
 		// 修改状态,通过zuul调用接口
 		return gatewayStoreFeignService.updateStoreStatusByStoreId(storeId, status);
+	}
+
+	/*
+	 * 添加品牌
+	 */
+	@RequestMapping(value = "/auth/brand/add")
+	public ResultDTO<String> addBrand(@Valid BrandFormModel formModel, BindingResult result, HttpServletRequest request,
+			HttpServletResponse response)
+	{
+		String error = "";
+		if (result.hasErrors())	
+		{
+			List<ObjectError> errors = result.getAllErrors();
+			for (ObjectError objectError : errors)
+			{
+				error += objectError.getDefaultMessage();
+			}
+		}
+		if (!StringUtils.isEmpty(error))
+		{
+			return ResultUtils.fail(error);
+		}
+//		BrandDTO brandDTO = new BrandDTO();
+//		formModel.to(brandDTO);
+//		formModel = null;
+//		ResultDTO<String> resultDTO = gatewayBrandService.addBrand(brandDTO);
+//		if(resultDTO.isSuccess())
+//		{
+//			
+//		}
+		ResultDTO<String> resultDTO = brandService.addBrand(formModel);
+		return resultDTO;
 	}
 }

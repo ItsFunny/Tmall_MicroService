@@ -6,7 +6,7 @@
 */
 package com.tmall.common.utils;
 
-import com.tmall.common.dto.ResultDTO;
+import com.joker.library.dto.ResultDTO;
 import com.tmall.common.enums.RestAPIStatus;
 
 /**

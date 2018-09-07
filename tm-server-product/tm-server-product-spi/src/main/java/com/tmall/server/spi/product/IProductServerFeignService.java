@@ -12,8 +12,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.joker.library.dto.ResultDTO;
 import com.tmall.common.dto.CategoryDTO;
-import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.utils.ResultUtils;
 
 /**

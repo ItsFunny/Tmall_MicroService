@@ -13,16 +13,18 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.joker.library.model.PageRequestDTO;
-import com.joker.library.model.PageResponseDTO;
+import com.joker.library.dto.ResultDTO;
+import com.joker.library.mq.AppEventPublisher;
+import com.joker.library.page.PageRequestDTO;
+import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.BrandDTO;
-import com.tmall.common.dto.ResultDTO;
 import com.tmall.server.spi.gateway.IGatewayBrandFeignService;
 
 import antlr.StringUtils;
@@ -38,14 +40,18 @@ public class BrandController
 {
 	@Autowired
 	private IGatewayBrandFeignService gatewayBrandFeignService;
+	@Autowired
+	private AppEventPublisher eventPublisher;
 
+	@RequiresPermissions(value =
+	{ "edit_product_brand" })
 	@RequestMapping("/all")
 	public ModelAndView showAllBrands(
-			@RequestParam(required = false, name = "pageSize", defaultValue = "1") String pageSizeStr,
+			@RequestParam(required = false, name = "pageSize", defaultValue = "10") String pageSizeStr,
 			@RequestParam(required = false, name = "pageNum", defaultValue = "1") String pageNumStr,
 			HttpServletRequest request, HttpServletResponse response)
 	{
-		
+
 		ModelAndView modelAndView = null;
 		Map<String, Object> condition = new HashMap<String, Object>();
 		Map<String, Object> params = new HashMap<>();
@@ -73,5 +79,5 @@ public class BrandController
 		condition = null;
 		return modelAndView;
 	}
-
+	
 }

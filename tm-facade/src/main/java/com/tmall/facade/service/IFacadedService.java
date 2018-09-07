@@ -8,12 +8,15 @@ package com.tmall.facade.service;
 
 import java.util.List;
 
-import com.joker.library.model.PageRequestDTO;
-import com.joker.library.model.PageResponseDTO;
+import com.joker.library.dto.ResultDTO;
+import com.joker.library.mq.AppEvent;
+import com.joker.library.page.PageRequestDTO;
+import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.BrandDTO;
-import com.tmall.common.dto.ResultDTO;
+import com.tmall.common.dto.MessageDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
+import com.tmall.common.dto.UserRequestDTO;
 
 
 /**
@@ -39,5 +42,10 @@ public interface IFacadedService
 	 * brand
 	 */
 	ResultDTO<PageResponseDTO<List<BrandDTO>>>findBrandsByPage(PageRequestDTO pageRequestDTO);	
+	ResultDTO<String>addBrand(UserRequestDTO userRequestDTO);
+	/*
+	 * message
+	 */
+	ResultDTO<Object>addMessageJob(MessageDTO messageDTO);
 	
 }

@@ -16,7 +16,7 @@ import org.springframework.context.annotation.FilterType;
 @EnableDiscoveryClient
 @ComponentScan(basePackages = "com.tmall.server.user", excludeFilters =
 { @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Mapper.class) })
-@MapperScan(basePackages = "com.tmall.server.user", annotationClass = Mapper.class)
+@MapperScan(basePackages = "com.tmall.server.user.dao.db1", annotationClass = Mapper.class, sqlSessionFactoryRef = "db1SqlsessioFactory", sqlSessionTemplateRef = "db1SqlTemplate")
 public class TmallUserServerApplication
 {
 	public static void main(String[] args)

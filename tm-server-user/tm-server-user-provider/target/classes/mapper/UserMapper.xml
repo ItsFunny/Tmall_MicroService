@@ -3,7 +3,7 @@
 
 
 
-<mapper namespace="com.tmall.server.user.dao.UserDao">
+<mapper namespace="com.tmall.server.user.dao.db1.UserDao">
 	
 	<update id="updateUserInfo" parameterType="com.tmall.common.dto.UserDTO">
 		update tmall_user#{tableNum} 

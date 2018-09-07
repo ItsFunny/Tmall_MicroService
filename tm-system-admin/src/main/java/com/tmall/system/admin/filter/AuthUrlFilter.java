@@ -32,11 +32,11 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.joker.library.dto.ResultDTO;
 import com.joker.library.utils.CommonUtils;
 import com.tmall.common.constants.AuthConstant;
 import com.tmall.common.constants.TmallURLConstant;
 import com.tmall.common.dto.AuthTokenDTO;
-import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.common.utils.JWTUtils;
 import com.tmall.common.utils.JsonUtils;

@@ -11,10 +11,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.joker.library.model.PageRequestDTO;
-import com.joker.library.model.PageResponseDTO;
+import com.joker.library.dto.ResultDTO;
+import com.joker.library.page.PageRequestDTO;
+import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.BrandDTO;
-import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
 import com.tmall.facade.service.IStoreServiceAdapter;

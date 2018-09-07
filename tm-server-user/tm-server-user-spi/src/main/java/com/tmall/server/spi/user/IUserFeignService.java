@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.joker.library.dto.ResultDTO;
 import com.tmall.common.config.FeignConfiguration;
-import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.common.utils.ResultUtils;
 

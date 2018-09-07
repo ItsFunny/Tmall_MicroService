@@ -13,8 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.joker.library.dto.ResultDTO;
 import com.tmall.common.dto.CategoryDTO;
-import com.tmall.common.dto.ResultDTO;
 
 /**
 * 

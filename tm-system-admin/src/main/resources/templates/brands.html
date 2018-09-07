@@ -11,9 +11,25 @@
     <link rel="stylesheet" href="/css/style_others.css">
 	<script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
-
-    
 </head>
+
+<script>
+	
+	function addBrand(){
+		$("#brandForm").submit();
+		jQuery.post('/admin/api/v1/auth/brand/add',$("#brandForm").serialize(),function(data){
+			
+			alert(data.msg);			
+			if(data.code==1){
+				location.reload();
+			}
+			
+		
+		},'json');
+	}
+
+
+</script>
 <body class="hold-transition skin-red sidebar-mini">
 	<form name="pageForm" method="get" action="/admin/brand/all">
 		<input type="hidden" name="pageNum">
@@ -84,7 +100,7 @@
 			                  
 			                 <#if pageVO.pageNum<=1><a href="javascript:void(0)">第一页</a><a href="javascript:void(0)">上一页</a> 
 			                 <#else>
-			                 	<a href="javascript:document.pageForm.pageNum.value=1;docuent.pageForm.submit();">第一页</a> <a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}-1);document.pageForm.submit();">上一页</a>
+			                 	<a href="javascript:document.pageForm.pageNum.value=1;document.pageForm.submit();">第一页</a> <a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}-1);document.pageForm.submit();">上一页</a>
 			                 </#if> 
 			                 
 			                 <#if ((pageVO.pageNum)>=(pageVO.maxPage))><a href="javascript:void(0)">下一页</a><a href="javascript:void(0)">最后一页</a>
@@ -93,19 +109,14 @@
 			                 	<a href="javascript:document.pageForm.pageNum.value=${pageVO.maxPage};document.pageForm.submit();">最后一页</a>
 			                 </#if>
 			                 总共有${pageVO.totalCount} 条记录, ${pageVO.pageNum}/${pageVO.maxPage} 
-			                  
 			                  <!--数据列表/-->                        
-							  
-							 
                         </div>
                         <!-- 数据表格 /-->
-                        
-                        
-                        
-                        
                      </div>
                     <!-- /.box-body -->
          
+         
+<form method="post"  id="brandForm" name="brandForm" action="/admin/api/v1/auth/brand/add">
 <!-- 编辑窗口 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" >
@@ -118,21 +129,27 @@
 			<table class="table table-bordered table-striped"  width="800px">
 		      	<tr>
 		      		<td>品牌名称</td>
-		      		<td><input  class="form-control" placeholder="品牌名称" >  </td>
+		      		<td><input  class="form-control" placeholder="品牌名称" name="brandName">  </td>
 		      	</tr>		      	
 		      	<tr>
-		      		<td>首字母</td>
-		      		<td><input  class="form-control" placeholder="首字母">  </td>
-		      	</tr>		      	
+		      		<td>品牌描述</td>
+		      		<td><input  class="form-control" placeholder="品牌描述" name="brandDesc">  </td>
+		      	</tr>
+		      	 <tr>
+		      		<td>品牌排序序列号</td>
+		      		<td><input  class="form-control" placeholder="序列号,大小不超过100" name="">  </td>
+		      	</tr>
+		      	      	
 			 </table>				
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="addBrand()">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>
 	</div>
 </div>
+</form>
    
 </body>
 </html>

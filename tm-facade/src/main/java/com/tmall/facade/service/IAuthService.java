@@ -6,7 +6,7 @@
 */
 package com.tmall.facade.service;
 
-import com.tmall.common.dto.ResultDTO;
+import com.joker.library.dto.ResultDTO;
 import com.tmall.common.dto.UserDTO;
 
 /**

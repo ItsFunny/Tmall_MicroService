@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.reflect.TypeToken;
+import com.joker.library.dto.ResultDTO;
 import com.joker.library.utils.JsonUtil;
 import com.joker.library.utils.KeyUtils;
 import com.tmall.common.constants.AuthConstant;
-import com.tmall.common.dto.ResultDTO;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.common.enums.ErrorCodeEnum;
 import com.tmall.common.enums.UserStatusEmun;
@@ -175,4 +175,5 @@ public class UserServerAPIController
 		user.to(userDTO);
 		return ResultUtils.sucess(userDTO);
 	}
+	//记录用户的操作记录,采用consumer来实现
 }

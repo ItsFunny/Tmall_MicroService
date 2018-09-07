@@ -6,8 +6,8 @@
 */
 package com.tmall.common.service;
 
-import com.joker.library.model.PageRequestDTO;
-import com.joker.library.model.PageResponseDTO;
+import com.joker.library.page.PageRequestDTO;
+import com.joker.library.page.PageResponseDTO;
 
 /**
 * 

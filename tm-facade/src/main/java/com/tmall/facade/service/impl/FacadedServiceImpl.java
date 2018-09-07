@@ -11,14 +11,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.joker.library.model.PageRequestDTO;
-import com.joker.library.model.PageResponseDTO;
+import com.joker.library.dto.ResultDTO;
+import com.joker.library.mq.AppEvent;
+import com.joker.library.page.PageRequestDTO;
+import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.BrandDTO;
-import com.tmall.common.dto.ResultDTO;
+import com.tmall.common.dto.MessageDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
+import com.tmall.common.dto.UserRequestDTO;
 import com.tmall.facade.service.IFacadedService;
 import com.tmall.facade.service.ILoginService;
+import com.tmall.message.spi.IMessageServerFeignService;
 import com.tmall.server.spi.product.IBrandServerFeignService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 
@@ -34,6 +38,8 @@ public class FacadedServiceImpl implements IFacadedService
 	private ILoginService loginService;
 	@Autowired
 	private IStoreServerFeignService storeServerFeignService;
+	@Autowired
+	private IMessageServerFeignService messageServerFeignService;
 	
 	
 
@@ -71,6 +77,18 @@ public class FacadedServiceImpl implements IFacadedService
 	public ResultDTO<PageResponseDTO<List<BrandDTO>>> findBrandsByPage(PageRequestDTO pageRequestDTO)
 	{
 		return storeServerFeignService.findBrandsByPage(pageRequestDTO);
+	}
+
+	@Override
+	public ResultDTO<String> addBrand(UserRequestDTO userRequestDTO)
+	{
+		return storeServerFeignService.addBrand(userRequestDTO);
+	}
+
+	@Override
+	public ResultDTO<Object> addMessageJob(MessageDTO messageDTO)
+	{
+		return messageServerFeignService.addMessageJob(messageDTO);
 	}
 	
 }

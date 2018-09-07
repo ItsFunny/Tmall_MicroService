@@ -17,8 +17,8 @@ import com.tmall.server.user.common.model.TmallEmailLogin;
 import com.tmall.server.user.common.model.TmallEmailLoginExample;
 import com.tmall.server.user.common.model.TmallMobileLogin;
 import com.tmall.server.user.common.model.TmallMobileLoginExample;
-import com.tmall.server.user.dao.TEmailLoginDao;
-import com.tmall.server.user.dao.TMobileLoginDao;
+import com.tmall.server.user.dao.db1.TEmailLoginDao;
+import com.tmall.server.user.dao.db1.TMobileLoginDao;
 import com.tmall.server.user.service.ILoginService;
 
 

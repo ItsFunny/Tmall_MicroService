@@ -17,10 +17,18 @@
 		<product-server-spi.version>0.0.1-SNAPSHOT</product-server-spi.version>
 		<store-server-spi.version>0.0.1-SNAPSHOT</store-server-spi.version>
 		<user-server-spi.version>0.0.1-SNAPSHOT</user-server-spi.version>
+		<message-server-spi.version>0.0.1-SNAPSHOT</message-server-spi.version>
 		<tmall-micro-common.version>0.0.1-SNAPSHOT</tmall-micro-common.version>
+
 	</properties>
 
 	<dependencies>
+		<!-- message-server -->
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-message-spi</artifactId>
+			<version>${message-server-spi.version}</version>
+		</dependency>
 		<!-- common -->
 		<dependency>
 			<groupId>com.rebuildtmall</groupId>

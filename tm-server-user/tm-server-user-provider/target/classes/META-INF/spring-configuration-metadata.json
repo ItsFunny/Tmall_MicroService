@@ -1,0 +1,77 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.tmall.server.user.config.TmallUserDBConfigProperty",
+      "name": "tmall.config.db",
+      "type": "com.tmall.server.user.config.TmallUserDBConfigProperty"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq",
+      "type": "com.tmall.server.user.config.TmallMQConfigProperty"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.tmall.server.user.config.TmallUserDBConfigProperty",
+      "name": "tmall.config.db.db1-driver-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallUserDBConfigProperty",
+      "name": "tmall.config.db.db1-passsword",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallUserDBConfigProperty",
+      "name": "tmall.config.db.db1-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallUserDBConfigProperty",
+      "name": "tmall.config.db.db1-username",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallUserDBConfigProperty",
+      "name": "tmall.config.db.db2-driver-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallUserDBConfigProperty",
+      "name": "tmall.config.db.db2-password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallUserDBConfigProperty",
+      "name": "tmall.config.db.db2-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallUserDBConfigProperty",
+      "name": "tmall.config.db.db2-username",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq.amqp-addrss",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq.amqp-password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq.amqp-port",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.tmall.server.user.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq.amqp-username",
+      "type": "java.lang.String"
+    }
+  ]
+}

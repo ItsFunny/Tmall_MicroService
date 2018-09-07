@@ -9,7 +9,7 @@ package com.tmall.facade.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tmall.common.dto.ResultDTO;
+import com.joker.library.dto.ResultDTO;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.facade.service.IAuthService;
 import com.tmall.server.spi.auth.IAuthFeignService;

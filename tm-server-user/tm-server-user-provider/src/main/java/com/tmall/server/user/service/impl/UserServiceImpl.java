@@ -19,8 +19,8 @@ import com.tmall.common.db.ExtentionResult;
 import com.tmall.common.db.MySQLExtention;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.server.user.common.model.TmallUser;
-import com.tmall.server.user.dao.TUserDao;
-import com.tmall.server.user.dao.UserDao;
+import com.tmall.server.user.dao.db1.TUserDao;
+import com.tmall.server.user.dao.db1.UserDao;
 import com.tmall.server.user.service.IUserService;
 
 /**

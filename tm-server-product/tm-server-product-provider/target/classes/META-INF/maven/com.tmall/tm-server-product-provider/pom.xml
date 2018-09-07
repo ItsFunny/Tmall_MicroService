@@ -24,6 +24,11 @@
 			<version>${gateway-spi.version}</version>
 		</dependency>
 
+		<!--spring-jdbc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.alibaba</groupId>
