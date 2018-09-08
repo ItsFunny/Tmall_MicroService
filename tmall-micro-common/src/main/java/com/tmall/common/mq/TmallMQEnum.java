@@ -13,7 +13,7 @@ package com.tmall.common.mq;
  */
 public enum TmallMQEnum
 {
-	USER_RECORD("tmall_record", "user_operation_record", "user_operation_record"),;
+	USER_RECORD("tmall_record", "user", "user_operation_record"),;
 	private String exchangeName;
 	private String queueName;
 	private String routinKey;
