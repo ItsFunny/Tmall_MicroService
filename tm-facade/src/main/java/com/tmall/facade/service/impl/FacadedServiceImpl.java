@@ -7,6 +7,7 @@
 package com.tmall.facade.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,14 @@ import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.MessageDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
+import com.tmall.common.dto.TmallConfigTemplateDTO;
 import com.tmall.common.dto.UserRequestDTO;
+import com.tmall.facade.service.IBrandService;
 import com.tmall.facade.service.IFacadedService;
 import com.tmall.facade.service.ILoginService;
-import com.tmall.message.spi.IMessageServerFeignService;
+import com.tmall.facade.service.IMessageService;
+import com.tmall.server.spi.auth.IAuthFeignService;
+import com.tmall.server.spi.message.IMessageServerFeignService;
 import com.tmall.server.spi.product.IBrandServerFeignService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 
@@ -39,7 +44,11 @@ public class FacadedServiceImpl implements IFacadedService
 	@Autowired
 	private IStoreServerFeignService storeServerFeignService;
 	@Autowired
-	private IMessageServerFeignService messageServerFeignService;
+	private IAuthFeignService authFeignService;
+	@Autowired
+	private IMessageService messageService;
+	@Autowired
+	private IBrandService brandService;
 	
 	
 
@@ -85,10 +94,29 @@ public class FacadedServiceImpl implements IFacadedService
 		return storeServerFeignService.addBrand(userRequestDTO);
 	}
 
+
+	@Override
+	public ResultDTO<List<TmallConfigTemplateDTO>> getConfigTemplates(Map<String, Object> conditions)
+	{
+		return authFeignService.getConfigTemplates(conditions);
+	}
 	@Override
 	public ResultDTO<Object> addMessageJob(MessageDTO messageDTO)
 	{
-		return messageServerFeignService.addMessageJob(messageDTO);
+		return messageService.addMessageJob(messageDTO);
+	}
+
+
+	@Override
+	public ResultDTO<String> updateMessageStatus(String messageId, Integer status)
+	{
+		return messageService.updateMessageStatus(messageId, status);
+	}
+
+	@Override
+	public ResultDTO<BrandDTO> findBrandTypeById(Integer brandTypeId)
+	{
+		return brandService.findBrandTypeById(brandTypeId);
 	}
 	
 }

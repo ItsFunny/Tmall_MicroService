@@ -6,6 +6,8 @@
 */
 package com.tmall.system.admin.service.impl;
 
+import static org.mockito.Mockito.reset;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,12 +116,25 @@ public class BrandServiceImpl implements IBrandService
 	@Override
 	public ResultDTO<String> addBrand(BrandFormModel formModel)
 	{
-		BrandDTO brandDTO = new BrandDTO();
-		formModel.to(brandDTO);
+		Integer typeId = formModel.getBrandType();
+		ResultDTO<BrandDTO> typeRes = gatewayBrandService.findTypeByTypeId(typeId);
+		if(!typeRes.isSuccess())
+		{
+			return ResultUtils.fail(typeRes.getMsg());
+		}
+		BrandDTO data = typeRes.getData();
+		if(null==data)
+		{
+			return ResultUtils.fail("品牌类型不存在");
+		}
+//		BrandDTO brandDTO = new BrandDTO();
+		formModel.to(data);
+//		brandDTO.setBrandTypeId(data.getBrandTypeId());
+//		brandDTO.setBrandTypeName(data.getBrandName());
 		UserDTO user = AdminUtil.getLoginUser();
 		UserRequestDTO userRequestDTO=new UserRequestDTO();
 		Map<String, Object>extProps=new HashMap<String, Object>();
-		extProps.put("brandDTO", brandDTO);
+		extProps.put("brandDTO", data);
 		userRequestDTO.setUser(user);
 		userRequestDTO.setExtProps(extProps);
 		// 调用服务

@@ -16,15 +16,12 @@
 <script>
 	
 	function addBrand(){
-		$("#brandForm").submit();
+		<#--  $("#brandForm").submit();-->
 		jQuery.post('/admin/api/v1/auth/brand/add',$("#brandForm").serialize(),function(data){
-			
 			alert(data.msg);			
 			if(data.code==1){
 				location.reload();
 			}
-			
-		
 		},'json');
 	}
 
@@ -127,6 +124,12 @@
 		</div>
 		<div class="modal-body">		
 			<table class="table table-bordered table-striped"  width="800px">
+				<tr>
+					<select name="brandType">
+						<option value="1">时尚爆料王</option>
+						<option value="2">品质生活家</option>
+					</select>
+				</tr>
 		      	<tr>
 		      		<td>品牌名称</td>
 		      		<td><input  class="form-control" placeholder="品牌名称" name="brandName">  </td>
@@ -137,13 +140,13 @@
 		      	</tr>
 		      	 <tr>
 		      		<td>品牌排序序列号</td>
-		      		<td><input  class="form-control" placeholder="序列号,大小不超过100" name="">  </td>
+		      		<td><input  class="form-control" placeholder="序列号,大小不超过100" name="brandDisSeq">  </td>
 		      	</tr>
 		      	      	
 			 </table>				
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="addBrand()">保存</button>
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true" onclick="addBrand()">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>

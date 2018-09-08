@@ -6,11 +6,11 @@
 */
 package com.tmall.common.mq;
 
-import java.io.IOException;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate.ConfirmCallback;
 import org.springframework.amqp.rabbit.support.CorrelationData;
 
+import com.joker.library.mq.MicroCorrelationData;
 import com.tmall.common.enums.ErrorCodeEnum;
 import com.tmall.common.exception.TmallBussinessException;
 
@@ -25,7 +25,7 @@ import lombok.Data;
 public abstract class AbstractTmallConfirmCallback implements ConfirmCallback
 {
 	
-	public static final String USER_RECORD_TYPE="user_record";
+//	public static final String USER_RECORD_TYPE="user_record";
 	
 	private String type;
 
@@ -39,11 +39,11 @@ public abstract class AbstractTmallConfirmCallback implements ConfirmCallback
 	@Override
 	public void confirm(CorrelationData correlationData, boolean ack, String cause)
 	{
-		if (!(correlationData instanceof TmallCorrelationDataWrapper))
+		if (!(correlationData instanceof MicroCorrelationData))
 		{
 			throw new TmallBussinessException(ErrorCodeEnum.MQ_ILLEGAL_CORRELATIONDATA);
 		}
-		TmallCorrelationDataWrapper wrapper = (TmallCorrelationDataWrapper) correlationData;
+		MicroCorrelationData wrapper = (MicroCorrelationData) correlationData;
 		if (wrapper.getType().equals(this.type))
 		{
 			this.doHandlerConfirm(wrapper, ack, cause);
@@ -53,7 +53,7 @@ public abstract class AbstractTmallConfirmCallback implements ConfirmCallback
 		}
 	}
 
-	private void doHandlerConfirm(TmallCorrelationDataWrapper wrapper, boolean ack, String cause)
+	private void doHandlerConfirm(MicroCorrelationData wrapper, boolean ack, String cause)
 	{
 		if (ack)
 		{
@@ -64,8 +64,8 @@ public abstract class AbstractTmallConfirmCallback implements ConfirmCallback
 		}
 	}
 
-	protected abstract void doSuccessConfirm(TmallCorrelationDataWrapper wrapper);
+	protected abstract void doSuccessConfirm(MicroCorrelationData wrapper);
 
-	protected abstract void doFailConfirm(TmallCorrelationDataWrapper wrapper, String cause);
+	protected abstract void doFailConfirm(MicroCorrelationData wrapper, String cause);
 
 }

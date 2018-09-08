@@ -31,6 +31,9 @@ public class BrandFormModel
 	@Max(value=100,message="排序号最大不能超过100")
 	private Integer brandDisSeq;
 	
+	@NotNull
+	private Integer brandType;
+	
 	public void to(BrandDTO brandDTO)
 	{
 		brandDTO.setBrandName(this.brandName);

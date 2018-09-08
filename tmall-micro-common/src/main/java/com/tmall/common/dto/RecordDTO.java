@@ -33,5 +33,5 @@ public class RecordDTO implements Serializable
 	
 	private Date createDate;
 	
-	private String detail;
+	private String recordDetail;
 }

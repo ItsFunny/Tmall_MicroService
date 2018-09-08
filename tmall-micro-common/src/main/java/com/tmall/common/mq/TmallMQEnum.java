@@ -13,11 +13,29 @@ package com.tmall.common.mq;
  */
 public enum TmallMQEnum
 {
-	USER_RECORD("tmall_record", "record", "user"),;
+	USER_RECORD("tmall_record", "user_operation_record", "user_operation_record"),;
 	private String exchangeName;
 	private String queueName;
 	private String routinKey;
 
+	
+	
+	public enum MQ_STATUS
+	{
+		NEW,
+		CANCEL,
+		READY,
+		SEND_SUCCESS,
+		SEND_FAIL,
+		LOCAL_RECEIVE,
+		FINISHED,
+		
+	}
+	
+	
+	
+	
+	
 	private TmallMQEnum(String exchangeName, String queueName, String routinKey)
 	{
 		this.exchangeName = exchangeName;

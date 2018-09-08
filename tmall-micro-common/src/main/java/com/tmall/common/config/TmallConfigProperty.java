@@ -40,6 +40,8 @@ public class TmallConfigProperty
 	private String amqpPassword;
 	private Integer amqpPort;
 
+	
+	
 	public Boolean isEnabled()
 	{
 		return amqpEnabled;
