@@ -1,0 +1,37 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.tmall.server.message.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq",
+      "type": "com.tmall.server.message.config.TmallMQConfigProperty"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.tmall.server.message.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq.amqp-addrss",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.message.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq.amqp-enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.tmall.server.message.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq.amqp-password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tmall.server.message.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq.amqp-port",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.tmall.server.message.config.TmallMQConfigProperty",
+      "name": "tmall.config.mq.amqp-username",
+      "type": "java.lang.String"
+    }
+  ]
+}

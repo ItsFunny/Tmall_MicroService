@@ -1,0 +1,11 @@
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/config/TmallMQConfigProperty.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/holder/JobHolder.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/holder/JobWrapper.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/mq/TmallUserRecordConfirmCallback.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/controller/JobController.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/dao/MessageDao.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/config/TmallBatchSpringConfiguration.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/TmMessageApplication.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/config/TmallMessageServerConfiguration.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/service/IMessageService.java
+/Users/joker/Java/oxygen_workspace/tm-message/tm-message-server/src/main/java/com/tmall/server/message/service/impl/MessageServiceImpl.java

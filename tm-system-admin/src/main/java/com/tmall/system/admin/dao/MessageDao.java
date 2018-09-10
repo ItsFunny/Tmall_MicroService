@@ -12,7 +12,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import com.tmall.server.store.common.model.MessageModel;
+import com.tmall.common.model.MessageModel;
+
 
 /**
  * 

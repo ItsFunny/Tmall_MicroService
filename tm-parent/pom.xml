@@ -27,15 +27,17 @@
 		<my-library.version>0.0.2-SNAPSHOT</my-library.version>
 		<tmall-facaded.version>0.0.1-SNAPSHOT</tmall-facaded.version>
 		<gateway-spi.version>0.0.1-SNAPSHOT</gateway-spi.version>
-		<user-spi.version>0.0.1-SNAPSHOT</user-spi.version>		
-		
-		
+		<user-spi.version>0.0.1-SNAPSHOT</user-spi.version>
+
+
 		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
 		<tmall-micro-common.version>0.0.1-SNAPSHOT</tmall-micro-common.version>
 		<spring-cloud-zuul.version>2.0.1.RELEASE</spring-cloud-zuul.version>
 		<spring-cloud-config.version>2.0.1.RELEASE</spring-cloud-config.version>
 		<spring-cloud-eureka-client.version>2.0.1.RELEASE</spring-cloud-eureka-client.version>
+		<spring-cloud-eureka.version>1.4.5.RELEASE</spring-cloud-eureka.version>
 		<spring-cloud-eureka-server.version>2.0.1.RELEASE</spring-cloud-eureka-server.version>
+		
 		<spring-cloud-hystrix.version>2.0.1.RELEASE</spring-cloud-hystrix.version>
 		<spring-cloud-openfeign.version>2.0.1.RELEASE</spring-cloud-openfeign.version>
 		<spring-cloud-ribbon.version>2.0.1.RELEASE</spring-cloud-ribbon.version>
@@ -46,7 +48,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- 个人依赖库 -->
@@ -57,11 +58,7 @@
 		</dependency>
 		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> 
 			</dependency> -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+	
 	</dependencies>
 
 	<dependencyManagement>
@@ -88,6 +85,12 @@
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 				<version>${spring-cloud-eureka-client.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-eureka -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-eureka</artifactId>
+				<version>${spring-cloud-eureka.version}</version>
 			</dependency>
 
 			<!-- config -->

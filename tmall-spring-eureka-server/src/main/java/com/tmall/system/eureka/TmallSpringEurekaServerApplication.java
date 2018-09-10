@@ -15,6 +15,5 @@ public class TmallSpringEurekaServerApplication
 	public static void main(String[] args)
 	{
 		SpringApplication.run(TmallSpringEurekaServerApplication.class, args);
-//		new SpringApplicationBuilder(TmallSpringEurekaServerApplication.class).run(args);
 	}
 }

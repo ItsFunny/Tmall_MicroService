@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmall.server.message.dao.MessageDao">
+  <resultMap id="BaseResultMap" type="com.tm.message.common.model.TmallBatchMessage">
+    <result column="message_id" jdbcType="VARCHAR" property="messageId" />
+    <result column="message_detail" jdbcType="VARCHAR" property="messageDetail" />
+    <result column="message_from" jdbcType="VARCHAR" property="messageFrom" />
+    <result column="message_status" jdbcType="INTEGER" property="messageStatus" />
+    <result column="message_creator" jdbcType="VARCHAR" property="messageCreator" />
+    <result column="message_user_id" jdbcType="BIGINT" property="messageUserId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    message_id, message_detail, message_from, message_status, message_creator, message_user_id, 
+    create_date, update_date
+  </sql>
+  <select id="selectByExample" parameterType="com.tm.message.common.model.TmallBatchMessageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tmall_batch_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tm.message.common.model.TmallBatchMessageExample">
+    delete from tmall_batch_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tm.message.common.model.TmallBatchMessage">
+    insert into tmall_batch_message (message_id, message_detail, message_from, 
+      message_status, message_creator, message_user_id, 
+      create_date, update_date)
+    values (#{messageId,jdbcType=VARCHAR}, #{messageDetail,jdbcType=VARCHAR}, #{messageFrom,jdbcType=VARCHAR}, 
+      #{messageStatus,jdbcType=INTEGER}, #{messageCreator,jdbcType=VARCHAR}, #{messageUserId,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tm.message.common.model.TmallBatchMessage">
+    insert into tmall_batch_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="messageDetail != null">
+        message_detail,
+      </if>
+      <if test="messageFrom != null">
+        message_from,
+      </if>
+      <if test="messageStatus != null">
+        message_status,
+      </if>
+      <if test="messageCreator != null">
+        message_creator,
+      </if>
+      <if test="messageUserId != null">
+        message_user_id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        #{messageId,jdbcType=VARCHAR},
+      </if>
+      <if test="messageDetail != null">
+        #{messageDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="messageFrom != null">
+        #{messageFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="messageStatus != null">
+        #{messageStatus,jdbcType=INTEGER},
+      </if>
+      <if test="messageCreator != null">
+        #{messageCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="messageUserId != null">
+        #{messageUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tm.message.common.model.TmallBatchMessageExample" resultType="java.lang.Long">
+    select count(*) from tmall_batch_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tmall_batch_message
+    <set>
+      <if test="record.messageId != null">
+        message_id = #{record.messageId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageDetail != null">
+        message_detail = #{record.messageDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageFrom != null">
+        message_from = #{record.messageFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageStatus != null">
+        message_status = #{record.messageStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.messageCreator != null">
+        message_creator = #{record.messageCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageUserId != null">
+        message_user_id = #{record.messageUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tmall_batch_message
+    set message_id = #{record.messageId,jdbcType=VARCHAR},
+      message_detail = #{record.messageDetail,jdbcType=VARCHAR},
+      message_from = #{record.messageFrom,jdbcType=VARCHAR},
+      message_status = #{record.messageStatus,jdbcType=INTEGER},
+      message_creator = #{record.messageCreator,jdbcType=VARCHAR},
+      message_user_id = #{record.messageUserId,jdbcType=BIGINT},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

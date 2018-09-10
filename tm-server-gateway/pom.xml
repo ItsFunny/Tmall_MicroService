@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>tm-server-gateway</artifactId>
+	<packaging>pom</packaging>
+
+	<name>tm-server-gateway</name>
+	<description>eureka-server</description>
+
+	<parent>
+		<groupId>com.tmall</groupId>
+		<artifactId>tm-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<tmall-micro-common.version>0.0.1-SNAPSHOT</tmall-micro-common.version>
+		<gaetway-server-common.version>0.0.1-SNAPSHOT</gaetway-server-common.version>
+	</properties>
+
+	<dependencies>
+
+		<!-- facaded -->
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-facade</artifactId>
+			<version>${tmall-facaded.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.rebuildtmall</groupId>
+				<artifactId>tmall-micro-common</artifactId>
+				<version>${tmall-micro-common.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<modules>
+		<module>tm-server-gateway-common</module>
+		<module>tm-server-gateway-spi</module>
+		<module>tm-server-gateway-provider</module>
+	</modules>
+</project>

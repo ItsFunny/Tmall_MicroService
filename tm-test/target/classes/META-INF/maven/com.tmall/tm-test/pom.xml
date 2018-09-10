@@ -16,30 +16,47 @@
 
 	<parent>
 		<groupId>com.tmall</groupId>
-		<artifactId>tm-parent</artifactId>
+		<artifactId>tm-server-gateway</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 
 	<dependencies>
+		
+		
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<groupId>com.rebuildtmall</groupId>
+			<artifactId>tmall-micro-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	
+	
+		<dependency>
+			<groupId>com.joker</groupId>
+			<artifactId>library</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	
+
+<!-- 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-netflix-zuul</artifactId> 
-			</dependency> -->
+		<dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-netflix-zuul</artifactId> 
+			</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka</artifactId>
-			<version>1.4.4.RELEASE</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 	<dependencyManagement>

@@ -38,8 +38,14 @@
 		<!-- gateway spi -->
 		<dependency>
 			<groupId>com.tmall</groupId>
-			<artifactId>tm-server-gateway-spi</artifactId>
+			<artifactId>tm-test</artifactId>
 			<version>${gateway-spi.version}</version>
+		</dependency>
+		<!-- store spi -->
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-server-store-spi</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 

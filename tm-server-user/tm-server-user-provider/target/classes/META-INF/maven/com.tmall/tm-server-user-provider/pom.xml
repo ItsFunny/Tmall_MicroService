@@ -16,7 +16,18 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-
+	<!-- 	
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-server-gateway-spi</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		 -->
+		 <dependency>
+		 	<groupId>com.tmall</groupId>
+		 	<artifactId>tm-test</artifactId>
+		 	<version>0.0.1-SNAPSHOT</version>
+		 </dependency>
 		<dependency>
 			<groupId>com.tmall</groupId>
 			<artifactId>tm-server-user-common</artifactId>

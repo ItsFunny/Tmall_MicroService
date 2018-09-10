@@ -27,10 +27,10 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="https.proxyHost" value="localhost"/>
     <property name="os.name" value="Mac OS X"/>
-    <property name="classworlds.conf" value="/Users/joker/eclipse-workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf5519595270958614296.tmp"/>
+    <property name="classworlds.conf" value="/Users/joker/eclipse-workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf1456253668922546775.tmp"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/Users/joker/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
-    <property name="http.proxyPort" value="49438"/>
+    <property name="http.proxyPort" value="63845"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -61,7 +61,7 @@
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
-    <property name="https.proxyPort" value="49438"/>
+    <property name="https.proxyPort" value="63845"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
   <testcase classname="com.rebuildtmall.tmall_micro_common.AppTest" name="testApp" time="0.003"/>

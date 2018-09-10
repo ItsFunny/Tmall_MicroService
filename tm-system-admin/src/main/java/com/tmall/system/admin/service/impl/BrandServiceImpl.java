@@ -28,7 +28,6 @@ import com.tmall.common.dto.UserRequestDTO;
 import com.tmall.common.mq.TmallMQEnum;
 import com.tmall.server.spi.gateway.brand.IGatewayBrandService;
 import com.tmall.server.spi.gateway.message.IGatewayMessageService;
-import com.tmall.server.store.common.model.MessageModel;
 import com.tmall.system.admin.model.BrandFormModel;
 import com.tmall.system.admin.service.IBrandService;
 import com.tmall.system.admin.util.AdminUtil;
