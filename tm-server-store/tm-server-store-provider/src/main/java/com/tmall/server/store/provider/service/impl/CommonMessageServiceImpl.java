@@ -76,13 +76,14 @@ public class CommonMessageServiceImpl implements ICommonMessageService
 	@Override
 	public void notifyUpdateStatus(String messageId, Integer status)
 	{
-		ResultDTO<String> resultDTO = gatewayMessageService.updateMessageStatus(messageId, status);
-		if (!resultDTO.isSuccess())
-		{
-			// 手动抛出异常,其实在这里异步方式更好
-			log.error("[addBrand] 调用远程消息服务试图插入message失败:原因:{}", resultDTO.getMsg());
-			throw new TmallBussinessException(ErrorCodeEnum.INTERNAL_SERVICE_CALL_RETURN_FAIL, resultDTO.getMsg());
-		}
+		throw new RuntimeException("第三块,远程服务手动失败");
+//		ResultDTO<String> resultDTO = gatewayMessageService.updateMessageStatus(messageId, status);
+//		if (!resultDTO.isSuccess())
+//		{
+//			// 手动抛出异常,其实在这里异步方式更好
+//			log.error("[addBrand] 调用远程消息服务试图插入message失败:原因:{}", resultDTO.getMsg());
+//			throw new TmallBussinessException(ErrorCodeEnum.INTERNAL_SERVICE_CALL_RETURN_FAIL, resultDTO.getMsg());
+//		}
 	}
 
 	@Override

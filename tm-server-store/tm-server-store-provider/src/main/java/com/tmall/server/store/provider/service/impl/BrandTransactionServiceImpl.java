@@ -238,6 +238,7 @@ public class BrandTransactionServiceImpl implements IBrandTransactionService
 	@Override
 	public ResultDTO<String> addBrand(UserRecordAspectWrapper<BrandDTO> wrapper)
 	{
+//		throw new RuntimeException("本地测试,插入失败");
 		BrandDTO brandDTO = wrapper.getData();
 		UserDTO user = wrapper.getUser();
 		return doAddBrand(user, brandDTO, wrapper.getDetail());
