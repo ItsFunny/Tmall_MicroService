@@ -11,7 +11,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.tmall.common.dto.UserDTO;
 
 /**
  * 
@@ -22,11 +21,9 @@ import com.tmall.common.dto.UserDTO;
 @Target(ElementType.METHOD)
 public @interface RabbitMQTransaction
 {
-	String exchangeName();
 	
-	String routingKey();
 	
-	int userParamIndex();
+	int wrapperParamIndex() default 0;
 	
 	
 	

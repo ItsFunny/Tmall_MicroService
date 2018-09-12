@@ -108,7 +108,7 @@ public class TmallStoreServerConfiguration implements WebMvcConfigurer
 	// MobileLoginHandler(AbstractLoginHandler.MOBILE_TYPE));
 	// return handler;
 	// }
-	@Bean
+	@Bean(name="transactionManager")
 	public DataSourceTransactionManager dataSourceTransactionManager()
 	{
 		DataSourceTransactionManager manager = new DataSourceTransactionManager();

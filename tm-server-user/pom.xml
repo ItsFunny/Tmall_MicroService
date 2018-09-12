@@ -26,6 +26,14 @@
 
 	<dependencies>
 
+
+
+		<!-- libray -->
+		<dependency>
+			<groupId>com.joker</groupId>
+			<artifactId>library</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+		</dependency>
 		<!-- common -->
 		<dependency>
 			<groupId>com.rebuildtmall</groupId>
@@ -35,7 +43,7 @@
 
 
 
-	
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

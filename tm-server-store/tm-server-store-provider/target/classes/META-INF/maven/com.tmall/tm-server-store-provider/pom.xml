@@ -24,26 +24,39 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 		</dependency>
-
+		<!-- gateway -->
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-test</artifactId>
+			<version>${gateway-spi.version}</version>
+		</dependency>
 		<!-- user 服务提供的feign -->
 		<dependency>
 			<groupId>com.tmall</groupId>
 			<artifactId>tm-server-user-spi</artifactId>
 			<version>${user-spi.version}</version>
 		</dependency>
-
-
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<!--spring aop -->
 		<dependency>
-			<groupId>com.tmall</groupId>
-			<artifactId>tm-server-gateway-spi</artifactId>
-			<version>${gateway-spi.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>

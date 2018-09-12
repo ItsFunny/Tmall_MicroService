@@ -7,21 +7,25 @@
 package com.tmall.server.store.provider.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.joker.library.dto.ResultDTO;
 import com.joker.library.mq.AppEvent;
 import com.joker.library.utils.JsonUtil;
+import com.tmall.common.annotation.RabbitMQTransaction;
 import com.tmall.common.config.TmallConfigProperty;
 import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.MessageDTO;
 import com.tmall.common.dto.RecordDTO;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.common.enums.ErrorCodeEnum;
+import com.tmall.common.exception.TmallBussinessException;
 import com.tmall.common.mq.MQUtil;
 import com.tmall.common.mq.TmallMQEnum;
 import com.tmall.common.utils.ResultUtils;
+import com.tmall.common.wrapper.UserRecordAspectWrapper;
 import com.tmall.server.spi.gateway.message.IGatewayMessageService;
 import com.tmall.server.store.common.exception.TmallStoreException;
 import com.tmall.server.store.common.model.TmallBrand;
@@ -144,62 +148,98 @@ public class BrandTransactionServiceImpl implements IBrandTransactionService
 	// throw new TmallStoreException(ErrorCodeEnum.INTERNAL_SERVICE_ERROR, e);
 	// }
 	// }
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public ResultDTO<String> addBrand(UserDTO user, BrandDTO brandDTO)
+
+	// public ResultDTO<String> doAddBrand(UserDTO user, BrandDTO brandDTO,String
+	// detail)
+	// {
+	// TmallBrand tmallBrand = new TmallBrand();
+	// tmallBrand.from(brandDTO);
+	//// String detail = "增加了一个品牌,名称为:" + brandDTO.getBrandName();
+	//// AppEvent event = MQUtil.createEvent(user, detail,
+	// TmallMQEnum.USER_RECORD.getExchangeName(),
+	//// TmallMQEnum.USER_RECORD.getRoutinKey(),
+	// configProperty.getApplicationName());
+	//// String eventJson = JsonUtil.obj2Json(event);
+	//// commonMessageService.insertToLocalMessageAndNotify(user, event, eventJson,
+	// TmallMQEnum.MQ_STATUS.NEW.ordinal());
+	// try
+	// {
+	// // 往消息服务器发送成功,则开始执行本地业务
+	// Integer res = brandService.add(tmallBrand);
+	// if (res > 0)
+	// {
+	// try
+	// {
+	//// commonMessageService.notifyUpdateStatus(event.getUuid(),
+	// TmallMQEnum.MQ_STATUS.READY.ordinal());
+	// // 业务执行成功,则通知消息服务器修改消息状态,然后发送消息
+	// // 这里可以同步也可以异步,为了方便,这里改为同步先
+	// // ResultDTO<String> resultDTO =
+	// // gatewayMessageService.updateMessageStatus(messageDTO.getMessageId(),
+	// // TmallMQEnum.MQ_STATUS.READY.ordinal());
+	// // if (resultDTO.isSuccess())
+	// // {
+	// // return com.joker.library.utils.ResultUtils.sucess();
+	// // } else
+	// // {
+	// // // 手动抛出异常,其实在这里异步方式更好
+	// // log.error("[addBrand] 调用远程消息服务试图插入message失败:原因:{}", resultDTO.getMsg());
+	// // throw new
+	// // TmallStoreException(ErrorCodeEnum.INTERNAL_SERVICE_CALL_RETURN_FAIL,
+	// // resultDTO.getMsg());
+	// // }
+	// return ResultUtils.sucess();
+	// } catch (Exception e)
+	// {
+	// // 手动抛出异常,其实在这里异步方式更好
+	// log.error("[addBrand] 调用远程消息服务试图插入message失败:原因:{}", e.getMessage(), e);
+	// // return com.joker.library.utils.ResultUtils.fail(e.getMessage());
+	// throw new TmallStoreException(ErrorCodeEnum.INTERNAL_SERVICE_CALL_ERROR, e);
+	// }
+	// // return ResultUtils.sucess();
+	// } else
+	// {
+	// // 插入失败,则通知消息服务器修改消息状态为cancel,取消本次消息的发送
+	// // 删除本地表中的消息记录,或者修改状态,当然也可以通知之后直接抛出异常回滚
+	// return ResultUtils.fail("插入失败,请刷新重试");
+	// }
+	// } catch (Exception e)
+	// {
+	// // 插入失败,则通知消息服务器修改消息状态为cancel,取消本次消息的发送
+	// // 删除本地表中的消息记录,或者修改状态,当然也可以通知之后直接抛出异常回滚
+	// log.error("[addBrand]本地业务执行失败:原因:{}", e.getMessage(), e);
+	// throw new TmallStoreException(ErrorCodeEnum.INTERNAL_SERVICE_ERROR, e);
+	// }
+	// }
+	public ResultDTO<String> doAddBrand(UserDTO user, BrandDTO brandDTO, String detail)
 	{
 		TmallBrand tmallBrand = new TmallBrand();
-		String detail = "增加了一个品牌,名称为:" + brandDTO.getBrandName();
-		AppEvent event = MQUtil.createEvent(user, detail, TmallMQEnum.USER_RECORD.getExchangeName(),
-				TmallMQEnum.USER_RECORD.getRoutinKey(), configProperty.getApplicationName());
-		String eventJson = JsonUtil.obj2Json(event);
-		commonMessageService.insertToLocalMessageAndNotify(user, event, eventJson, TmallMQEnum.MQ_STATUS.NEW.ordinal());
+		tmallBrand.from(brandDTO);
 		try
 		{
-			// 往消息服务器发送成功,则开始执行本地业务
 			Integer res = brandService.add(tmallBrand);
 			if (res > 0)
 			{
-				try
-				{
-					commonMessageService.notifyUpdateStatus(event.getUuid(), TmallMQEnum.MQ_STATUS.READY.ordinal());
-					// 业务执行成功,则通知消息服务器修改消息状态,然后发送消息
-					// 这里可以同步也可以异步,为了方便,这里改为同步先
-					// ResultDTO<String> resultDTO =
-					// gatewayMessageService.updateMessageStatus(messageDTO.getMessageId(),
-					// TmallMQEnum.MQ_STATUS.READY.ordinal());
-					// if (resultDTO.isSuccess())
-					// {
-					// return com.joker.library.utils.ResultUtils.sucess();
-					// } else
-					// {
-					// // 手动抛出异常,其实在这里异步方式更好
-					// log.error("[addBrand] 调用远程消息服务试图插入message失败:原因:{}", resultDTO.getMsg());
-					// throw new
-					// TmallStoreException(ErrorCodeEnum.INTERNAL_SERVICE_CALL_RETURN_FAIL,
-					// resultDTO.getMsg());
-					// }
-					return ResultUtils.sucess();
-				} catch (Exception e)
-				{
-					// 手动抛出异常,其实在这里异步方式更好
-					log.error("[addBrand] 调用远程消息服务试图插入message失败:原因:{}", e.getMessage(), e);
-					// return com.joker.library.utils.ResultUtils.fail(e.getMessage());
-					throw new TmallStoreException(ErrorCodeEnum.INTERNAL_SERVICE_CALL_ERROR, e);
-				}
-				// return ResultUtils.sucess();
+				return ResultUtils.sucess();
 			} else
 			{
-				// 插入失败,则通知消息服务器修改消息状态为cancel,取消本次消息的发送
-				// 删除本地表中的消息记录,或者修改状态,当然也可以通知之后直接抛出异常回滚
-				return ResultUtils.fail("插入失败,请刷新重试");
+				// 如果本地业务执行失败,是需要回滚的,因为在本地消息表中插入了数据
+				// return ResultUtils.fail("插入失败,请刷新重试");
+				throw new TmallBussinessException(ErrorCodeEnum.INTERNAL_SERVICE_ERROR, "插入失败,请稍后重试");
 			}
 		} catch (Exception e)
 		{
-			// 插入失败,则通知消息服务器修改消息状态为cancel,取消本次消息的发送
-			// 删除本地表中的消息记录,或者修改状态,当然也可以通知之后直接抛出异常回滚
 			log.error("[addBrand]本地业务执行失败:原因:{}", e.getMessage(), e);
 			throw new TmallStoreException(ErrorCodeEnum.INTERNAL_SERVICE_ERROR, e);
 		}
+	}
+
+	@RabbitMQTransaction(wrapperParamIndex = 0)
+	@Override
+	public ResultDTO<String> addBrand(UserRecordAspectWrapper<BrandDTO> wrapper)
+	{
+		BrandDTO brandDTO = wrapper.getData();
+		UserDTO user = wrapper.getUser();
+		return doAddBrand(user, brandDTO, wrapper.getDetail());
 	}
 }

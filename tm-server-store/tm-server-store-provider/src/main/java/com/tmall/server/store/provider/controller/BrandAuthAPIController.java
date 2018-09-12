@@ -6,8 +6,6 @@
 */
 package com.tmall.server.store.provider.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +35,7 @@ import com.tmall.common.enums.ErrorCodeEnum;
 import com.tmall.common.exception.TmallBussinessException;
 import com.tmall.common.mq.TmallMQEnum;
 import com.tmall.common.utils.ResultUtils;
+import com.tmall.common.wrapper.UserRecordAspectWrapper;
 import com.tmall.server.spi.gateway.message.IGatewayMessageService;
 import com.tmall.server.store.common.exception.TmallStoreException;
 import com.tmall.server.store.common.model.TmallBrand;
@@ -77,8 +76,9 @@ public class BrandAuthAPIController
 		pageRequestDTO = null;
 		return resultDTO;
 	}
-	@RequestMapping(value="/{brandId}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResultDTO<BrandDTO>findById(@PathVariable("brandId")Integer brandId)
+
+	@RequestMapping(value = "/{brandId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<BrandDTO> findById(@PathVariable("brandId") Integer brandId)
 	{
 		return com.joker.library.utils.ResultUtils.sucess(brandService.findBrandTypeById(brandId));
 	}
@@ -130,6 +130,9 @@ public class BrandAuthAPIController
 			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_WRONG_CLASS_TYPE,
 					BrandDTO.class.getName(), brandDtoObj.getClass().getName()), e);
 		}
-		return brandTransactionService.addBrand(user, brandDTO);
+		UserRecordAspectWrapper<BrandDTO> wrapper = new UserRecordAspectWrapper<>(user,
+				"增加了一个品牌,名称为:" + brandDTO.getBrandName(), TmallMQEnum.USER_RECORD.getExchangeName(),
+				TmallMQEnum.USER_RECORD.getRoutinKey(), brandDTO);
+		return brandTransactionService.addBrand(wrapper);
 	}
 }

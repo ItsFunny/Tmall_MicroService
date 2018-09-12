@@ -9,6 +9,7 @@ package com.tmall.server.store.provider.service;
 import com.joker.library.dto.ResultDTO;
 import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.UserDTO;
+import com.tmall.common.wrapper.UserRecordAspectWrapper;
 
 /**
 * 
@@ -17,5 +18,8 @@ import com.tmall.common.dto.UserDTO;
 */
 public interface IBrandTransactionService
 {
-	ResultDTO<String> addBrand(UserDTO user,BrandDTO brandDTO);
+//	ResultDTO<String> addBrand(UserDTO user,BrandDTO brandDTO);
+	
+	
+	ResultDTO<String> addBrand(UserRecordAspectWrapper<BrandDTO> wrapper);
 }

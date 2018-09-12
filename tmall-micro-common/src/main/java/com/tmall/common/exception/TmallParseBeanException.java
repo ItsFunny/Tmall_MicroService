@@ -21,13 +21,16 @@ import com.tmall.common.enums.ErrorCodeEnum;
 public class TmallParseBeanException extends TmallBussinessException
 {
 
-	
 
 	public TmallParseBeanException(ErrorCodeEnum enum1)
 	{
 		super(enum1);
-		// TODO Auto-generated constructor stub
 	}
+	public TmallParseBeanException(ErrorCodeEnum enum1,Throwable e)
+	{
+		super(enum1,e);
+	}
+
 
 	private Object original;
 	private Object destination;

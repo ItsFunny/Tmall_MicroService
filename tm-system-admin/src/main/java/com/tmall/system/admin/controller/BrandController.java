@@ -6,15 +6,25 @@
 */
 package com.tmall.system.admin.controller;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,7 +52,18 @@ public class BrandController
 	private IGatewayBrandFeignService gatewayBrandFeignService;
 	@Autowired
 	private AppEventPublisher eventPublisher;
-
+	
+	/*
+	 * 删除或者添加品牌
+	 */
+	
+//	@Bean
+//	public MapperScannerConfigurer mappperScannerConfigurer()
+//	{
+//		MapperScannerConfigurer configurer=new MapperScannerConfigurer();
+//		configurer.setBasePackage("");
+//		return configurer;
+//	}
 	@RequiresPermissions(value =
 	{ "edit_product_brand" })
 	@RequestMapping("/all")
@@ -69,6 +90,8 @@ public class BrandController
 				.findBrandsByPage(pageRequestDTO);
 		if (resultDTO.isSuccess())
 		{
+//			BeanFactory beanFactory=new ClassPathXmlApplicationContext(configLocation)
+//			ApplicationContext context=new AnnotationConfigApplicationContext(annotatedClasses)
 			params.put("pageVO", resultDTO.getData());
 			modelAndView = new ModelAndView("brands", params);
 		} else

@@ -24,11 +24,13 @@ public enum ErrorCodeEnum
 	INERTNATL_SERVER_ERROR(0,"服务内部故障:%s"),
 	UNKNOWN_EXCEPTION(1,"服务故障,未知原因"),
 	MISSING_ARGUMENT(2,"缺少参数:%s"),
-	TRANSCATION_ROLLBACK_ON_PURPOSE(3,"原因:%s,手动抛异常,回滚事务"),
-	FIND_MULTIPLE_RECORDS(4,"找到多条记录,本应该只有1条记录"),
-	INTERNAL_SERVICE_CALL_ERROR(5,"服务间调用出错"),
-	INTERNAL_SERVICE_CALL_RETURN_FAIL(6,"服务间调用,服务返回失败"),
-	INTERNAL_SERVICE_ERROR(7,"服务自身业务出错"),
+	TYPE_ILLEGAL_ARGUMENT(3,"类型不匹配:%s"),
+	TRANSCATION_ROLLBACK_ON_PURPOSE(4,"原因:%s,手动抛异常,回滚事务"),
+	FIND_MULTIPLE_RECORDS(5,"找到多条记录,本应该只有1条记录"),
+	INTERNAL_SERVICE_CALL_ERROR(6,"服务间调用出错"),
+	INTERNAL_SERVICE_CALL_RETURN_FAIL(7,"服务间调用,服务返回失败"),
+	INTERNAL_SERVICE_ERROR(8,"服务自身业务出错"),
+	ARGUMENT_PARSE_ERROR(9,"参数转换出错"),
 	/*
 	 * auth-server
 	 */

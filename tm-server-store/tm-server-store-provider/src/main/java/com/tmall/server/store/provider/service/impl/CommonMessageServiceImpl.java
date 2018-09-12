@@ -43,7 +43,7 @@ public class CommonMessageServiceImpl implements ICommonMessageService
 	{
 		MessageModel model = new MessageModel(event.getUuid(), eventJson, messageStatus);
 		Integer validCount = messageDao.insert(model);
-		if (validCount > 0)
+		if (validCount <= 0)
 		{
 			// 本地消息记录失败直接返回,不进行业务插入
 			// return com.joker.library.utils.ResultUtils.fail("本地记录消息失败");

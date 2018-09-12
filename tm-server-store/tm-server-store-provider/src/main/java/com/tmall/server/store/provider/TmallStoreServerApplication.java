@@ -7,6 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -16,11 +17,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+
 @EnableFeignClients(basePackages="com.tmall.server.spi")
 @ComponentScan(basePackages = "com.tmall", excludeFilters =
 { @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Mapper.class) })
 @MapperScan(basePackages = {"com.tmall"}, annotationClass = Mapper.class)
 @EnableTransactionManagement
+@EnableAspectJAutoProxy
 public class TmallStoreServerApplication
 {
 	public static void main(String[] args)
