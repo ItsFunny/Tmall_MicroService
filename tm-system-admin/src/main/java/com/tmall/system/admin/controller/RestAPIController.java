@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jca.cci.RecordTypeNotSupportedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -174,5 +175,14 @@ public class RestAPIController
 //		}
 		ResultDTO<String> resultDTO = brandService.addOrUpdateBrand(formModel);
 		return resultDTO;
+	}
+	@GetMapping(value="/auth/brand/del/{brandId}")
+	public ResultDTO<String>deleteBrand(@PathVariable("brandId")Integer brandId)
+	{
+		
+		
+		
+		
+		return com.joker.library.utils.ResultUtils.sucess();
 	}
 }

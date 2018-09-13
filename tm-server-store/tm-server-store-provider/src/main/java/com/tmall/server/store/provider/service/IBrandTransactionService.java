@@ -6,6 +6,8 @@
 */
 package com.tmall.server.store.provider.service;
 
+import java.util.List;
+
 import com.joker.library.dto.ResultDTO;
 import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.UserDTO;
@@ -22,4 +24,7 @@ public interface IBrandTransactionService
 	
 	
 	ResultDTO<String> addOrUpdateBrand(UserRecordAspectWrapper<BrandDTO> wrapper);
+	
+	
+	ResultDTO<String> deleteByIdInBatch(UserRecordAspectWrapper<List<Integer>> wrapper);
 }

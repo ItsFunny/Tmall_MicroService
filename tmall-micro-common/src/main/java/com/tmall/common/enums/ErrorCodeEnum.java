@@ -31,6 +31,7 @@ public enum ErrorCodeEnum
 	INTERNAL_SERVICE_CALL_RETURN_FAIL(7,"服务间调用,服务返回失败"),
 	INTERNAL_SERVICE_ERROR(8,"服务自身业务出错"),
 	ARGUMENT_PARSE_ERROR(9,"参数转换出错"),
+	ILLEGAL_DB_RESULT(10,"数据操作返回结果异常:%s"),
 	/*
 	 * auth-server
 	 */
@@ -85,6 +86,16 @@ public enum ErrorCodeEnum
 		String msg = enum1.getMsg();
 		String newMsg = String.format(msg, args);
 		enum1.setMsg(newMsg);
+		return enum1;
+	}
+	public static ErrorCodeEnum appendMsg(ErrorCodeEnum enum1,Object...args)
+	{
+		String msg=enum1.getMsg()+",";
+		for (Object object : args)
+		{
+			msg+=object;
+		}
+		enum1.setMsg(msg);
 		return enum1;
 	}
 	public static ErrorCodeEnum getEnum(int code)

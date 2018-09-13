@@ -23,9 +23,14 @@ public interface IBrandService extends PageBaseService<List<BrandDTO>>
 	String USER_REQUEST_BRANDDTO="brandDTO";
 	
 	
+	
 	Integer add(TmallBrand brand);
 	
 	Integer updateSelective(TmallBrand brand);
+	
+	Integer deleteById(Integer brandId);
+	
+	Integer deleteByIdInBatch(List<Integer>idList);
 	
 	
 	BrandDTO findBrandTypeById(Integer brandId);

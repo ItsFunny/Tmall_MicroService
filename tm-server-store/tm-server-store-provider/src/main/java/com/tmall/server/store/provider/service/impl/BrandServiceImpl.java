@@ -194,4 +194,23 @@ public class BrandServiceImpl implements IBrandService
 		return brand;
 	}
 
+	@Override
+	public Integer deleteById(Integer brandId)
+	{
+		return brandDao.deleteByPrimaryKey(brandId);
+	}
+
+	@Override
+	public Integer deleteByIdInBatch(List<Integer> idList)
+	{
+		if(idList==null||idList.isEmpty())
+		{
+			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_MISSING_ARGUMENT, "品牌id不能为空"));
+		}
+		TmallBrandExample example=new TmallBrandExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andBrandIdIn(idList);
+		return brandDao.deleteByExample(example);
+	}
+
 }

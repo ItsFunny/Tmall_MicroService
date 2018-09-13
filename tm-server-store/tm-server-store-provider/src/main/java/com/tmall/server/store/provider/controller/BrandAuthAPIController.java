@@ -11,10 +11,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,8 +27,9 @@ import com.joker.library.mq.AppEventPublisher;
 import com.joker.library.page.PageRequestDTO;
 import com.joker.library.page.PageResponseDTO;
 import com.joker.library.utils.JsonUtil;
-import com.tmall.common.annotation.ArgumentCheck;
+import com.tmall.common.annotation.ArgumentCheckAnnotation;
 import com.tmall.common.config.TmallConfigProperty;
+import com.tmall.common.constants.UserRequestConstant;
 import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.MessageDTO;
 import com.tmall.common.dto.RecordDTO;
@@ -77,7 +81,7 @@ public class BrandAuthAPIController
 		return resultDTO;
 	}
 
-	//感觉这个没必要开放接口,直接在本地服务校验最好
+	// 感觉这个没必要开放接口,直接在本地服务校验最好
 	@RequestMapping(value = "/{brandId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResultDTO<BrandDTO> findById(@PathVariable("brandId") Integer brandId)
 	{
@@ -108,30 +112,30 @@ public class BrandAuthAPIController
 	// }
 	// }
 
+	@ArgumentCheckAnnotation(parseType=BrandDTO.class,mapKey=UserRequestConstant.USER_REQUEST_BRANDDTO)
 	// 再改,通过aop进行参数校验
-	@ArgumentCheck(type = "com.tmall.common.dto.UserRequestDTO")
 	@RequestMapping(value = "/add", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
 	public ResultDTO<String> addBrand(@RequestBody UserRequestDTO userRequestDTO)
 	{
 		Map<String, Object> map = userRequestDTO.getExtProps();
-		Object brandDtoObj = map.get(IBrandService.USER_REQUEST_BRANDDTO);
-		if (null == brandDtoObj)
-		{
-			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_MISSING_ARGUMENT, "brandDTO"));
-		}
+		Object brandDtoObj = map.get(UserRequestConstant.USER_REQUEST_BRANDDTO);
+//		if (null == brandDtoObj)
+//		{
+//			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_MISSING_ARGUMENT, "brandDTO"));
+//		}
 		UserDTO user = userRequestDTO.getUser();
 		BrandDTO brandDTO = null;
-		try
-		{
+		// try
+		// {
 			ObjectMapper mapper = new ObjectMapper();
 			brandDTO = mapper.convertValue(brandDtoObj, BrandDTO.class);
-		} catch (Exception e)
-		{
-			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_WRONG_CLASS_TYPE,
-					BrandDTO.class.getName(), brandDtoObj.getClass().getName()), e);
-		}
+//		} catch (Exception e)
+//		{
+//			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_WRONG_CLASS_TYPE,
+//					BrandDTO.class.getName(), brandDtoObj.getClass().getName()), e);
+//		}
 		String detail = null;
-		if(null==brandDTO.getBrandTypeId())
+		if (null == brandDTO.getBrandTypeId())
 		{
 			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_MISSING_ARGUMENT, "缺少typeId参数"));
 		}
@@ -150,6 +154,46 @@ public class BrandAuthAPIController
 		UserRecordAspectWrapper<BrandDTO> wrapper = new UserRecordAspectWrapper<>(user, detail,
 				TmallMQEnum.USER_RECORD.getExchangeName(), TmallMQEnum.USER_RECORD.getRoutinKey(), brandDTO);
 		return brandTransactionService.addOrUpdateBrand(wrapper);
+	}
+
+	
+	@ArgumentCheckAnnotation(parseType = List.class, mapKey = UserRequestConstant.USER_REQUEST_BRAND_ID_LIST)
+	// 可以用aop进行校验,需要的关键字:1.map中的key 2.需要转换的类型
+	@PostMapping(value = "/batch/delete")
+	public ResultDTO<String> deleteByBrandIdInBatch(@RequestBody UserRequestDTO userRequestDTO)
+	{
+		Map<String, Object> propsMap = userRequestDTO.getExtProps();
+		UserDTO user = userRequestDTO.getUser();
+		if (null == user)
+		{
+			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.MISSING_ARGUMENT, "用户user不能为空"));
+		}
+		Object idListObj = propsMap.get(UserRequestConstant.USER_REQUEST_BRAND_ID_LIST);
+		if (null == idListObj)
+		{
+			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.MISSING_ARGUMENT,
+					"参数" + UserRequestConstant.USER_REQUEST_BRAND_ID_LIST + "不能为空"));
+		}
+		List<Integer> idList = null;
+		try
+		{
+			ObjectMapper mapper = new ObjectMapper();
+			idList = mapper.convertValue(idListObj, List.class);
+		} catch (Exception e)
+		{
+			log.error("[deleteByBrandIdInBatch]类型转换出错,无法将{}转换为需要的{}类型", idListObj, List.class);
+			throw new TmallStoreException(
+					ErrorCodeEnum.parseEnum(ErrorCodeEnum.ARGUMENT_PARSE_ERROR, "[deleteByBrandIdInBatch]类型转换出错,无法将"
+							+ idListObj.getClass().getName() + "转换为需要的" + List.class.getName() + "类型"));
+		}
+		String detail = "删除品牌id为:";
+		for (Integer integer : idList)
+		{
+			detail += integer + ",";
+		}
+		UserRecordAspectWrapper<List<Integer>> wrapper = new UserRecordAspectWrapper<List<Integer>>(user, detail,
+				TmallMQEnum.USER_RECORD.getExchangeName(), TmallMQEnum.USER_RECORD.getRoutinKey(), idList);
+		return brandTransactionService.deleteByIdInBatch(wrapper);
 	}
 
 	// @RequestMapping(value = "/add", consumes =
@@ -175,5 +219,5 @@ public class BrandAuthAPIController
 	// return ResultUtils.fail("名字冲突了");
 	// }
 	// }
-	
+
 }

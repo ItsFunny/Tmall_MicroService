@@ -93,4 +93,11 @@ public class StoreServerFeignFallback implements IStoreServerFeignService
 		return ResultUtils.fail();
 	}
 
+	@Override
+	public ResultDTO<String> deleteBrands(UserRequestDTO userRequestDTO)
+	{
+		log.error("[findById]通过id查询品牌,触发了服务降,userRequestDTO:{}", userRequestDTO);
+		return ResultUtils.fail();
+	}
+
 }

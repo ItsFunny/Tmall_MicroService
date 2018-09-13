@@ -27,6 +27,7 @@ public class TmallBrand
 		brandDTO.setBrandDesc(this.brandDesc);
 		brandDTO.setBrandTypeId(this.brandTypeId);
 		brandDTO.setBrandTypeName(this.brandTypeName);
+		brandDTO.setBrandDisSeq(this.brandDisSeq);
 		return brandDTO;
 	}
 
@@ -38,6 +39,7 @@ public class TmallBrand
 		this.brandDesc = brandDTO.getBrandDesc();
 		this.brandTypeId = brandDTO.getBrandTypeId();
 		this.brandTypeName = brandDTO.getBrandTypeName();
+		this.brandDisSeq=brandDTO.getBrandDisSeq();
 	}
 
 	public Integer getBrandId()

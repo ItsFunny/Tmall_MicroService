@@ -6,6 +6,8 @@
 */
 package com.tmall.server.store.provider.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -234,7 +236,7 @@ public class BrandTransactionServiceImpl implements IBrandTransactionService
 		}
 	}
 
-	private ResultDTO<String> doUpdateBrand( BrandDTO brand)
+	private ResultDTO<String> doUpdateBrand(BrandDTO brand)
 	{
 		if (brand.getBrandId() == null)
 		{
@@ -275,5 +277,21 @@ public class BrandTransactionServiceImpl implements IBrandTransactionService
 			return doUpdateBrand(brandDTO);
 		}
 
+	}
+
+	@RabbitMQTransaction(wrapperParamIndex = 0)
+	@Override
+	public ResultDTO<String> deleteByIdInBatch(UserRecordAspectWrapper<List<Integer>> wrapper)
+	{
+		List<Integer> idList = wrapper.getData();
+		Integer validCount = brandService.deleteByIdInBatch(idList);
+		if (validCount.equals(idList.size()))
+		{
+			return com.joker.library.utils.ResultUtils.sucess();
+		} else
+		{
+			throw new TmallStoreException(
+					ErrorCodeEnum.parseEnum(ErrorCodeEnum.ILLEGAL_DB_RESULT, "删除记录数和请求删除记录数不匹配,请确定是否传入正确的参数"));
+		}
 	}
 }
