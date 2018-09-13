@@ -31,4 +31,8 @@ public interface IGatewayBrandService
 	
 	@GetMapping(value="/valid/brand/{brandId}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	ResultDTO<BrandDTO>findTypeByTypeId(@PathVariable("brandId")Integer brandId);
+	
+	//批量删除品牌
+	@PostMapping(value="/valid/brand/delete",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	ResultDTO<String>deleteBrandsInBatch(@RequestBody UserRequestDTO userRequestDTO);
 }

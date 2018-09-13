@@ -45,23 +45,35 @@ public class TmallErrorDecoder implements ErrorDecoder
 			String json = Util.toString(response.body().asReader());
 			Map<Object, Object> map = JsonUtil.json2Map(json, HashMap.class);
 			Double codeObj = (Double) map.get("code");
+			//额,不知道为啥 异常信息的key会是msg,应该跟我自定义异常有关
 			Object detailObj = map.get("msg");
+			if(null==detailObj)
+			{
+				detailObj=map.get("message");
+			}
 			String errorMsg = detailObj == null ? "空指针错误" : detailObj.toString();
-			if (Integer.valueOf(codeObj.intValue()).equals(0))
+			if (codeObj != null)
 			{
-				exception = new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION, errorMsg);
-				return exception;
-			} else
-			{
-				Integer code = Integer.parseInt(codeObj.toString());
-				if (code >= 2000 && code < 3000)
+				if (Integer.valueOf(codeObj.intValue()).equals(0))
 				{
-					exception = new TmallUserException(ErrorCodeEnum.getEnum(code));
+					exception = new TmallBussinessException(ErrorCodeEnum.UNKNOWN_EXCEPTION, errorMsg);
+					return exception;
 				} else
 				{
-					exception = new TmallBussinessException(ErrorCodeEnum.getEnum(code), errorMsg);
+					Integer code = Integer.parseInt(codeObj.toString());
+					if (code >= 2000 && code < 3000)
+					{
+						exception = new TmallUserException(ErrorCodeEnum.getEnum(code));
+					} else
+					{
+						exception = new TmallBussinessException(ErrorCodeEnum.getEnum(code), errorMsg);
+					}
 				}
+			} else
+			{
+				exception = new TmallBussinessException(ErrorCodeEnum.INERTNATL_SERVER_ERROR, errorMsg);
 			}
+
 			// if (null != detailObj)
 			// {
 			// String detail = detailObj.toString();

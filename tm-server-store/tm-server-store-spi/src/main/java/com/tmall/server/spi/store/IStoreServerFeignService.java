@@ -64,6 +64,6 @@ public interface IStoreServerFeignService
 	@PostMapping(value = "/auth/brand/add",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	ResultDTO<String> addBrand(@RequestBody UserRequestDTO userRequestDTO);
 	//批量删除
-	@PostMapping(value="/auth/batch/brand/delete")
+	@PostMapping(value="/auth/brand/batch/delete")
 	ResultDTO<String>deleteBrands(@RequestBody UserRequestDTO userRequestDTO);
 }

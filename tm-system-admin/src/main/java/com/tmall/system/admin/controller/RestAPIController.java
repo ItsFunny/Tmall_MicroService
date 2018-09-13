@@ -6,7 +6,11 @@
 */
 package com.tmall.system.admin.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,11 +35,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.joker.library.dto.ResultDTO;
 import com.joker.library.mq.AppEvent;
 import com.joker.library.utils.JsonUtil;
+import com.tmall.common.constants.UserRequestConstant;
 import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.RecordDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
 import com.tmall.common.dto.UserDTO;
+import com.tmall.common.dto.UserRequestDTO;
 import com.tmall.common.enums.StoreStatusEnum;
 import com.tmall.common.mq.TmallMQEnum;
 import com.tmall.common.utils.ResultUtils;
@@ -70,8 +76,7 @@ public class RestAPIController
 
 	@Autowired
 	private IStoreServerFeignService storeServerFeignService;
-	
-	
+
 	@Autowired
 	private IBrandService brandService;
 
@@ -154,7 +159,7 @@ public class RestAPIController
 			HttpServletResponse response)
 	{
 		String error = "";
-		if (result.hasErrors())	
+		if (result.hasErrors())
 		{
 			List<ObjectError> errors = result.getAllErrors();
 			for (ObjectError objectError : errors)
@@ -166,23 +171,35 @@ public class RestAPIController
 		{
 			return ResultUtils.fail(error);
 		}
-//		BrandDTO brandDTO = new BrandDTO();
-//		formModel.to(brandDTO);
-//		formModel = null;
-//		ResultDTO<String> resultDTO = gatewayBrandService.addBrand(brandDTO);
-//		if(resultDTO.isSuccess())
-//		{
-//		}
+		// BrandDTO brandDTO = new BrandDTO();
+		// formModel.to(brandDTO);
+		// formModel = null;
+		// ResultDTO<String> resultDTO = gatewayBrandService.addBrand(brandDTO);
+		// if(resultDTO.isSuccess())
+		// {
+		// }
 		ResultDTO<String> resultDTO = brandService.addOrUpdateBrand(formModel);
 		return resultDTO;
 	}
-	@GetMapping(value="/auth/brand/del/{brandId}")
-	public ResultDTO<String>deleteBrand(@PathVariable("brandId")Integer brandId)
+
+	@GetMapping(value = "/auth/brand/delete")
+	public ResultDTO<String> deleteBrand(@RequestParam("ids") String ids)
 	{
-		
-		
-		
-		
-		return com.joker.library.utils.ResultUtils.sucess();
+		String[] idArray = ids.split(",");
+		if (null == idArray)
+		{
+			return com.joker.library.utils.ResultUtils.fail("要删除的品牌id不能为空");
+		}
+		UserDTO user = AdminUtil.getLoginUser();
+		final List<Integer> idList = new ArrayList<Integer>();
+		Stream.of(idArray).forEach(id -> {
+			idList.add(Integer.parseInt(id));
+		});
+		UserRequestDTO userRequestDTO = new UserRequestDTO();
+		userRequestDTO.setUser(user);
+		Map<String, Object> extProps = new HashMap<>();
+		extProps.put(UserRequestConstant.USER_REQUEST_BRAND_ID_LIST, idList);
+		userRequestDTO.setExtProps(extProps);
+		return gatewayBrandService.deleteBrandsInBatch(userRequestDTO);
 	}
 }

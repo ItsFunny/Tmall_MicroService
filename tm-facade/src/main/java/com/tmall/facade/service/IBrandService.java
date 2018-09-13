@@ -6,8 +6,11 @@
 */
 package com.tmall.facade.service;
 
+import java.util.List;
+
 import com.joker.library.dto.ResultDTO;
 import com.tmall.common.dto.BrandDTO;
+import com.tmall.common.dto.UserRequestDTO;
 
 /**
 * 
@@ -17,4 +20,7 @@ import com.tmall.common.dto.BrandDTO;
 public interface IBrandService
 {
 	ResultDTO<BrandDTO>findBrandTypeById(Integer brandTypeId);
+	
+	//批量删除
+	ResultDTO<String>deleteBrandsInBatch(UserRequestDTO userRequestDTO);
 }

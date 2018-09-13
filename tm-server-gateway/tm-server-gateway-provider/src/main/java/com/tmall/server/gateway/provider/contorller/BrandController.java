@@ -55,9 +55,18 @@ public class BrandController
 	/*
 	 * 通过id查询品牌
 	 */
-	@GetMapping(value="/{brandId}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResultDTO<BrandDTO>findBrandTypeById(@PathVariable("brandId")Integer brandId)
+	@GetMapping(value = "/{brandId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<BrandDTO> findBrandTypeById(@PathVariable("brandId") Integer brandId)
 	{
 		return facdedService.findBrandTypeById(brandId);
+	}
+
+	/*
+	 * 批量删除品牌,也可以一个一个删
+	 */
+	@PostMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<String> deleteBrandsInBatch(@RequestBody UserRequestDTO userRequestDTO)
+	{
+		return facdedService.deleteBrandsInBatch(userRequestDTO);
 	}
 }

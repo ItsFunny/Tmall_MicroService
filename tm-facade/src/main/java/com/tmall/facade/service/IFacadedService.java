@@ -50,8 +50,9 @@ public interface IFacadedService
 	 */
 	ResultDTO<PageResponseDTO<List<BrandDTO>>>findBrandsByPage(PageRequestDTO pageRequestDTO);	
 	ResultDTO<String>addBrand(UserRequestDTO userRequestDTO);
-	
 	ResultDTO<BrandDTO>findBrandTypeById(Integer brandTypeId);
+	//批量删除brand
+	ResultDTO<String>deleteBrandsInBatch(UserRequestDTO userRequestDTO);
 	/*
 	 * message
 	 */

@@ -43,7 +43,7 @@ public class ArgumentCheckAOP
 	{
 		int checkParamIndex = annotation.checkParamIndex();
 		Object[] args = joinPoint.getArgs();
-		if (!(args[checkParamIndex] instanceof UserRequestDTO))
+		if (args[checkParamIndex]==null || !(args[checkParamIndex] instanceof UserRequestDTO))
 		{
 			throw new TmallBussinessException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.TYPE_ILLEGAL_ARGUMENT,
 					"类型不匹配,需要的类型为:" + UserRequestDTO.class + "传递过来的类型为:" + args[checkParamIndex].getClass()));
@@ -59,6 +59,8 @@ public class ArgumentCheckAOP
 		Class<?> type = annotation.parseType();
 		Object object = extProps.get(mapKey);
 		ObjectMapper mapper = new ObjectMapper();
+//		System.out.println(object.getClass().getName());
+//		System.out.println(object.getClass().equals(type));
 		try
 		{
 			mapper.convertValue(object, type);

@@ -118,5 +118,11 @@ public class FacadedServiceImpl implements IFacadedService
 	{
 		return brandService.findBrandTypeById(brandTypeId);
 	}
+
+	@Override
+	public ResultDTO<String> deleteBrandsInBatch(UserRequestDTO userRequestDTO)
+	{
+		return brandService.deleteBrandsInBatch(userRequestDTO);
+	}
 	
 }

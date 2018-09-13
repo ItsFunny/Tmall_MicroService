@@ -35,7 +35,6 @@ public class TmallBussinessException extends HystrixBadRequestException
 	//状态码
 	private Integer status;
 
-
 	public TmallBussinessException(String message, Throwable cause)
 	{
 		super(message, cause);

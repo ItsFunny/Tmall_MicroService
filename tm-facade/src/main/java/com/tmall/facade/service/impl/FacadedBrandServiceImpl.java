@@ -6,11 +6,14 @@
 */
 package com.tmall.facade.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.joker.library.dto.ResultDTO;
 import com.tmall.common.dto.BrandDTO;
+import com.tmall.common.dto.UserRequestDTO;
 import com.tmall.facade.service.IBrandService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 
@@ -29,6 +32,12 @@ public class FacadedBrandServiceImpl implements IBrandService
 	public ResultDTO<BrandDTO> findBrandTypeById(Integer brandTypeId)
 	{
 		return storeServerFeignService.findBrandTypeById(brandTypeId);
+	}
+
+	@Override
+	public ResultDTO<String> deleteBrandsInBatch(UserRequestDTO userRequestDTO)
+	{
+		return storeServerFeignService.deleteBrands(userRequestDTO);
 	}
 
 }

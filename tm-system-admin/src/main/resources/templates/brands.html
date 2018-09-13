@@ -30,8 +30,20 @@
 		$("#brandDesc").val($(obj).attr("brandDesc"));
 		$("#brandDisSeq").val($(obj).attr("brandDisSeq"));
 	}
-
-
+	function batchDelete(){
+		var id="";
+		$('.brandCheckBox[type="checkbox"]:checked').each(function(){
+			alert($(this).val());
+			id+=$(this).val()+",";
+		})
+		alert(id);
+		jQuery.get('/admin/api/v1/auth/brand/delete',{"ids":id},function(data,textStatus,jqXHR){
+			alert(data.msg);
+			if(data.code==1){
+				location.reload();	
+			}
+		},'json');
+	}
 </script>
 <body class="hold-transition skin-red sidebar-mini">
 	<form name="pageForm" method="get" action="/admin/brand/all">
@@ -54,7 +66,7 @@
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>           
+                                        <button type="button" class="btn btn-default" title="删除" onclick="batchDelete()"><i class="fa fa-trash-o"></i> 删除</button>           
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
                                 </div>
@@ -71,7 +83,7 @@
 			                      <thead>
 			                          <tr>
 			                              <th class="" style="padding-right:0px">
-			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
+			                                  <input id="checkBox" type="checkbox" class="icheckbox_square-blue">
 			                              </th> 
 										  <th class="sorting_asc">品牌ID</th>
 									      <th class="sorting">品牌名称</th>									      
@@ -84,7 +96,7 @@
 			                      <#if pageVO??>
 									<#list pageVO.data as item>			                      
 										 <tr>
-			                              <td><input  type="checkbox" ></td>			                              
+			                              <td><input  class="brandCheckBox" type="checkbox"  value="${item.brandId}"></td>			                              
 				                          <td>${item.brandId}</td>
 									      <td>${item.brandName}</td>									     
 		                                  <td>${item.brandDesc}</td>
