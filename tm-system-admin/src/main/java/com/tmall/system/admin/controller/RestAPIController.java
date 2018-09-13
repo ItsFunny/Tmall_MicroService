@@ -171,9 +171,8 @@ public class RestAPIController
 //		ResultDTO<String> resultDTO = gatewayBrandService.addBrand(brandDTO);
 //		if(resultDTO.isSuccess())
 //		{
-//			
 //		}
-		ResultDTO<String> resultDTO = brandService.addBrand(formModel);
+		ResultDTO<String> resultDTO = brandService.addOrUpdateBrand(formModel);
 		return resultDTO;
 	}
 }

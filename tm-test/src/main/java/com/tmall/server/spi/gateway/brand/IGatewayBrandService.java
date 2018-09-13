@@ -26,7 +26,7 @@ import com.tmall.common.dto.UserRequestDTO;
 public interface IGatewayBrandService
 {
 	@PostMapping(value = "/valid/brand/add", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	ResultDTO<String> addBrand(@RequestBody UserRequestDTO userRequestDTO);
+	ResultDTO<String> addOrUpdateBrand(@RequestBody UserRequestDTO userRequestDTO);
 	
 	
 	@GetMapping(value="/valid/brand/{brandId}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)

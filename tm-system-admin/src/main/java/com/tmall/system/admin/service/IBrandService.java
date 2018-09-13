@@ -16,5 +16,5 @@ import com.tmall.system.admin.model.BrandFormModel;
 */
 public interface IBrandService
 {
-	ResultDTO<String> addBrand(BrandFormModel formModel);
+	ResultDTO<String> addOrUpdateBrand(BrandFormModel formModel);
 }

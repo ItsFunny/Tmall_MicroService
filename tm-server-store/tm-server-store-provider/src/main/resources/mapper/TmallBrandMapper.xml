@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tmall.server.store.provider.dao.BrandDao">
+<mapper
+	namespace="com.tmall.server.store.provider.dao.TmallBrandDao">
 	<resultMap id="BaseResultMap"
-	type="com.tmall.server.store.common.model.TmallBrand">
-		<result column="brand_id" jdbcType="INTEGER" property="brandId" />
+		type="com.tmall.server.store.common.model.TmallBrand">
+		<id column="brand_id" jdbcType="INTEGER" property="brandId" />
 		<result column="picture_id" jdbcType="VARCHAR"
 			property="pictureId" />
 		<result column="brand_name" jdbcType="VARCHAR"
@@ -14,6 +15,8 @@
 			property="brandTypeId" />
 		<result column="brand_type_name" jdbcType="VARCHAR"
 			property="brandTypeName" />
+		<result column="brand_dis_seq" jdbcType="INTEGER"
+			property="brandDisSeq" />
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -30,7 +33,8 @@
 									and ${criterion.condition} #{criterion.value}
 								</when>
 								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
+									and ${criterion.condition} #{criterion.value}
+									and
 									#{criterion.secondValue}
 								</when>
 								<when test="criterion.listValue">
@@ -62,7 +66,8 @@
 									and ${criterion.condition} #{criterion.value}
 								</when>
 								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
+									and ${criterion.condition} #{criterion.value}
+									and
 									#{criterion.secondValue}
 								</when>
 								<when test="criterion.listValue">
@@ -80,7 +85,9 @@
 		</where>
 	</sql>
 	<sql id="Base_Column_List">
-		brand_id, picture_id, brand_name, brand_desc, brand_type_id, brand_type_name
+		brand_id, picture_id, brand_name, brand_desc,
+		brand_type_id, brand_type_name,
+		brand_dis_seq
 	</sql>
 	<select id="selectByExample"
 		parameterType="com.tmall.server.store.common.model.TmallBrandExample"
@@ -105,6 +112,19 @@
 			order by ${orderByClause}
 		</if>
 	</select>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tmall_brand
+		where brand_id = #{brandId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from tmall_brand
+		where brand_id =
+		#{brandId,jdbcType=INTEGER}
+	</delete>
 	<delete id="deleteByExample"
 		parameterType="com.tmall.server.store.common.model.TmallBrandExample">
 		delete from tmall_brand
@@ -112,14 +132,17 @@
 			<include refid="Example_Where_Clause" />
 		</if>
 	</delete>
-	<insert id="insert" parameterType="com.tmall.server.store.common.model.TmallBrand">
-		insert into tmall_brand (brand_id, picture_id, brand_name,
-		brand_desc, brand_type_id, brand_type_name
-		)
+	<insert id="insert"
+		parameterType="com.tmall.server.store.common.model.TmallBrand">
+		insert into tmall_brand (brand_id, picture_id,
+		brand_name,
+		brand_desc, brand_type_id, brand_type_name,
+		brand_dis_seq)
 		values (#{brandId,jdbcType=INTEGER}, #{pictureId,jdbcType=VARCHAR},
 		#{brandName,jdbcType=VARCHAR},
-		#{brandDesc,jdbcType=VARCHAR}, #{brandTypeId,jdbcType=INTEGER}, #{brandTypeName,jdbcType=VARCHAR}
-		)
+		#{brandDesc,jdbcType=VARCHAR},
+		#{brandTypeId,jdbcType=INTEGER}, #{brandTypeName,jdbcType=VARCHAR},
+		#{brandDisSeq,jdbcType=INTEGER})
 	</insert>
 	<insert id="insertSelective"
 		parameterType="com.tmall.server.store.common.model.TmallBrand">
@@ -143,6 +166,9 @@
 			<if test="brandTypeName != null">
 				brand_type_name,
 			</if>
+			<if test="brandDisSeq != null">
+				brand_dis_seq,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="brandId != null">
@@ -162,6 +188,9 @@
 			</if>
 			<if test="brandTypeName != null">
 				#{brandTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="brandDisSeq != null">
+				#{brandDisSeq,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>
@@ -192,7 +221,11 @@
 				brand_type_id = #{record.brandTypeId,jdbcType=INTEGER},
 			</if>
 			<if test="record.brandTypeName != null">
-				brand_type_name = #{record.brandTypeName,jdbcType=VARCHAR},
+				brand_type_name =
+				#{record.brandTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.brandDisSeq != null">
+				brand_dis_seq = #{record.brandDisSeq,jdbcType=INTEGER},
 			</if>
 		</set>
 		<if test="_parameter != null">
@@ -203,12 +236,61 @@
 		update tmall_brand
 		set brand_id = #{record.brandId,jdbcType=INTEGER},
 		picture_id = #{record.pictureId,jdbcType=VARCHAR},
-		brand_name = #{record.brandName,jdbcType=VARCHAR},
-		brand_desc = #{record.brandDesc,jdbcType=VARCHAR},
-		brand_type_id = #{record.brandTypeId,jdbcType=INTEGER},
-		brand_type_name = #{record.brandTypeName,jdbcType=VARCHAR}
+		brand_name =
+		#{record.brandName,jdbcType=VARCHAR},
+		brand_desc =
+		#{record.brandDesc,jdbcType=VARCHAR},
+		brand_type_id =
+		#{record.brandTypeId,jdbcType=INTEGER},
+		brand_type_name =
+		#{record.brandTypeName,jdbcType=VARCHAR},
+		brand_dis_seq =
+		#{record.brandDisSeq,jdbcType=INTEGER}
 		<if test="_parameter != null">
 			<include refid="Update_By_Example_Where_Clause" />
 		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tmall.server.store.common.model.TmallBrand">
+		update tmall_brand
+		<set>
+			<if test="pictureId != null">
+				picture_id = #{pictureId,jdbcType=VARCHAR},
+			</if>
+			<if test="brandName != null">
+				brand_name = #{brandName,jdbcType=VARCHAR},
+			</if>
+			<if test="brandDesc != null">
+				brand_desc = #{brandDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="brandTypeId != null">
+				brand_type_id = #{brandTypeId,jdbcType=INTEGER},
+			</if>
+			<if test="brandTypeName != null">
+				brand_type_name = #{brandTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="brandDisSeq != null">
+				brand_dis_seq = #{brandDisSeq,jdbcType=INTEGER},
+			</if>
+		</set>
+		where brand_id = #{brandId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tmall.server.store.common.model.TmallBrand">
+		update tmall_brand
+		set picture_id =
+		#{pictureId,jdbcType=VARCHAR},
+		brand_name =
+		#{brandName,jdbcType=VARCHAR},
+		brand_desc =
+		#{brandDesc,jdbcType=VARCHAR},
+		brand_type_id =
+		#{brandTypeId,jdbcType=INTEGER},
+		brand_type_name =
+		#{brandTypeName,jdbcType=VARCHAR},
+		brand_dis_seq =
+		#{brandDisSeq,jdbcType=INTEGER}
+		where brand_id =
+		#{brandId,jdbcType=INTEGER}
 	</update>
 </mapper>

@@ -59,7 +59,6 @@ public class BrandServiceImpl implements IBrandService
 	@Autowired
 	private TmallBrandTypeDao brandTypeDao;
 
-
 	/*
 	 * 找brands: 1.如果没有指定storeId,则默认为查询所有brands
 	 * 2.如果指定了storeId,则先tmall_store_brand表中插叙所有符合条件的brands 2.1 然后拼接brandId 2.2
@@ -175,6 +174,24 @@ public class BrandServiceImpl implements IBrandService
 		}
 	}
 
+	@Override
+	public Integer updateSelective(TmallBrand brand)
+	{
+		TmallBrandExample example = new TmallBrandExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andBrandIdEqualTo(brand.getBrandId());
+		return brandDao.updateByExampleSelective(brand, example);
+	}
 
+	@Override
+	public TmallBrand findById(Integer brandId)
+	{
+
+		TmallBrandExample example = new TmallBrandExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andBrandIdEqualTo(brandId);
+		TmallBrand brand = brandDao.selectByPrimaryKey(brandId);
+		return brand;
+	}
 
 }

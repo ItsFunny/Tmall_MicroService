@@ -6,18 +6,27 @@ import org.apache.ibatis.annotations.Param;
 import com.tmall.server.store.common.model.TmallBrand;
 import com.tmall.server.store.common.model.TmallBrandExample;
 
-public interface TmallBrandDao {
-    long countByExample(TmallBrandExample example);
+public interface TmallBrandDao
+{
+	long countByExample(TmallBrandExample example);
 
-    int deleteByExample(TmallBrandExample example);
+	int deleteByExample(TmallBrandExample example);
 
-    int insert(TmallBrand record);
+	int deleteByPrimaryKey(Integer brandId);
 
-    int insertSelective(TmallBrand record);
+	int insert(TmallBrand record);
 
-    List<TmallBrand> selectByExample(TmallBrandExample example);
+	int insertSelective(TmallBrand record);
 
-    int updateByExampleSelective(@Param("record") TmallBrand record, @Param("example") TmallBrandExample example);
+	List<TmallBrand> selectByExample(TmallBrandExample example);
 
-    int updateByExample(@Param("record") TmallBrand record, @Param("example") TmallBrandExample example);
+	TmallBrand selectByPrimaryKey(Integer brandId);
+
+	int updateByExampleSelective(@Param("record") TmallBrand record, @Param("example") TmallBrandExample example);
+
+	int updateByExample(@Param("record") TmallBrand record, @Param("example") TmallBrandExample example);
+
+	int updateByPrimaryKeySelective(TmallBrand record);
+
+	int updateByPrimaryKey(TmallBrand record);
 }

@@ -24,6 +24,12 @@
 			}
 		},'json');
 	}
+	function updateBrand(obj){
+		$("#brandId").val($(obj).attr("brandId"));
+		$("#brandName").val($(obj).attr("brandName"));
+		$("#brandDesc").val($(obj).attr("brandDesc"));
+		$("#brandDisSeq").val($(obj).attr("brandDisSeq"));
+	}
 
 
 </script>
@@ -84,7 +90,7 @@
 		                                  <td>${item.brandDesc}</td>
 		                                  <td>${item.brandTypeName}</td>		                                 
 		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           
+		                                 	  <button type="button" brandId="${item.brandId}" brandName="${item.brandName}" brandDesc="${item.brandDesc}" brandTypeName="${item.brandTypeName}" brandDisSeq="${item.brandDisSeq!""}" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" onclick="updateBrand(this)" >修改</button>                                           
 		                                  </td>
 			                          	</tr>
 									</#list>
@@ -132,20 +138,20 @@
 				</tr>
 		      	<tr>
 		      		<td>品牌名称</td>
-		      		<td><input  class="form-control" placeholder="品牌名称" name="brandName">  </td>
+		      		<td><input  class="form-control" placeholder="品牌名称" name="brandName" id="brandName">  </td>
 		      	</tr>		      	
 		      	<tr>
 		      		<td>品牌描述</td>
-		      		<td><input  class="form-control" placeholder="品牌描述" name="brandDesc">  </td>
+		      		<td><input  class="form-control" placeholder="品牌描述" name="brandDesc" id="brandDesc">  </td>
 		      	</tr>
 		      	 <tr>
 		      		<td>品牌排序序列号</td>
-		      		<td><input  class="form-control" placeholder="序列号,大小不超过100" name="brandDisSeq">  </td>
+		      		<td><input  class="form-control" placeholder="序列号,大小不超过100" name="brandDisSeq" id="brandDisSeq">  </td>
 		      	</tr>
-		      	      	
 			 </table>				
 		</div>
 		<div class="modal-footer">						
+			<input type="hidden" name="brandId" id="brandId">
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true" onclick="addBrand()">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>

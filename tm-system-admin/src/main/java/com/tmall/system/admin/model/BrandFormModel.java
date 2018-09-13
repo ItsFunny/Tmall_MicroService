@@ -22,6 +22,8 @@ import lombok.Data;
 @Data
 public class BrandFormModel
 {
+	
+	private Integer brandId;
 	@NotNull
 	private String brandName;
 	
@@ -39,5 +41,6 @@ public class BrandFormModel
 		brandDTO.setBrandName(this.brandName);
 		brandDTO.setBrandDesc(this.brandDesc);
 		brandDTO.setBrandDisSeq(this.brandDisSeq);
+		brandDTO.setBrandId(this.brandId);
 	}
 }

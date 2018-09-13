@@ -50,9 +50,8 @@ public enum ErrorCodeEnum
 	STORE_NOT_EXIST_3002(3002,"店铺信息不存在"),
 	STORE_MISSING_ARGUMENT(3003,"缺少参数:%s"),
 	STORE_WRONG_CLASS_TYPE(3004,"错误的参数类型,需要的参数类型为:%s,传递的参数类型为:%s"),
-	
 	STORE_LOCALMESSAGE_ILLEGAL_DATA(3005,"本地消息表中的:%s,记录不合法,记录为:%s"),
-	
+	STORE_NO_RECORDS_IN_DB(3006,"数据库中无记录"),
 	@Deprecated
 	STORE_MQ_NOT_SUPPORT_TYPE(3003,"store发送消息的对象类型不是正确的类型"),
 	@Deprecated

@@ -77,6 +77,7 @@ public class BrandAuthAPIController
 		return resultDTO;
 	}
 
+	//感觉这个没必要开放接口,直接在本地服务校验最好
 	@RequestMapping(value = "/{brandId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResultDTO<BrandDTO> findById(@PathVariable("brandId") Integer brandId)
 	{
@@ -118,7 +119,6 @@ public class BrandAuthAPIController
 		{
 			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_MISSING_ARGUMENT, "brandDTO"));
 		}
-
 		UserDTO user = userRequestDTO.getUser();
 		BrandDTO brandDTO = null;
 		try
@@ -130,9 +130,50 @@ public class BrandAuthAPIController
 			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_WRONG_CLASS_TYPE,
 					BrandDTO.class.getName(), brandDtoObj.getClass().getName()), e);
 		}
-		UserRecordAspectWrapper<BrandDTO> wrapper = new UserRecordAspectWrapper<>(user,
-				"增加了一个品牌,名称为:" + brandDTO.getBrandName(), TmallMQEnum.USER_RECORD.getExchangeName(),
-				TmallMQEnum.USER_RECORD.getRoutinKey(), brandDTO);
-		return brandTransactionService.addBrand(wrapper);
+		String detail = null;
+		if(null==brandDTO.getBrandTypeId())
+		{
+			throw new TmallStoreException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.STORE_MISSING_ARGUMENT, "缺少typeId参数"));
+		}
+		if (brandDTO.getBrandId() != null)
+		{
+			TmallBrand brand = brandService.findById(brandDTO.getBrandId());
+			if (null == brand)
+			{
+				throw new TmallStoreException(ErrorCodeEnum.STORE_NO_RECORDS_IN_DB);
+			}
+			detail = "更新品牌信息,原先品牌信息为" + brand + ",更改为了:" + brandDTO;
+		} else
+		{
+			detail = "增加了一个品牌,信息为:" + brandDTO;
+		}
+		UserRecordAspectWrapper<BrandDTO> wrapper = new UserRecordAspectWrapper<>(user, detail,
+				TmallMQEnum.USER_RECORD.getExchangeName(), TmallMQEnum.USER_RECORD.getRoutinKey(), brandDTO);
+		return brandTransactionService.addOrUpdateBrand(wrapper);
 	}
+
+	// @RequestMapping(value = "/add", consumes =
+	// MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces =
+	// MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
+	// public ResultDTO<String> addBrand(@RequestBody BrandDTO brandDTO)
+	// {
+	// TmallBrand tmallBrand = new TmallBrand();
+	// tmallBrand.from(brandDTO);
+	// try
+	// {
+	// Integer res = brandService.add(tmallBrand);
+	// //发布消息
+	// if (res > 0)
+	// {
+	// return ResultUtils.sucess();
+	// } else
+	// {
+	// return ResultUtils.fail("插入失败,请刷新重试");
+	// }
+	// } catch (Exception e)
+	// {
+	// return ResultUtils.fail("名字冲突了");
+	// }
+	// }
+	
 }

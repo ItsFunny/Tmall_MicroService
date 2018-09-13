@@ -21,5 +21,5 @@ public interface IBrandTransactionService
 //	ResultDTO<String> addBrand(UserDTO user,BrandDTO brandDTO);
 	
 	
-	ResultDTO<String> addBrand(UserRecordAspectWrapper<BrandDTO> wrapper);
+	ResultDTO<String> addOrUpdateBrand(UserRecordAspectWrapper<BrandDTO> wrapper);
 }

@@ -234,13 +234,46 @@ public class BrandTransactionServiceImpl implements IBrandTransactionService
 		}
 	}
 
+	private ResultDTO<String> doUpdateBrand( BrandDTO brand)
+	{
+		if (brand.getBrandId() == null)
+		{
+			return ResultUtils.fail("brandId不可为空");
+		}
+		TmallBrand tmallBrand = new TmallBrand();
+		tmallBrand.from(brand);
+		try
+		{
+			Integer validCount = brandService.updateSelective(tmallBrand);
+			if (validCount > 0)
+			{
+				return com.joker.library.utils.ResultUtils.sucess();
+			} else
+			{
+				throw new TmallBussinessException(ErrorCodeEnum.INTERNAL_SERVICE_ERROR, "插入失败,请稍后重试");
+			}
+		} catch (Exception e)
+		{
+			log.error("[addBrand]本地业务执行失败:原因:{}", e.getMessage(), e);
+			throw new TmallStoreException(ErrorCodeEnum.INTERNAL_SERVICE_ERROR, e);
+		}
+
+	}
+
 	@RabbitMQTransaction(wrapperParamIndex = 0)
 	@Override
-	public ResultDTO<String> addBrand(UserRecordAspectWrapper<BrandDTO> wrapper)
+	public ResultDTO<String> addOrUpdateBrand(UserRecordAspectWrapper<BrandDTO> wrapper)
 	{
-//		throw new RuntimeException("本地测试,插入失败");
+		// throw new RuntimeException("本地测试,插入失败");
 		BrandDTO brandDTO = wrapper.getData();
 		UserDTO user = wrapper.getUser();
-		return doAddBrand(user, brandDTO, wrapper.getDetail());
+		if (brandDTO.getBrandId() == null)
+		{
+			return doAddBrand(user, brandDTO, wrapper.getDetail());
+		} else
+		{
+			return doUpdateBrand(brandDTO);
+		}
+
 	}
 }
