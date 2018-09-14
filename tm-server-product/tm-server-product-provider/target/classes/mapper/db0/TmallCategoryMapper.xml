@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.tmall.server.product.dao.db0.Db0CategoryDao">
+	<resultMap id="BaseResultMap"
+		type="com.tmall.server.product.common.model.TmallCategory">
+		<id column="category_id" jdbcType="INTEGER" property="categoryId" />
+		<result column="category_name" jdbcType="VARCHAR"
+			property="categoryName" />
+		<result column="category_display_seq" jdbcType="INTEGER"
+			property="categoryDisplaySeq" />
+		<result column="category_pid" jdbcType="INTEGER"
+			property="categoryPid" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="creator_user_id" jdbcType="BIGINT"
+			property="creatorUserId" />
+		<result column="last_operator" jdbcType="VARCHAR"
+			property="lastOperator" />
+		<result column="last_operator_id" jdbcType="BIGINT"
+			property="lastOperatorId" />
+		<result column="create_date" jdbcType="TIMESTAMP"
+			property="createDate" />
+		<result column="update_date" jdbcType="TIMESTAMP"
+			property="updateDate" />
+		<result column="create_time" jdbcType="INTEGER"
+			property="createTime" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		category_id, category_name, category_display_seq,
+		category_pid, status, creator,
+		creator_user_id, last_operator,
+		last_operator_id, create_date,
+		update_date, create_time
+	</sql>
+	<select id="selectByExample"
+		parameterType="com.tmall.server.product.common.model.TmallCategoryExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from tmall_category
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="start != null ">
+			limit #{start}
+			<if test="end != null ">
+				,#{end}
+			</if>
+		</if>
+	</select>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tmall_category
+		where category_id = #{categoryId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from tmall_category
+		where category_id =
+		#{categoryId,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.tmall.server.product.common.model.TmallCategoryExample">
+		delete from tmall_category
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert"
+		parameterType="com.tmall.server.product.common.model.TmallCategory">
+		insert into tmall_category (category_id, category_name,
+		category_display_seq,
+		category_pid, status, creator,
+		creator_user_id,
+		last_operator, last_operator_id,
+		create_date, update_date, create_time
+		)
+		values (#{categoryId,jdbcType=INTEGER},
+		#{categoryName,jdbcType=VARCHAR},
+		#{categoryDisplaySeq,jdbcType=INTEGER},
+		#{categoryPid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+		#{creator,jdbcType=VARCHAR},
+		#{creatorUserId,jdbcType=BIGINT},
+		#{lastOperator,jdbcType=VARCHAR}, #{lastOperatorId,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+		#{createTime,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tmall.server.product.common.model.TmallCategory">
+		insert into tmall_category
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="categoryId != null">
+				category_id,
+			</if>
+			<if test="categoryName != null">
+				category_name,
+			</if>
+			<if test="categoryDisplaySeq != null">
+				category_display_seq,
+			</if>
+			<if test="categoryPid != null">
+				category_pid,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="creatorUserId != null">
+				creator_user_id,
+			</if>
+			<if test="lastOperator != null">
+				last_operator,
+			</if>
+			<if test="lastOperatorId != null">
+				last_operator_id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=INTEGER},
+			</if>
+			<if test="categoryName != null">
+				#{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryDisplaySeq != null">
+				#{categoryDisplaySeq,jdbcType=INTEGER},
+			</if>
+			<if test="categoryPid != null">
+				#{categoryPid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="creatorUserId != null">
+				#{creatorUserId,jdbcType=BIGINT},
+			</if>
+			<if test="lastOperator != null">
+				#{lastOperator,jdbcType=VARCHAR},
+			</if>
+			<if test="lastOperatorId != null">
+				#{lastOperatorId,jdbcType=BIGINT},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.tmall.server.product.common.model.TmallCategoryExample"
+		resultType="java.lang.Long">
+		select count(*) from tmall_category
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update tmall_category
+		<set>
+			<if test="record.categoryId != null">
+				category_id = #{record.categoryId,jdbcType=INTEGER},
+			</if>
+			<if test="record.categoryName != null">
+				category_name = #{record.categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.categoryDisplaySeq != null">
+				category_display_seq =
+				#{record.categoryDisplaySeq,jdbcType=INTEGER},
+			</if>
+			<if test="record.categoryPid != null">
+				category_pid = #{record.categoryPid,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.creator != null">
+				creator = #{record.creator,jdbcType=VARCHAR},
+			</if>
+			<if test="record.creatorUserId != null">
+				creator_user_id =
+				#{record.creatorUserId,jdbcType=BIGINT},
+			</if>
+			<if test="record.lastOperator != null">
+				last_operator = #{record.lastOperator,jdbcType=VARCHAR},
+			</if>
+			<if test="record.lastOperatorId != null">
+				last_operator_id =
+				#{record.lastOperatorId,jdbcType=BIGINT},
+			</if>
+			<if test="record.createDate != null">
+				create_date = #{record.createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.updateDate != null">
+				update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.createTime != null">
+				create_time = #{record.createTime,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update tmall_category
+		set category_id =
+		#{record.categoryId,jdbcType=INTEGER},
+		category_name =
+		#{record.categoryName,jdbcType=VARCHAR},
+		category_display_seq =
+		#{record.categoryDisplaySeq,jdbcType=INTEGER},
+		category_pid =
+		#{record.categoryPid,jdbcType=INTEGER},
+		status =
+		#{record.status,jdbcType=INTEGER},
+		creator =
+		#{record.creator,jdbcType=VARCHAR},
+		creator_user_id =
+		#{record.creatorUserId,jdbcType=BIGINT},
+		last_operator =
+		#{record.lastOperator,jdbcType=VARCHAR},
+		last_operator_id =
+		#{record.lastOperatorId,jdbcType=BIGINT},
+		create_date =
+		#{record.createDate,jdbcType=TIMESTAMP},
+		update_date =
+		#{record.updateDate,jdbcType=TIMESTAMP},
+		create_time =
+		#{record.createTime,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tmall.server.product.common.model.TmallCategory">
+		update tmall_category
+		<set>
+			<if test="categoryName != null">
+				category_name = #{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryDisplaySeq != null">
+				category_display_seq =
+				#{categoryDisplaySeq,jdbcType=INTEGER},
+			</if>
+			<if test="categoryPid != null">
+				category_pid = #{categoryPid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="creatorUserId != null">
+				creator_user_id = #{creatorUserId,jdbcType=BIGINT},
+			</if>
+			<if test="lastOperator != null">
+				last_operator = #{lastOperator,jdbcType=VARCHAR},
+			</if>
+			<if test="lastOperatorId != null">
+				last_operator_id = #{lastOperatorId,jdbcType=BIGINT},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=INTEGER},
+			</if>
+		</set>
+		where category_id = #{categoryId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tmall.server.product.common.model.TmallCategory">
+		update tmall_category
+		set category_name =
+		#{categoryName,jdbcType=VARCHAR},
+		category_display_seq =
+		#{categoryDisplaySeq,jdbcType=INTEGER},
+		category_pid =
+		#{categoryPid,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER},
+		creator = #{creator,jdbcType=VARCHAR},
+		creator_user_id =
+		#{creatorUserId,jdbcType=BIGINT},
+		last_operator =
+		#{lastOperator,jdbcType=VARCHAR},
+		last_operator_id =
+		#{lastOperatorId,jdbcType=BIGINT},
+		create_date =
+		#{createDate,jdbcType=TIMESTAMP},
+		update_date =
+		#{updateDate,jdbcType=TIMESTAMP},
+		create_time =
+		#{createTime,jdbcType=INTEGER}
+		where category_id =
+		#{categoryId,jdbcType=INTEGER}
+	</update>
+</mapper>

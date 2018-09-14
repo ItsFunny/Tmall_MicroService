@@ -102,14 +102,14 @@
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
 		<if test="start !=null">
 			limit #{start}
 			<if test="end !=null">
 				,#{end}
 			</if>
-		</if>
-		<if test="orderByClause != null">
-			order by ${orderByClause}
 		</if>
 	</select>
 	<select id="selectByPrimaryKey"

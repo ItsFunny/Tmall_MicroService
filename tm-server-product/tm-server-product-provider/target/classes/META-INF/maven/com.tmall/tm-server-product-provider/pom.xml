@@ -20,9 +20,36 @@
 		<!-- gateway -->
 		<dependency>
 			<groupId>com.tmall</groupId>
-			<artifactId>tm-server-gateway-spi</artifactId>
+			<artifactId>tm-test</artifactId>
 			<version>${gateway-spi.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.tmall</groupId>
+					<artifactId>tm-facade</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
+		<!-- openfeign -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+		<!--Mysql数据库驱动 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
 
 		<!--spring-jdbc -->
 		<dependency>

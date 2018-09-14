@@ -2,74 +2,162 @@ package com.tmall.server.product.common.model;
 
 import java.util.Date;
 
-public class TmallCategory {
-    private Integer categoryId;
+import com.tmall.common.dto.CategoryDTO;
 
-    private String categoryName;
+public class TmallCategory
+{
+	private Integer categoryId;
 
-    private Integer categoryDisplaySeq;
+	private String categoryName;
 
-    private Integer categoryPid;
+	private Integer categoryDisplaySeq;
 
-    private Boolean status;
+	private Integer categoryPid;
 
-    private Date createDate;
+	private Integer status;
 
-    private Date updateDate;
+	private String creator;
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
+	private Long creatorUserId;
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
+	private String lastOperator;
 
-    public String getCategoryName() {
-        return categoryName;
-    }
+	private Long lastOperatorId;
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName == null ? null : categoryName.trim();
-    }
+	private Date createDate;
 
-    public Integer getCategoryDisplaySeq() {
-        return categoryDisplaySeq;
-    }
+	private Date updateDate;
 
-    public void setCategoryDisplaySeq(Integer categoryDisplaySeq) {
-        this.categoryDisplaySeq = categoryDisplaySeq;
-    }
+	private Integer createTime;
 
-    public Integer getCategoryPid() {
-        return categoryPid;
-    }
+	public CategoryDTO to()
+	{
+		CategoryDTO categoryDTO = new CategoryDTO();
+		categoryDTO.setCategoryId(this.categoryId);
+		categoryDTO.setCategoryName(this.categoryName);
+		categoryDTO.setCategoryPid(this.categoryPid);
+		categoryDTO.setCreateDate(this.createDate);
+		categoryDTO.setCategoryDisplaySeq(this.categoryDisplaySeq);
+		return categoryDTO;
+	}
 
-    public void setCategoryPid(Integer categoryPid) {
-        this.categoryPid = categoryPid;
-    }
+	public Integer getCategoryId()
+	{
+		return categoryId;
+	}
 
-    public Boolean getStatus() {
-        return status;
-    }
+	public void setCategoryId(Integer categoryId)
+	{
+		this.categoryId = categoryId;
+	}
 
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
+	public String getCategoryName()
+	{
+		return categoryName;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public void setCategoryName(String categoryName)
+	{
+		this.categoryName = categoryName == null ? null : categoryName.trim();
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public Integer getCategoryDisplaySeq()
+	{
+		return categoryDisplaySeq;
+	}
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+	public void setCategoryDisplaySeq(Integer categoryDisplaySeq)
+	{
+		this.categoryDisplaySeq = categoryDisplaySeq;
+	}
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+	public Integer getCategoryPid()
+	{
+		return categoryPid;
+	}
+
+	public void setCategoryPid(Integer categoryPid)
+	{
+		this.categoryPid = categoryPid;
+	}
+
+	public Integer getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(Integer status)
+	{
+		this.status = status;
+	}
+
+	public String getCreator()
+	{
+		return creator;
+	}
+
+	public void setCreator(String creator)
+	{
+		this.creator = creator == null ? null : creator.trim();
+	}
+
+	public Long getCreatorUserId()
+	{
+		return creatorUserId;
+	}
+
+	public void setCreatorUserId(Long creatorUserId)
+	{
+		this.creatorUserId = creatorUserId;
+	}
+
+	public String getLastOperator()
+	{
+		return lastOperator;
+	}
+
+	public void setLastOperator(String lastOperator)
+	{
+		this.lastOperator = lastOperator == null ? null : lastOperator.trim();
+	}
+
+	public Long getLastOperatorId()
+	{
+		return lastOperatorId;
+	}
+
+	public void setLastOperatorId(Long lastOperatorId)
+	{
+		this.lastOperatorId = lastOperatorId;
+	}
+
+	public Date getCreateDate()
+	{
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate)
+	{
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDate()
+	{
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate)
+	{
+		this.updateDate = updateDate;
+	}
+
+	public Integer getCreateTime()
+	{
+		return createTime;
+	}
+
+	public void setCreateTime(Integer createTime)
+	{
+		this.createTime = createTime;
+	}
 }

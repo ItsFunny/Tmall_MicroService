@@ -46,6 +46,8 @@ import com.tmall.common.filter.RestBaseAuthFilter;
 import com.tmall.common.interceptor.RestAuthTokenInterceptor;
 import com.tmall.common.utils.JWTUtilFactoryBean;
 import com.tmall.common.utils.KeyProperty;
+import com.tmall.server.product.service.ICategoryService;
+import com.tmall.server.product.service.impl.CategoryServiceImpl;
 
 /**
  * 
@@ -55,10 +57,11 @@ import com.tmall.common.utils.KeyProperty;
 @Configuration
 @EnableConfigurationProperties(value =
 { KeyProperty.class, TmallConfigProperty.class, TmallProductProperty.class })
-@ComponentScan(basePackages =
-{ "com.tmall.server.product.service" })
+//@ComponentScan(basePackages =
+//{ "com.tmall.server.product.service" })
+//绑定的是db1下的sql文件
 @MapperScan(basePackages =
-{ "com.tmall.server.product.dao" })
+{ "com.tmall.server.product.dao.db1" },sqlSessionFactoryRef="sqlSessionTwo")
 public class ProductAPPServerConfiguraiton implements WebMvcConfigurer
 {
 
@@ -89,7 +92,6 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer
 		filterRegistrationBean.setOrder(0);
 		return filterRegistrationBean;
 	}
-
 	// @Bean
 	// public RestJWTAuthFilter restJWTAuthFilter()
 	// {
@@ -130,7 +132,7 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer
 		configuration.setMapUnderscoreToCamelCase(true);
 		sqlSessionFactoryBean.setConfiguration(configuration);
 		sqlSessionFactoryBean
-				.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/*.xml"));
+				.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/db0/*.xml"));
 		return sqlSessionFactoryBean;
 	}
 
@@ -155,7 +157,7 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer
 		configuration.setMapUnderscoreToCamelCase(true);
 		sqlSessionFactoryBean.setConfiguration(configuration);
 		sqlSessionFactoryBean
-				.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/product_2.xml"));
+				.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/db1/*.xml"));
 		return sqlSessionFactoryBean;
 	}
 	@Bean
