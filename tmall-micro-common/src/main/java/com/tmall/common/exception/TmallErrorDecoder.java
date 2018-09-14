@@ -17,6 +17,7 @@ import com.joker.library.utils.JsonUtil;
 import com.tmall.common.enums.ErrorCodeEnum;
 
 import feign.Response;
+import feign.Response.Body;
 import feign.Util;
 import feign.codec.ErrorDecoder;
 
@@ -42,6 +43,12 @@ public class TmallErrorDecoder implements ErrorDecoder
 			// {
 			// sb.append((char)index);
 			// }
+			Body body = response.body();
+			if(null==body)
+			{
+				throw new TmallBussinessException(ErrorCodeEnum.NULL_POINTER);
+			}
+			
 			String json = Util.toString(response.body().asReader());
 			Map<Object, Object> map = JsonUtil.json2Map(json, HashMap.class);
 			Double codeObj = (Double) map.get("code");

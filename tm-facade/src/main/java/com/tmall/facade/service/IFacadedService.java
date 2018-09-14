@@ -14,6 +14,7 @@ import com.joker.library.mq.AppEvent;
 import com.joker.library.page.PageRequestDTO;
 import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.BrandDTO;
+import com.tmall.common.dto.CategoryDTO;
 import com.tmall.common.dto.MessageDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
@@ -57,7 +58,12 @@ public interface IFacadedService
 	 * message
 	 */
 	ResultDTO<Object>addMessageJob(MessageDTO messageDTO);
-	
 	ResultDTO<String>updateMessageStatus(String messageId,Integer status);
+	
+	/*
+	 * product
+	 */
+	//category
+	ResultDTO<PageResponseDTO<List<CategoryDTO>>>findCategoriesByPage(PageRequestDTO pageRequestDTO);
 	
 }

@@ -1,4 +1,4 @@
-package org.tm.server.gateway.provider;
+package com.tmall.server.gateway.provider;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

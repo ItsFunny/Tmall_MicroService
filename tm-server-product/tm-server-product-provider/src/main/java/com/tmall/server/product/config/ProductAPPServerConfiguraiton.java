@@ -210,16 +210,17 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer
 		return rabbitAdmin;
 	}
 
-	@Bean
-	public RestAuthTokenInterceptor tokenInterceptor()
-	{
-		return new RestAuthTokenInterceptor();
-	}
+	//先暂时注释
+//	@Bean
+//	public RestAuthTokenInterceptor tokenInterceptor()
+//	{
+//		return new RestAuthTokenInterceptor();
+//	}
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry)
-	{
-		WebMvcConfigurer.super.addInterceptors(registry);
-		registry.addInterceptor(tokenInterceptor()).addPathPatterns("/auth/**");
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry)
+//	{
+//		WebMvcConfigurer.super.addInterceptors(registry);
+//		registry.addInterceptor(tokenInterceptor()).addPathPatterns("/auth/**");
+//	}
 }

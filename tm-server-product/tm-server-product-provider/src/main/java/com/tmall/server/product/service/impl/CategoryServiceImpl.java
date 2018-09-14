@@ -67,6 +67,7 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 		});
 		return dtos;
 	}
+	//这个函数需要优化的,主要是变量复用,和动态链接(拆分函数)
 	@Override
 	public List<CategoryDTO> findAllByPage(Integer start, Integer end)
 	{
@@ -91,7 +92,7 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 			return Collections.emptyList();
 		}
 		Long firstSearchTime=System.currentTimeMillis();
-		log.info("[findAllByPage]分页查询第一次查询数据,耗时:{}",firstSearchTime-startTime);
+		log.info("[findAllByPage]分页查询第一次查询数据,耗时:{}毫秒",firstSearchTime-startTime);
 		Integer db0MinCatId=Integer.MAX_VALUE;
 		Integer db1MinCatId=Integer.MAX_VALUE;
 		Integer db0MaxCatId=0;
@@ -135,7 +136,7 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 			db1Categories2=db1Categories;
 		}
 		Long secondSearchTime=System.currentTimeMillis();
-		log.info("[findAllByPage]分页查询第二次查询数据,耗时:{}",secondSearchTime-firstSearchTime);
+		log.info("[findAllByPage]分页查询第二次查询数据,耗时:{}毫秒",secondSearchTime-firstSearchTime);
 //		storeList.add(db0Categories2);
 //		storeList.add(db1Categories2);
 		//4.对数据进行解析,计算得出minCatId在全局中的偏移量
@@ -183,7 +184,7 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 		res.forEach(c -> {
 			dtos.add(c.to());
 		});
-		log.info("[findAllByPage]分页查询结束,总耗时:{}",System.currentTimeMillis()-startTime);
+		log.info("[findAllByPage]分页查询结束,总耗时:{}毫秒",System.currentTimeMillis()-startTime);
 		return dtos;
 	}
 	@Override

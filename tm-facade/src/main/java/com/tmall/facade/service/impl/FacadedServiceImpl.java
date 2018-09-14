@@ -13,22 +13,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.joker.library.dto.ResultDTO;
-import com.joker.library.mq.AppEvent;
 import com.joker.library.page.PageRequestDTO;
 import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.BrandDTO;
+import com.tmall.common.dto.CategoryDTO;
 import com.tmall.common.dto.MessageDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
 import com.tmall.common.dto.TmallConfigTemplateDTO;
 import com.tmall.common.dto.UserRequestDTO;
 import com.tmall.facade.service.IBrandService;
+import com.tmall.facade.service.ICategoryService;
 import com.tmall.facade.service.IFacadedService;
 import com.tmall.facade.service.ILoginService;
 import com.tmall.facade.service.IMessageService;
 import com.tmall.server.spi.auth.IAuthFeignService;
-import com.tmall.server.spi.message.IMessageServerFeignService;
-import com.tmall.server.spi.product.IBrandServerFeignService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 
 /**
@@ -49,6 +48,8 @@ public class FacadedServiceImpl implements IFacadedService
 	private IMessageService messageService;
 	@Autowired
 	private IBrandService brandService;
+	@Autowired
+	private ICategoryService categoryService;
 	
 	
 
@@ -123,6 +124,12 @@ public class FacadedServiceImpl implements IFacadedService
 	public ResultDTO<String> deleteBrandsInBatch(UserRequestDTO userRequestDTO)
 	{
 		return brandService.deleteBrandsInBatch(userRequestDTO);
+	}
+
+	@Override
+	public ResultDTO<PageResponseDTO<List<CategoryDTO>>> findCategoriesByPage(PageRequestDTO pageRequestDTO)
+	{
+		return categoryService.findByPage(pageRequestDTO);
 	}
 	
 }
