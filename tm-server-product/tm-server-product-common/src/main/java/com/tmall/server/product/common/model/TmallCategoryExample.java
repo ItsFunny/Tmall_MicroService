@@ -12,6 +12,9 @@ public class TmallCategoryExample extends PageExample{
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
+    
+    //
+    private String tableName;
 
     public TmallCategoryExample() {
         oredCriteria = new ArrayList<Criteria>();
@@ -950,4 +953,19 @@ public class TmallCategoryExample extends PageExample{
             this(condition, value, secondValue, null);
         }
     }
+
+	public String getTableName()
+	{
+		return tableName;
+	}
+
+	public void setTableName(String tableName)
+	{
+		this.tableName = tableName;
+	}
+
+	public void setOredCriteria(List<Criteria> oredCriteria)
+	{
+		this.oredCriteria = oredCriteria;
+	}
 }

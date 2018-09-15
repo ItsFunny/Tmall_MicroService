@@ -21,6 +21,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.RabbitConnectionFactoryBean;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,6 +29,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +47,7 @@ import com.tmall.common.config.TmallConfigProperty;
 import com.tmall.common.filter.CharsetFilter;
 import com.tmall.common.filter.RestBaseAuthFilter;
 import com.tmall.common.interceptor.RestAuthTokenInterceptor;
+import com.tmall.common.other.SQLExtentionHolder;
 import com.tmall.common.utils.JWTUtilFactoryBean;
 import com.tmall.common.utils.KeyProperty;
 import com.tmall.server.product.service.ICategoryService;
@@ -62,9 +66,9 @@ import com.tmall.server.product.service.impl.CategoryServiceImpl;
 //绑定的是db1下的sql文件
 @MapperScan(basePackages =
 { "com.tmall.server.product.dao.db1" },sqlSessionFactoryRef="sqlSessionTwo")
-public class ProductAPPServerConfiguraiton implements WebMvcConfigurer
+public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,ApplicationContextAware
 {
-
+	private ApplicationContext context;
 	@Autowired
 	private TmallProductProperty tmallProductProperty;
 
@@ -74,6 +78,16 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer
 	@Autowired
 	private KeyProperty keyProperty;
 
+	
+	@Bean
+	public SQLExtentionHolder sqlExtentionHolder()
+	{
+		SQLExtentionHolder holder=new SQLExtentionHolder();
+		holder.config(tmallConfigProperty.getMysqlExtention(), context);
+		return holder;
+	}
+	
+	
 	@Bean
 	public JWTUtilFactoryBean jwtUtilFactoryBean()
 	{
@@ -208,6 +222,13 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer
 		RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory());
 		// need declare exchanger
 		return rabbitAdmin;
+	}
+
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+	{
+		this.context=applicationContext;
 	}
 
 	//先暂时注释

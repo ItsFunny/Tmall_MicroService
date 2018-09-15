@@ -3,8 +3,9 @@ package com.tmall.server.product.common.model;
 import java.util.Date;
 
 import com.tmall.common.dto.CategoryDTO;
+import com.tmall.common.other.SQLExtentionModel;
 
-public class TmallCategory
+public class TmallCategory extends SQLExtentionModel
 {
 	private Integer categoryId;
 
@@ -38,6 +39,13 @@ public class TmallCategory
 		categoryDTO.setCategoryPid(this.categoryPid);
 		categoryDTO.setCreateDate(this.createDate);
 		categoryDTO.setCategoryDisplaySeq(this.categoryDisplaySeq);
+		categoryDTO.setStatus(this.status);
+		categoryDTO.setUpdateDate(this.updateDate);
+		categoryDTO.setCreateTime(this.createTime);
+		categoryDTO.setCreator(this.creator);
+		categoryDTO.setCreatorUserId(this.creatorUserId);
+		categoryDTO.setLastOperator(this.lastOperator);
+		categoryDTO.setLastOperatorId(this.lastOperatorId);
 		return categoryDTO;
 	}
 

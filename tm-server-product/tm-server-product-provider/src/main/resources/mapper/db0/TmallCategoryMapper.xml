@@ -144,7 +144,7 @@
 	</delete>
 	<insert id="insert"
 		parameterType="com.tmall.server.product.common.model.TmallCategory">
-		insert into tmall_category (category_id, category_name,
+		insert into #{tableName} (category_id, category_name,
 		category_display_seq,
 		category_pid, status, creator,
 		creator_user_id,
@@ -164,7 +164,7 @@
 	</insert>
 	<insert id="insertSelective"
 		parameterType="com.tmall.server.product.common.model.TmallCategory">
-		insert into tmall_category
+		insert into #{tableName}
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="categoryId != null">
 				category_id,

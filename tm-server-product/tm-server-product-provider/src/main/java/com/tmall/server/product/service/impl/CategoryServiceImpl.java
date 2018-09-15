@@ -8,7 +8,9 @@ package com.tmall.server.product.service.impl;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.joker.library.page.AbstractPageService;
+import com.tmall.common.constants.SQLExtentionConstant;
 import com.tmall.common.dto.CategoryDTO;
+import com.tmall.common.other.ISQLExtentionBaseCRUDService;
+import com.tmall.common.other.ISQLExtentionCRUDDao;
+import com.tmall.common.other.SQLExtentionDAOWrapper;
+import com.tmall.common.other.SQLExtentionHolder;
 import com.tmall.server.product.common.model.TmallCategory;
 import com.tmall.server.product.common.model.TmallCategoryExample;
 import com.tmall.server.product.common.model.TmallCategoryExample.Criteria;
@@ -42,10 +49,79 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 	private Db0CategoryDao db0categoryDao;
 	@Autowired
 	private Db1CategoryDao db1CategoryDao;
+	
+	@Autowired
+	private SQLExtentionHolder holder;
+	
+	
+	private class InnerSQLExtentionCRUDServiceImpl implements ISQLExtentionBaseCRUDService
+	{
 
+		@Override
+		public Integer insert(String tableName, Long hashCodeOrId, Object t)
+		{
+			SQLExtentionDAOWrapper wrapper = holder.getBaseDao(tableName, hashCodeOrId);
+			ISQLExtentionCRUDDao baseDao = wrapper.getBaseDao();
+			return baseDao.insertSelective(wrapper.getTableDetailName(), t);
+		}
+		
+	}
+	
 	@Override
 	public List<CategoryDTO> findByCondition(Integer start, Integer end, Map<String, Object> condition)
 	{
+		TmallCategoryExample example = new TmallCategoryExample();
+		Criteria criteria = example.createCriteria();
+		if(condition.containsKey("categoryId"))
+		{
+			
+		}
+		if (condition.containsKey("categoryName"))
+		{
+			example.or().andCategoryNameLike(condition.get("categoryName").toString());
+		}
+		if (condition.containsKey("categoryPid"))
+		{
+			criteria.andCategoryPidEqualTo(Integer.parseInt(condition.get("categoryPid").toString()));
+		}
+		if (condition.containsKey("status"))
+		{
+			criteria.andStatusEqualTo(Integer.parseInt(condition.get("status").toString()));
+		}
+		example.setStart(start);
+		example.setEnd(end);
+//		List<TmallCategory> categories = db0categoryDao.selectByExample(example);
+//		List<CategoryDTO> dtos = new ArrayList<>();
+//		categories.forEach(c -> {
+//			dtos.add(c.to());
+//		});
+//		return dtos;
+		return doFind(example, start, end);
+	}
+	//这个函数需要优化的,主要是变量复用,和动态链接(拆分函数)
+	@Override
+	public List<CategoryDTO> findAllByPage(Integer start, Integer end)
+	{
+		TmallCategoryExample example = new TmallCategoryExample();
+//		Long startTime=System.currentTimeMillis();
+		log.info("[findAllByPage]分页查询开始查询数据");
+		/*
+		 * 查询的逻辑
+		 * 1.先获取要查询的起始点,在这里start就是起始点,然后计算有多少个表,除以然后获取平均值
+		 */
+		Integer avgStart=start/2;//这里2最好是需要从配置中取,而不是这样写死
+		//2.查询记录,并且按id的值升序,从而最小的是第一个
+		example.setStart(avgStart);
+		example.setEnd(end);
+		return doFind(example, start, end);
+	}
+	@Override
+	public Long countByCondition(Map<String, Object> condition)
+	{
+		if (null == condition || condition.isEmpty())
+		{
+			return db0categoryDao.countCategory();
+		}
 		TmallCategoryExample example = new TmallCategoryExample();
 		Criteria criteria = example.createCriteria();
 		if (condition.containsKey("categoryName"))
@@ -60,28 +136,16 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 		{
 			criteria.andStatusEqualTo(Integer.parseInt(condition.get("status").toString()));
 		}
-		List<TmallCategory> categories = db0categoryDao.selectByExample(example);
-		List<CategoryDTO> dtos = new ArrayList<>();
-		categories.forEach(c -> {
-			dtos.add(c.to());
-		});
-		return dtos;
+		long db0Count = db0categoryDao.countByExample(example);
+		long db1Count = db1CategoryDao.countByExample(example);
+		Long validCount=db0Count+db1Count;
+		return validCount;
 	}
-	//这个函数需要优化的,主要是变量复用,和动态链接(拆分函数)
-	@Override
-	public List<CategoryDTO> findAllByPage(Integer start, Integer end)
+	private List<CategoryDTO>doFind(TmallCategoryExample example,Integer start,Integer end)
 	{
-		TmallCategoryExample example = new TmallCategoryExample();
 		Long startTime=System.currentTimeMillis();
 		log.info("[findAllByPage]分页查询开始查询数据");
-		/*
-		 * 查询的逻辑
-		 * 1.先获取要查询的起始点,在这里start就是起始点,然后计算有多少个表,除以然后获取平均值
-		 */
-		Integer avgStart=start/2;//这里2最好是需要从配置中取,而不是这样写死
-		//2.查询记录,并且按id的值升序,从而最小的是第一个
-		example.setStart(avgStart);
-		example.setEnd(end);
+		Integer avgStart=start/2;
 		Criteria criteria = example.createCriteria();
 		example.setOrderByClause(" category_id asc ");
 		List<TmallCategory> categories = db0categoryDao.selectByExample(example);
@@ -188,30 +252,10 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 		return dtos;
 	}
 	@Override
-	public Long countByCondition(Map<String, Object> condition)
+	public Integer insert(TmallCategory category)
 	{
-		if (null == condition || condition.isEmpty())
-		{
-			return db0categoryDao.countCategory();
-		}
-		TmallCategoryExample example = new TmallCategoryExample();
-		Criteria criteria = example.createCriteria();
-		if (condition.containsKey("categoryName"))
-		{
-			example.or().andCategoryNameLike(condition.get("categoryName").toString());
-		}
-		if (condition.containsKey("categoryPid"))
-		{
-			criteria.andCategoryPidEqualTo(Integer.parseInt(condition.get("categoryPid").toString()));
-		}
-		if (condition.containsKey("status"))
-		{
-			criteria.andStatusEqualTo(Integer.parseInt(condition.get("status").toString()));
-		}
-		long db0Count = db0categoryDao.countByExample(example);
-		long db1Count = db1CategoryDao.countByExample(example);
-		Long validCount=db0Count+db1Count;
-		return validCount;
+		InnerSQLExtentionCRUDServiceImpl sqlExtentionCRUDServiceImpl=this.new InnerSQLExtentionCRUDServiceImpl();
+		return sqlExtentionCRUDServiceImpl.insert(category.getTableName(),((Number)category.getCategoryId()).longValue(), category);
 	}
 
 }

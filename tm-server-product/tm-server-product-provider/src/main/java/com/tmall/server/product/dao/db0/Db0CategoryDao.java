@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
 import com.tmall.common.dto.CategoryDTO;
+import com.tmall.common.other.ISQLExtentionCRUDDao;
 import com.tmall.server.product.common.model.TmallCategory;
 import com.tmall.server.product.common.model.TmallCategoryExample;
 import com.tmall.server.product.dao.BaseCategoryDao;
@@ -27,7 +28,7 @@ import com.tmall.server.product.dao.TmallCategoryDao;
  */
 @Component(value="db0CategoryDao")
 @Mapper
-public interface Db0CategoryDao
+public interface Db0CategoryDao 
 {
 	
 	

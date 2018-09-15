@@ -16,7 +16,7 @@ tmall:
     email-account: 18757883747@163.com
     email-pwd: lvcong1215
     email-host: smtp.163.com
-    mysql-extention: user:2
+    mysql-extention: 'tmall_category:2:1=db0DaoImpl,1=db1DaoImpl'
     amqp-host: localhost
     amqp-username: guest
     amqp-password: guest

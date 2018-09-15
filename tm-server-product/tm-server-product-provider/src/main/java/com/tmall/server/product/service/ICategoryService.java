@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.joker.library.page.PageBaseService;
 import com.tmall.common.dto.CategoryDTO;
+import com.tmall.server.product.common.model.TmallCategory;
 
 /**
 * 
@@ -21,5 +22,5 @@ import com.tmall.common.dto.CategoryDTO;
 public interface ICategoryService  extends PageBaseService<List<CategoryDTO>>
 {
 	
-
+	Integer insert(TmallCategory category);
 }
