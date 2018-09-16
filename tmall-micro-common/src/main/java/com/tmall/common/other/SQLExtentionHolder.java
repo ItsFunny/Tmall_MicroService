@@ -6,7 +6,9 @@
 */
 package com.tmall.common.other;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
@@ -29,6 +31,7 @@ import com.tmall.common.db.ExtentionResult;
  * @date 创建时间：2018年9月15日 下午1:38:11
  */
 @Slf4j
+@SuppressWarnings("unchecked")
 public class SQLExtentionHolder
 {
 	// 保存着表名对应的扩展配置信息
@@ -99,7 +102,7 @@ public class SQLExtentionHolder
 		}
 	}
 
-	public SQLExtentionDAOWrapper getBaseDao(String tableName, Long hashCodeOrId)
+	public<T> SQLExtentionDAOWrapper<T> getBaseDao(String tableName, Long hashCodeOrId)
 	{
 		ExtentionInfo extentionInfo = sqlRepository.get(tableName);
 		if (null == extentionInfo)
@@ -116,9 +119,30 @@ public class SQLExtentionHolder
 
 		Integer tableIndex = (int) (hashCodeOrId % db.getTableCounts());
 		tableName += "_" + tableIndex;// 至于命名规则也可以保存在配置中然后取
-		SQLExtentionDAOWrapper wrapper = new SQLExtentionDAOWrapper();
+		SQLExtentionDAOWrapper<T> wrapper = new SQLExtentionDAOWrapper<>();
 		wrapper.setTableDetailName(tableName);
 		wrapper.setBaseDao(db.getBaseDao());
 		return wrapper;
+	}
+
+	public List<ISQLExtentionCRUDDao>getTableAllDaos(String tableName)
+	{
+		ExtentionInfo extentionInfo = sqlRepository.get(tableName);
+		if(null==extentionInfo)
+		{
+			log.error("在sql扩展配置中,{}对应的配置为空",tableName);
+			throw new RuntimeException(tableName+"对应的配置不存在");
+		}
+		DBInfo[] dbs = extentionInfo.getDbs();
+		if(null!=dbs)
+		{
+			throw new RuntimeException(tableName+"对应的数据库信息为空,请确认配置信息是否正确");
+		}
+		List<ISQLExtentionCRUDDao>daos=new ArrayList<ISQLExtentionCRUDDao>();
+		for (DBInfo dbInfo : dbs)
+		{
+			daos.add((ISQLExtentionCRUDDao) dbInfo.getBaseDao());
+		}
+		return daos;
 	}
 }

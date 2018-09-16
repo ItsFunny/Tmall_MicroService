@@ -20,6 +20,7 @@ import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
 import com.tmall.common.dto.TmallConfigTemplateDTO;
 import com.tmall.common.dto.UserRequestDTO;
+import com.tmall.common.wrapper.UserRecordAspectWrapper;
 
 
 /**
@@ -65,5 +66,7 @@ public interface IFacadedService
 	 */
 	//category
 	ResultDTO<PageResponseDTO<List<CategoryDTO>>>findCategoriesByPage(PageRequestDTO pageRequestDTO);
+	ResultDTO<CategoryDTO>findCategoryParents(Integer categoryId);
+	ResultDTO<String>addOrUpdateCat(UserRequestDTO dto);
 	
 }

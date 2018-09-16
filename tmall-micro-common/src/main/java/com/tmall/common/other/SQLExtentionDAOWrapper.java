@@ -14,8 +14,8 @@ import lombok.Data;
 * @date 创建时间：2018年9月15日 下午2:32:38
 */
 @Data
-public class SQLExtentionDAOWrapper
+public class SQLExtentionDAOWrapper<T>
 {
-	private ISQLExtentionCRUDDao baseDao;
+	private ISQLExtentionCRUDDao<T> baseDao;
 	private String tableDetailName;
 }

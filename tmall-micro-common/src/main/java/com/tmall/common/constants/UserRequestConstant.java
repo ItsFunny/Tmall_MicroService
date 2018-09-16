@@ -16,5 +16,6 @@ public interface UserRequestConstant
 	String USER_REQUEST_BRANDDTO="brandDTO";
 	
 	String USER_REQUEST_BRAND_ID_LIST="idList";
+	String USER_REQUEST_CATEGORY="categoryDTO";
 
 }

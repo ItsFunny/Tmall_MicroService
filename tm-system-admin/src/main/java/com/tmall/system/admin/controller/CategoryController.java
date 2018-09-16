@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,8 @@ import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.constants.UserRequestConstant;
 import com.tmall.common.dto.CategoryDTO;
 import com.tmall.server.spi.gateway.category.IGatewayCategoryService;
+
+import antlr.StringUtils;
 
 /**
  * 
@@ -53,17 +56,24 @@ public class CategoryController
 		Integer pageSize = Integer.parseInt(pageSizeStr);
 		Integer pageNum = Integer.parseInt(pageNumStr);
 		String searchKey=(String) params.get("searchKey");
-		Map<String, Object>condition=new HashMap<String, Object>();
-		try
-		{
-			Integer id=Integer.parseInt(searchKey);
-		} catch (Exception e)
-		{
-			// TODO: handle exception
-		}
 		PageRequestDTO pageRequestDTO = new PageRequestDTO();
 		pageRequestDTO.setPageSize(pageSize);
 		pageRequestDTO.setPageNum(pageNum);
+		Map<String, Object>condition=new HashMap<String, Object>();
+		if(!org.apache.commons.lang3.StringUtils.isEmpty(searchKey))
+		{
+			try
+			{
+				Integer id=Integer.parseInt(searchKey);
+				//则直接按照主键查找
+				pageRequestDTO.setSingal(true);
+				pageRequestDTO.setSingleKey(id);
+			} catch (Exception e)
+			{
+				condition.put("searchKey", searchKey);
+				pageRequestDTO.setData(condition);
+			}
+		}
 		ResultDTO<PageResponseDTO<List<CategoryDTO>>> pageRes = gatewayCategoryService
 				.findCategoriesByPage(pageRequestDTO);
 		if (!pageRes.isSuccess())
@@ -77,5 +87,5 @@ public class CategoryController
 		}
 		return modelAndView;
 	}
-
+	
 }

@@ -48,6 +48,21 @@ public class TmallCategory extends SQLExtentionModel
 		categoryDTO.setLastOperatorId(this.lastOperatorId);
 		return categoryDTO;
 	}
+	public void from(CategoryDTO categoryDTO)
+	{
+		this.categoryDisplaySeq=categoryDTO.getCategoryDisplaySeq();
+		this.categoryId=categoryDTO.getCategoryId();
+		this.categoryName=categoryDTO.getCategoryName();
+		this.categoryPid=categoryDTO.getCategoryPid();
+		this.createDate=categoryDTO.getCreateDate();
+		this.createTime=categoryDTO.getCreateTime();
+		this.creator=categoryDTO.getCreator();
+		this.creatorUserId=categoryDTO.getCreatorUserId();
+		this.lastOperator=categoryDTO.getLastOperator();
+		this.lastOperatorId=categoryDTO.getLastOperatorId();
+		this.status=categoryDTO.getStatus();
+		this.updateDate=categoryDTO.getUpdateDate();
+	}
 
 	public Integer getCategoryId()
 	{

@@ -131,5 +131,18 @@ public class FacadedServiceImpl implements IFacadedService
 	{
 		return categoryService.findByPage(pageRequestDTO);
 	}
+
+	@Override
+	public ResultDTO<CategoryDTO> findCategoryParents(Integer categoryId)
+	{
+		return categoryService.findCateogoryParents(categoryId);
+	}
+
+	@Override
+	public ResultDTO<String> addOrUpdateCat(UserRequestDTO dto)
+	{
+		// TODO Auto-generated method stub
+		return categoryService.addOrUpdateCategory(dto);
+	}
 	
 }

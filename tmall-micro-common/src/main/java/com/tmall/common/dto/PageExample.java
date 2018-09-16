@@ -14,7 +14,7 @@ import lombok.Data;
 * @date 创建时间：2018年9月2日 下午4:51:55
 */
 @Data
-public abstract class PageExample
+public  class PageExample
 {
 	private Integer start,end;
 	

@@ -7,7 +7,9 @@
 package com.tmall.common.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -48,7 +50,19 @@ public class CategoryDTO implements Serializable
 	private Date updateDate;
 
 	private Integer createTime;
-
+	
+	//20180916 add
+	private List<CategoryDTO>childs;
+	private CategoryDTO parent;
+	
+	public void addChild(CategoryDTO categoryDTO)
+	{
+		this.childs.add(categoryDTO);
+	}
+	public CategoryDTO()
+	{
+		this.childs=new ArrayList<CategoryDTO>();
+	}
 	@Override
 	public int hashCode()
 	{

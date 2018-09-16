@@ -7,6 +7,7 @@
 package com.tmall.common.model;
 
 import com.tmall.common.dto.MessageDTO;
+import com.tmall.common.other.SQLExtentionModel;
 
 import lombok.Data;
 
@@ -16,7 +17,7 @@ import lombok.Data;
 * @date 创建时间：2018年9月5日 上午10:48:22
 */
 @Data
-public class MessageModel
+public class MessageModel extends SQLExtentionModel
 {
 	private String messageId;
 	private String messageDetail;

@@ -87,6 +87,13 @@ public class CategoryServiceTest
 			}
 		}
 	}
+	@Test
+	public void testFindbById()
+	{
+		Integer id=1;
+		CategoryDTO categoryDTO = categoryService.findByCategoryId(id);
+		System.out.println(categoryDTO);
+	}
 	
 
 }

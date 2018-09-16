@@ -32,21 +32,21 @@ public interface Db0CategoryDao
 {
 	
 	
-	@Select("select count(1) from tmall_category")
+	@Select("select count(1) from tmall_category_0")
 	Long countCategory();
 
-	@Select("select category_id,parent_category_id,category_name,create_date,update_date,category_display_seq from tmall_category")
+	@Select("select category_id,parent_category_id,category_name,create_date,update_date,category_display_seq from tmall_category_0")
 	Collection<CategoryDTO> findAll();
 
-	@Select("select category_id,category_pid,category_name,create_date,update_date,category_display_seq from tmall_category where category_pid=0 ")
+	@Select("select category_id,category_pid,category_name,create_date,update_date,category_display_seq from tmall_category_0 where category_pid=0 ")
 	Collection<CategoryDTO> findTopLevelCategories();
 
-	@Select("select category_id,category_pid,category_name,create_date,update_date,category_display_seq from tmall_category where category_pid=#{categoryId}")
+	@Select("select category_id,category_pid,category_name,create_date,update_date,category_display_seq from tmall_category_0 where category_pid=#{categoryId}")
 	Collection<CategoryDTO> findChildCategoriesWithinOneCategory(Integer categoryId);
 
 	Collection<CategoryDTO> findChildInIDs(Collection<Integer> ids);
 
-	@Select("select category_id,parent_category_id,category_name,create_date,update_date,display_sequence from tmall_category where parent_category_id in (select category_id from tmall_category where parent_category_id=0) union all select category_id,parent_category_id,category_name,create_date,update_date,display_sequence from tmall_category where parent_category_id=0;")
+	@Select("select category_id,parent_category_id,category_name,create_date,update_date,display_sequence from tmall_category_0 where parent_category_id in (select category_id from tmall_category_0 where parent_category_id=0) union all select category_id,parent_category_id,category_name,create_date,update_date,display_sequence from tmall_category_0 where parent_category_id=0;")
 	Collection<CategoryDTO> findParentCategoryAndChildCategory();
 
 	long countByExample(TmallCategoryExample example);

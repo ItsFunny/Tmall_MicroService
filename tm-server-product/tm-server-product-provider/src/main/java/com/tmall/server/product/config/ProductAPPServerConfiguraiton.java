@@ -36,6 +36,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -43,6 +44,8 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.joker.library.service.IdWorkerService;
+import com.joker.library.service.IdWorkerServiceTwitter;
 import com.tmall.common.config.TmallConfigProperty;
 import com.tmall.common.filter.CharsetFilter;
 import com.tmall.common.filter.RestBaseAuthFilter;
@@ -78,7 +81,21 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 	@Autowired
 	private KeyProperty keyProperty;
 
-	
+	@Bean("db0TransactionManager")
+	public DataSourceTransactionManager transactionManager()
+	{
+		return new DataSourceTransactionManager(dataSource());
+	}
+	@Bean("db1TransactionManager")
+	public DataSourceTransactionManager transactionManager2()
+	{
+		return new DataSourceTransactionManager(dataSourceTwo());
+	}
+	@Bean
+	public IdWorkerService idWorkerService()
+	{
+		return new IdWorkerServiceTwitter(1L, 0L);
+	}
 	@Bean
 	public SQLExtentionHolder sqlExtentionHolder()
 	{

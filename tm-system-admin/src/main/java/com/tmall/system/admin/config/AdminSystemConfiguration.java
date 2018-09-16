@@ -7,6 +7,8 @@
 */
 package com.tmall.system.admin.config;
 
+import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
 import javax.sql.DataSource;
@@ -24,6 +26,8 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.joker.library.service.IdWorkerService;
+import com.joker.library.service.IdWorkerServiceTwitter;
 import com.tmall.common.config.TmallConfigProperty;
 import com.tmall.common.filter.CharsetFilter;
 import com.tmall.common.interceptor.FeignBasicAuthRequestInterceptor;
@@ -52,6 +56,11 @@ public class AdminSystemConfiguration implements WebMvcConfigurer
 //	private TmallAdminConfigProperty tmallAdminConfigProperty;
 
 	
+	@Bean
+	public IdWorkerService idWorkerService()
+	{
+		return new IdWorkerServiceTwitter(1L, 2L);
+	}
 	
 	
 	@Bean
@@ -112,6 +121,9 @@ public class AdminSystemConfiguration implements WebMvcConfigurer
 		TmallFreemarkerConfigurer freeMarkerConfigurer = new TmallFreemarkerConfigurer();
 		freeMarkerConfigurer.setDefaultEncoding("UTF-8");
 		freeMarkerConfigurer.setTemplateLoaderPath("classpath:/templates/");
+//		freemarker.template.Configuration configuration=new freemarker.template.Configuration(freemarker.template.Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+//		configuration.setNumberFormat("0.##");
+//		freeMarkerConfigurer.setConfiguration(configuration);
 		return freeMarkerConfigurer;
 	}
 

@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.jca.cci.RecordTypeNotSupportedException;
@@ -26,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,9 +36,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.joker.library.dto.ResultDTO;
 import com.joker.library.mq.AppEvent;
+import com.joker.library.service.IdWorkerService;
 import com.joker.library.utils.JsonUtil;
 import com.tmall.common.constants.UserRequestConstant;
 import com.tmall.common.dto.BrandDTO;
+import com.tmall.common.dto.CategoryDTO;
 import com.tmall.common.dto.RecordDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
@@ -46,9 +50,11 @@ import com.tmall.common.enums.StoreStatusEnum;
 import com.tmall.common.mq.TmallMQEnum;
 import com.tmall.common.utils.ResultUtils;
 import com.tmall.server.spi.gateway.brand.IGatewayBrandService;
+import com.tmall.server.spi.gateway.category.IGatewayCategoryService;
 import com.tmall.server.spi.gateway.store.IGatewayStoreFeignService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 import com.tmall.system.admin.model.BrandFormModel;
+import com.tmall.system.admin.model.CategoryFormModel;
 import com.tmall.system.admin.service.IBrandService;
 import com.tmall.system.admin.util.AdminUtil;
 
@@ -73,12 +79,18 @@ public class RestAPIController
 
 	@Autowired
 	private IGatewayBrandService gatewayBrandService;
+	@Autowired
+	private IdWorkerService idWorkerService;
 
 	@Autowired
 	private IStoreServerFeignService storeServerFeignService;
 
 	@Autowired
+	private IGatewayCategoryService categoryService;
+
+	@Autowired
 	private IBrandService brandService;
+	
 
 	// 显示商家下的所有类目
 	// @RequestMapping(value = "/category/topLevel/all", method =
@@ -202,4 +214,55 @@ public class RestAPIController
 		userRequestDTO.setExtProps(extProps);
 		return gatewayBrandService.deleteBrandsInBatch(userRequestDTO);
 	}
+
+	/*
+	 * 查询某个类目的上级类目和上上级类目
+	 */
+	@GetMapping(value = "/auth/category/parents/{categoryId}")
+	public ResultDTO<CategoryDTO> showCategoryFathers(@PathVariable("categoryId") Integer categoryId)
+	{
+		ResultDTO<CategoryDTO> res = categoryService.findCategoryParents(categoryId);
+		if (res.isSuccess())
+		{
+			return res;
+		} else
+		{
+			return com.joker.library.utils.ResultUtils.fail(res.getMsg());
+		}
+	}
+	/*
+	 * 添加或者更新类目
+	 */
+	@PostMapping(value="/addOrUpdate",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<String>addOrUpdateCategory(CategoryFormModel model,@Valid BindingResult result)
+	{
+		if(result.hasErrors())
+		{
+			String error="";
+			for(ObjectError e:result.getAllErrors())
+			{
+				error+=e.getDefaultMessage();
+			}
+			return ResultUtils.fail(error);
+		}
+		UserDTO user = AdminUtil.getLoginUser();
+		if(model.getCategoryId()==null)
+		{
+			model.setCreator(user.getUsername());
+			model.setCreatorUserId(user.getUserId());
+		}else {
+			model.setLastOperator(user.getUsername());
+			model.setLastOperatorId(user.getUserId());
+		}
+		
+		UserRequestDTO userRequestDTO=new UserRequestDTO();
+		Map<String, Object>data=new HashMap<>();
+		CategoryDTO dto=new CategoryDTO();
+		BeanUtils.copyProperties(model, dto);
+		data.put(UserRequestConstant.USER_REQUEST_CATEGORY, dto);
+		userRequestDTO.setExtProps(data);
+		userRequestDTO.setUser(user);
+		return categoryService.addOrUpdateCategory(userRequestDTO);
+	}
+
 }

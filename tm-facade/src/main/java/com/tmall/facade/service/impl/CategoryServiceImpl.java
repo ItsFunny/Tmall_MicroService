@@ -15,6 +15,8 @@ import com.joker.library.dto.ResultDTO;
 import com.joker.library.page.PageRequestDTO;
 import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.CategoryDTO;
+import com.tmall.common.dto.UserRequestDTO;
+import com.tmall.common.wrapper.UserRecordAspectWrapper;
 import com.tmall.facade.service.ICategoryService;
 import com.tmall.server.spi.product.IProductServerCategoryFeignService;
 
@@ -33,6 +35,18 @@ public class CategoryServiceImpl implements ICategoryService
 	public ResultDTO<PageResponseDTO<List<CategoryDTO>>> findByPage(PageRequestDTO pageRequestDTO)
 	{
 		return categoryFeignService.findCategoriesByPage(pageRequestDTO);
+	}
+
+	@Override
+	public ResultDTO<CategoryDTO> findCateogoryParents(Integer categoryId)
+	{
+		return categoryFeignService.findCategoryParents(categoryId);
+	}
+
+	@Override
+	public ResultDTO<String> addOrUpdateCategory(UserRequestDTO dto)
+	{
+		return categoryFeignService.addOrUpdateCategory(dto);
 	}
 
 }

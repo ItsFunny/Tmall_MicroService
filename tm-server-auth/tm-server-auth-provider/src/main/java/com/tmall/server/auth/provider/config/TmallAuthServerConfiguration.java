@@ -8,9 +8,7 @@ import javax.servlet.Filter;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -23,10 +21,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ViewResolver;
@@ -58,6 +53,7 @@ public class TmallAuthServerConfiguration implements WebMvcConfigurer
 	@Autowired
 	private TmallConfigProperty tmallConfigProperty;
 
+	
 	@Bean
 	public JWTUtilFactoryBean jwtUtilFactoryBean()
 	{

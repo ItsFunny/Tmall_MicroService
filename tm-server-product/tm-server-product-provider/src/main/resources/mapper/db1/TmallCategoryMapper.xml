@@ -108,7 +108,7 @@
 		</if>
 		'true' as QUERYID,
 		<include refid="Base_Column_List" />
-		from tmall_category
+		from tmall_category_0
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -126,25 +126,25 @@
 		parameterType="java.lang.Integer" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from tmall_category
+		from tmall_category_0
 		where category_id = #{categoryId,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey"
 		parameterType="java.lang.Integer">
-		delete from tmall_category
+		delete from tmall_category_0
 		where category_id =
 		#{categoryId,jdbcType=INTEGER}
 	</delete>
 	<delete id="deleteByExample"
 		parameterType="com.tmall.server.product.common.model.TmallCategoryExample">
-		delete from tmall_category
+		delete from tmall_category_0
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
 	</delete>
 	<insert id="insert"
 		parameterType="com.tmall.server.product.common.model.TmallCategory">
-		insert into #{tableName} (category_id, category_name,
+		insert into ${tableName} (category_id, category_name,
 		category_display_seq,
 		category_pid, status, creator,
 		creator_user_id,
@@ -164,7 +164,7 @@
 	</insert>
 	<insert id="insertSelective"
 		parameterType="com.tmall.server.product.common.model.TmallCategory">
-		insert into  #{tableName} 
+		insert into  ${tableName} 
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="categoryId != null">
 				category_id,
@@ -245,13 +245,13 @@
 	<select id="countByExample"
 		parameterType="com.tmall.server.product.common.model.TmallCategoryExample"
 		resultType="java.lang.Long">
-		select count(*) from tmall_category
+		select count(*) from tmall_category_0
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
 	</select>
 	<update id="updateByExampleSelective" parameterType="map">
-		update tmall_category
+		update tmall_category_0
 		<set>
 			<if test="record.categoryId != null">
 				category_id = #{record.categoryId,jdbcType=INTEGER},
@@ -298,7 +298,7 @@
 		</if>
 	</update>
 	<update id="updateByExample" parameterType="map">
-		update tmall_category
+		update tmall_category_0
 		set category_id =
 		#{record.categoryId,jdbcType=INTEGER},
 		category_name =
@@ -329,7 +329,7 @@
 	</update>
 	<update id="updateByPrimaryKeySelective"
 		parameterType="com.tmall.server.product.common.model.TmallCategory">
-		update tmall_category
+		update tmall_category_0
 		<set>
 			<if test="categoryName != null">
 				category_name = #{categoryName,jdbcType=VARCHAR},
@@ -370,7 +370,7 @@
 	</update>
 	<update id="updateByPrimaryKey"
 		parameterType="com.tmall.server.product.common.model.TmallCategory">
-		update tmall_category
+		update tmall_category_0
 		set category_name =
 		#{categoryName,jdbcType=VARCHAR},
 		category_display_seq =

@@ -8,10 +8,14 @@ package com.tmall.facade.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.joker.library.dto.ResultDTO;
 import com.joker.library.page.PageRequestDTO;
 import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.CategoryDTO;
+import com.tmall.common.dto.UserRequestDTO;
+import com.tmall.common.wrapper.UserRecordAspectWrapper;
 
 /**
 * 
@@ -21,4 +25,12 @@ import com.tmall.common.dto.CategoryDTO;
 public interface ICategoryService
 {
 	ResultDTO<PageResponseDTO<List<CategoryDTO>>>findByPage(PageRequestDTO pageRequestDTO);
+	/*
+	 * 显示某个类目的所有祖宗
+	 */
+	ResultDTO<CategoryDTO>findCateogoryParents(Integer categoryId);
+	/*
+	 * 添加或者更新类目
+	 */
+	ResultDTO<String>addOrUpdateCategory(@RequestBody UserRequestDTO dto);
 }

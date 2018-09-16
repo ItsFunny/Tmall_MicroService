@@ -18,10 +18,67 @@
 <script>
 
 
-	function searchKey(){
+	function search(){
 		document.pageForm.pageNum.value=1;
 		document.pageForm.searchKey.value=$("#searchKey").val();
 		document.pageForm.submit();	
+	}
+	
+	function showRelations(cid){
+		$.ajax({
+			url: '/admin/api/v1/auth/category/parents/'+cid,
+			dataType: 'json',
+			type: 'get',
+			success:function(data){
+				if(data.code==1){
+					var cat=data.data;
+					var str=cat.categoryName;
+					str=loopShow(str,cat.parent);
+					$("#relations").html(str);
+				}else{
+					alert(data.msg);
+				}
+			},
+			error:function(){
+				alert('无法获取该类目的父类信息');
+			}
+		})
+	}
+	function update(obj){
+		var cid=$(obj).attr("categoryId");
+		cid=cid.replace(/,/g, "")
+		var categoryDisplaySeq=$(obj).attr("categoryDisplaySeq");
+		var categoryName=$(obj).attr("categoryName");
+		$("#categoryName").val(categoryName);
+		$("#categoryDisplaySeq").val(categoryDisplaySeq);
+		$("#categoryId").val(cid);
+		showRelations(cid);
+	}
+	function loopShow(str,par){
+		if(par!=null)
+		{
+			str=par.categoryName+">>"+str;
+			var p=par.parent;
+			if(p!=null)
+			{
+				str=loopShow(str,p);
+			}
+		}
+		return str;
+	}
+	function addOrUpdate(){
+		
+		jQuery.post('/admin/api/v1/addOrUpdate',$("#editForm").serialize(),function(data){
+			
+			alert(data.msg);
+			if(data.code==1){
+				location.reload();
+			}
+		},'json');
+		
+		
+	
+	
 	}
 
 
@@ -121,7 +178,7 @@
 									    <#--<th class="sorting">类型模板ID</th>  -->  
 			                                  <td class="text-center">		                                     
 			                                      <button type="button" class="btn bg-olive btn-xs" >查询下级</button> 		                                     
-			                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" >修改</button>                                           
+			                                 	  <button type="button" class="btn bg-olive btn-xs" categoryId="${item.categoryId}" categoryName="${item.categoryName}" categoryDisplaySeq="${item.categoryDisplaySeq}"  data-toggle="modal" data-target="#editModal" onclick="update(this)">修改</button>                                          
 			                                  </td>
 				                          </tr>
 			                         </#list>
@@ -149,6 +206,7 @@
                      </div>
                     <!-- /.box-body -->
 <!-- 编辑窗口 -->
+<form name="editForm" >
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" >
 	<div class="modal-content">
@@ -157,17 +215,21 @@
 			<h3 id="myModalLabel">商品分类编辑</h3>
 		</div>
 		<div class="modal-body">							
-			
+			   
 			<table class="table table-bordered table-striped"  width="800px">
 				<tr>
 		      		<td>上级商品分类</td>
-		      		<td>
-		      		   珠宝 >>  银饰
+		      		<td id="relations">
+		      		<#-- 这里采用ajax吧 -->
 		      		</td>
 		      	</tr>
 		      	<tr>
 		      		<td>商品分类名称</td>
-		      		<td><input  class="form-control" placeholder="商品分类名称">  </td>
+		      		<td><input  class="form-control" placeholder="商品分类名称" name="categoryName" id="categoryName">  </td>
+		      	</tr>	
+		      	 <tr>
+		      		<td>商品分类排序号</td>
+		      		<td><input  class="form-control" placeholder="商品分类排序号" name="categoryDisplaySeq" id="categoryDisplaySeq">  </td>
 		      	</tr>			  
 		      	<tr>
 		      		<td>类型模板</td>
@@ -179,11 +241,13 @@
 			
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+			<input type="hidden" name="categoryId" id="categoryId">
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="addOrUpdate()">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>
 	</div>
 </div>
+</form>
 </body>
 </html>

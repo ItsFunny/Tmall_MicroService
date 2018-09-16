@@ -14,4 +14,6 @@ package com.tmall.common.constants;
 public interface SQLExtentionConstant
 {
 	String CATEGORY="tmall_category";
+	
+	String MESSAGE="message";
 }

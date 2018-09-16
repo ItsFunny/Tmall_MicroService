@@ -8,10 +8,11 @@ package com.tmall.server.product.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
+import com.joker.library.dto.ResultDTO;
 import com.joker.library.page.PageBaseService;
 import com.tmall.common.dto.CategoryDTO;
+import com.tmall.common.dto.UserRequestDTO;
+import com.tmall.common.wrapper.UserRecordAspectWrapper;
 import com.tmall.server.product.common.model.TmallCategory;
 
 /**
@@ -23,4 +24,15 @@ public interface ICategoryService  extends PageBaseService<List<CategoryDTO>>
 {
 	
 	Integer insert(TmallCategory category);
+	
+	ResultDTO<String> insertOrUpdate(UserRecordAspectWrapper<CategoryDTO> wrapper);
+	
+	
+	CategoryDTO findByCategoryId(Integer categoryId);
+	
+	
+	CategoryDTO findCategoryFathers(Integer categoryId);
+	
+	
+	
 }
