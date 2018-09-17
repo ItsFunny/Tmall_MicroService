@@ -6,6 +6,8 @@
 */
 package com.tmall.server.product.dao.sqlextention;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +43,13 @@ public class DB0MessageSQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Messa
 
 	@Override
 	public MessageModel findByPrimaryKey(Number id)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MessageModel> findByExample(Object example)
 	{
 		// TODO Auto-generated method stub
 		return null;

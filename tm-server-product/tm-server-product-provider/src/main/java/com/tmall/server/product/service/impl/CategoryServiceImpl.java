@@ -90,6 +90,19 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 			return dao.updateSelectTive(tableName, t, example);
 		}
 
+		@Override
+		public List<TmallCategory> findByExample(Object object)
+		{
+			List<ISQLExtentionCRUDDao> daos = holder.getTableAllDaos(SQLExtentionConstant.CATEGORY);
+			List<TmallCategory>categories=new ArrayList<>();
+			for (ISQLExtentionCRUDDao dao : daos)
+			{
+				List<TmallCategory> category = dao.findByExample(object);
+				categories.addAll(category);
+			}
+			return categories;
+			
+		}
 	}
 
 	@Override
@@ -146,14 +159,18 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 	{
 		if (null == condition || condition.isEmpty())
 		{
-			return db0categoryDao.countCategory();
+			return db0categoryDao.countCategory()+db1CategoryDao.countCategory();
 		}
 		TmallCategoryExample example = new TmallCategoryExample();
 		Criteria criteria = example.createCriteria();
-		if (condition.containsKey("categoryName"))
+		if(condition.containsKey("searchKey"))
 		{
-			example.or().andCategoryNameLike(condition.get("categoryName").toString());
+			example.or().andCategoryNameLike("%"+condition.get("searchKey").toString()+"%");
 		}
+//		if (condition.containsKey("categoryName"))
+//		{
+//			example.or().andCategoryNameLike(condition.get("categoryName").toString());
+//		}
 		if (condition.containsKey("categoryPid"))
 		{
 			criteria.andCategoryPidEqualTo(Integer.parseInt(condition.get("categoryPid").toString()));
@@ -271,7 +288,7 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 		db1Categories2.addAll(db0Categories2);
 		ProductServerUtil.sortByCategoryId(db1Categories2);
 		List<TmallCategory> res = new ArrayList<>();
-		for (int i = (start - offSet); i < end; i++)
+		for (int i = (start - offSet); i < end&&i<db1Categories2.size(); i++)
 		{
 			res.add(db1Categories2.get(i));
 		}
@@ -376,6 +393,26 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 			throw new TmallProductException(ErrorCodeEnum.INTERNAL_DB_ERROR);
 		}
 	
+		
+	}
+
+	@Override
+	public List<CategoryDTO> findCategoryChilds(Integer categoryPid)
+	{
+		TmallCategoryExample example=new TmallCategoryExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andCategoryPidEqualTo(categoryPid);
+		InnerSQLExtentionCRUDServiceImpl impl=this.new InnerSQLExtentionCRUDServiceImpl();
+		List<TmallCategory> categories = impl.findByExample(example);
+		
+		List<CategoryDTO>categoryDTOs=new ArrayList<>();
+		if(null!=categories)
+		{
+			categories.forEach(c->{
+				categoryDTOs.add(c.to());
+			});
+		}
+		return categoryDTOs;
 		
 	}
 }

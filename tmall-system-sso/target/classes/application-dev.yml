@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: SSO-SYSTEM
+tmall: 
+  config: 
+    url: jdbc:mysql://localhost/tmall_micro_product?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    ##另外的数据源
+    another-url: jdbc:mysql://localhost/tmall_micro_product_2?characterEncoding=utf-8&useSSL=false
+    another-username: root
+    another-password: 123456
+    
+    amqpEnabled: false
+    email-account: 18757883747@163.com
+    email-pwd: lvcong1215
+    email-host: smtp.163.com
+    mysql-extention: 'tmall_category:2:1=db0DaoImpl,1=db1DaoImpl-message:2:1=db0MessageDaoImpl,1=db1MessageDaoImpl'
+    amqp-host: localhost
+    amqp-username: guest
+    amqp-password: guest
+  key:
+    auth-public-key-path: classpath:keys/auth_public.key
+    auth-private-key-path: classpath:keys/auth_private.key
+    sso-public-key-path: classpath:keys/sso_public.key
+    sso-private-key-path: classpath:keys/sso_private.key
+server:
+  port: 9002
+    
+eureka: 
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance: 
+    hostname: localhost
+
+feign: 
+  hystrix: 
+    enabled: false
+    
+    
+#hystrix:
+#  command: 
+#    default: 
+#      execution:
+#        timeout:
+#          enabled: false   
+    
+    
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+ribbon:
+  ReadTimeout: 50000
+  ConnectTimeout: 50000
+debug: true

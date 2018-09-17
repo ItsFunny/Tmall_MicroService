@@ -94,7 +94,7 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 	@Bean
 	public IdWorkerService idWorkerService()
 	{
-		return new IdWorkerServiceTwitter(1L, 0L);
+		return new IdWorkerServiceTwitter(0L,1L);
 	}
 	@Bean
 	public SQLExtentionHolder sqlExtentionHolder()

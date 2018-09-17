@@ -75,9 +75,21 @@
 				location.reload();
 			}
 		},'json');
-		
-		
-	
+	}
+	function showChilds(obj){
+		var cid=$(obj).attr("categoryId");
+		$.ajax({
+			url: 
+			dataType: 'json',
+			type: 'get',
+			successs:function(data){
+			
+			},
+			error:function(data){
+			
+			
+			}		
+		})
 	
 	}
 
@@ -173,7 +185,10 @@
 										      	${item.createDate?string('yyyy-MM-dd HH:mm:ss')}
 										      </td>
 										       <td>
-										      	${item.updateDate?string('yyyy-MM-dd HH:mm:ss')}
+										       <#if item.updateDate??>
+										       ${item.updateDate?string('yyyy-MM-dd HH:mm:ss')}
+										       </#if>
+										      	
 										      </td>
 									    <#--<th class="sorting">类型模板ID</th>  -->  
 			                                  <td class="text-center">		                                     
@@ -206,7 +221,7 @@
                      </div>
                     <!-- /.box-body -->
 <!-- 编辑窗口 -->
-<form name="editForm" >
+<form name="editForm" id="editForm">
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" >
 	<div class="modal-content">

@@ -140,4 +140,9 @@ public class CategoryAPIController
 				TmallMQEnum.USER_RECORD.getExchangeName(), TmallMQEnum.USER_RECORD.getRoutinKey(), categoryDTO);
 		return categoryService.insertOrUpdate(wrapper);
 	}
+	@GetMapping(value="/{categoryId}/childs",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<List<CategoryDTO>>findChilds(@PathVariable("categoryId")Integer categoryId)
+	{
+		return com.joker.library.utils.ResultUtils.sucess(categoryService.findCategoryChilds(categoryId));
+	}
 }

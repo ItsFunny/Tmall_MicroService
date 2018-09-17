@@ -6,6 +6,8 @@
 */
 package com.tmall.common.other;
 
+import java.util.List;
+
 /**
 * 
 * 这里最好是有一个abstractService更加好,因为tableName是多余的
@@ -19,8 +21,10 @@ public interface ISQLExtentionBaseCRUDService<T>
 	
 	Integer update(String tableName,Number id,T t,Object example);
 	
-	
 	T findByPrimaryKey(String tableName,Number id);
+	
+	
+	List<T> findByExample(Object object);
 	
 	
 	

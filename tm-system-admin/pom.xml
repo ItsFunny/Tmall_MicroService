@@ -31,7 +31,6 @@
 		<!-- common -->
 		<dependency>
 			<groupId>com.rebuildtmall</groupId>
-			i中
 			<artifactId>tmall-micro-common</artifactId>
 			<version>${tmall-micro-common.version}</version>
 		</dependency>

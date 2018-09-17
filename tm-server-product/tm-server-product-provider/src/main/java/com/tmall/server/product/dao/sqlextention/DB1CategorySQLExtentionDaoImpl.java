@@ -7,6 +7,8 @@
 package com.tmall.server.product.dao.sqlextention;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -44,6 +46,13 @@ public class DB1CategorySQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Tmal
 	public Integer updateSelectTive(String tableName, Object t,Object example)
 	{
 		return db1CategoryDao.updateByExampleSelective((TmallCategory) t, (TmallCategoryExample)example);
+	}
+
+	@Override
+	public List<TmallCategory> findByExample(Object example)
+	{
+		TmallCategoryExample example2=(TmallCategoryExample) example;
+		return db1CategoryDao.selectByExample(example2);
 	}
 
 //	@Override

@@ -9,6 +9,7 @@ package com.tmall.server.product.dao.db1;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -29,7 +30,7 @@ import com.tmall.server.product.dao.TmallCategoryDao;
 @Mapper
 public interface Db1CategoryDao 
 {
-	@Select("select count(1) from tmall_category_1")
+	@Select("select count(1) from tmall_category_0")
 	Long countCategory();
 
 	@Select("select category_id,parent_category_id,category_name,create_date,update_date,category_display_seq from tmall_category_1")
@@ -37,7 +38,7 @@ public interface Db1CategoryDao
 
 	@Select("select category_id,category_pid,category_name,create_date,update_date,category_display_seq from tmall_category_1 where category_pid=0 ")
 	Collection<CategoryDTO> findTopLevelCategories();
-
+	
 	@Select("select category_id,category_pid,category_name,create_date,update_date,category_display_seq from tmall_category_1 where category_pid=#{categoryId}")
 	Collection<CategoryDTO> findChildCategoriesWithinOneCategory(Integer categoryId);
 

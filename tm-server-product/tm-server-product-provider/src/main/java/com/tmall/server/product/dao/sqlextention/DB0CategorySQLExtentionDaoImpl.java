@@ -47,6 +47,13 @@ public class DB0CategorySQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Tmal
 		return db0CategoryDao.updateByExampleSelective((TmallCategory) t, (TmallCategoryExample)example);
 	}
 
+	@Override
+	public List<TmallCategory> findByExample(Object example)
+	{
+		TmallCategoryExample example2=(TmallCategoryExample) example;
+		return db0CategoryDao.selectByExample(example2);
+	}
+
 //	@Override
 //	public List<TmallCategory> selectByExample(TmallCategoryExample e)
 //	{

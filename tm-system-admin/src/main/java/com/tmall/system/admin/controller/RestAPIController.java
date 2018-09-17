@@ -259,10 +259,19 @@ public class RestAPIController
 		Map<String, Object>data=new HashMap<>();
 		CategoryDTO dto=new CategoryDTO();
 		BeanUtils.copyProperties(model, dto);
+//		return ResultUtils.sucess();
 		data.put(UserRequestConstant.USER_REQUEST_CATEGORY, dto);
 		userRequestDTO.setExtProps(data);
 		userRequestDTO.setUser(user);
 		return categoryService.addOrUpdateCategory(userRequestDTO);
+	}
+	/*
+	 * 显示旗下的所有子类
+	 */
+	@GetMapping(value="/category/{categoryId}/childs",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<List<CategoryDTO>>showCategoryAllChilds(@PathVariable("categoryId")Integer categoryId)
+	{
+		return null;
 	}
 
 }

@@ -33,6 +33,7 @@ public interface ICategoryService  extends PageBaseService<List<CategoryDTO>>
 	
 	CategoryDTO findCategoryFathers(Integer categoryId);
 	
+	List<CategoryDTO>findCategoryChilds(Integer categoryPid);
 	
 	
 }

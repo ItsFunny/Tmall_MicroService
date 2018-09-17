@@ -46,19 +46,19 @@ public class TmallMessageServerConfiguration
 {
 	@Autowired
 	private TmallMQConfigProperty mqConfigProperty;
-	
+
 	@Bean
 	public RestTemplate restTemplate()
 	{
 		return new RestTemplate();
 	}
+
 	@Bean
 	public JobHolder jobHolder()
 	{
 		return JobHolder.getSingleTonJobHolder();
 	}
-	
-		
+
 	@Bean
 	@ConditionalOnProperty(prefix = "tmall.config.mq", name = "amqp-enabled", matchIfMissing = false)
 	public ConnectionFactory connectionFactory()
@@ -72,21 +72,23 @@ public class TmallMessageServerConfiguration
 		cachingConnectionFactory.setPublisherReturns(true);
 		return cachingConnectionFactory;
 	}
-	//规范的话这个最好还是选择起一个facaded confimCallback
-//	@Bean
-//	public ConfirmCallback facadedConfirmCallback()
-//	{
-//		TmallUserRecordConfirmCallback callback=new TmallUserRecordConfirmCallback(TmallMQEnum.USER_RECORD.getRoutinKey());
-//		callback.setNextCallback(null);
-//		return callback;
-//	}
+
+	// 规范的话这个最好还是选择起一个facaded confimCallback
+	// @Bean
+	// public ConfirmCallback facadedConfirmCallback()
+	// {
+	// TmallUserRecordConfirmCallback callback=new
+	// TmallUserRecordConfirmCallback(TmallMQEnum.USER_RECORD.getRoutinKey());
+	// callback.setNextCallback(null);
+	// return callback;
+	// }
 	@Bean
 	@ConditionalOnProperty(prefix = "tmall.config.mq", name = "amqp-enabled", matchIfMissing = false)
 	public RabbitTemplate rabbitTemplate()
 	{
 		RabbitTemplate rabbitTemplate = new RabbitTemplate();
 		rabbitTemplate.setConnectionFactory(connectionFactory());
-//		rabbitTemplate.setConfirmCallback(facadedConfirmCallback());
+		// rabbitTemplate.setConfirmCallback(facadedConfirmCallback());
 		rabbitTemplate.setReturnCallback(new TmallUserReturnCallBack());
 		rabbitTemplate.setMessageConverter(new JSONMessageConverter());
 		return rabbitTemplate;
@@ -118,7 +120,7 @@ public class TmallMessageServerConfiguration
 	}
 
 	@Bean
-	@ConditionalOnProperty(prefix = "tmall.config.mq", name = "amqp-enabled",matchIfMissing=false)
+	@ConditionalOnProperty(prefix = "tmall.config.mq", name = "amqp-enabled", matchIfMissing = false)
 	Binding recordBinding()
 	{
 		Queue queue = recordQueue();
@@ -127,15 +129,16 @@ public class TmallMessageServerConfiguration
 		return BindingBuilder.bind(queue).to(recordExchange())
 				.with(TmallMQEnum.USER_RECORD.getRoutinKey().toUpperCase());
 	}
-	
+
 	@Bean
-	@ConditionalOnProperty(prefix = "tmall.config.mq", name = "amqp-enabled",matchIfMissing=false)
+	@ConditionalOnProperty(prefix = "tmall.config.mq", name = "amqp-enabled", matchIfMissing = false)
 	public AppEventPublisher eventPublisher()
 	{
-		if(mqConfigProperty.isAmqpEnabled())
+		if (mqConfigProperty.isAmqpEnabled())
 		{
 			return new AppEventRabbitMQPublish();
-		}else {
+		} else
+		{
 			return new LogEventPublisher();
 		}
 	}

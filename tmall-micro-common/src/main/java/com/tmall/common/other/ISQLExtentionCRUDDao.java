@@ -24,6 +24,8 @@ public interface ISQLExtentionCRUDDao<T>
 	
 	T findByPrimaryKey(Number id);
 	
+	List<T>findByExample(Object example);
+	
 	
 
 }
