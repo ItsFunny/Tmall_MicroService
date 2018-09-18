@@ -68,5 +68,6 @@ public interface IFacadedService
 	ResultDTO<PageResponseDTO<List<CategoryDTO>>>findCategoriesByPage(PageRequestDTO pageRequestDTO);
 	ResultDTO<CategoryDTO>findCategoryParents(Integer categoryId);
 	ResultDTO<String>addOrUpdateCat(UserRequestDTO dto);
+	ResultDTO<List<CategoryDTO>>findCategoryAllChilds(Integer categoryId);
 	
 }

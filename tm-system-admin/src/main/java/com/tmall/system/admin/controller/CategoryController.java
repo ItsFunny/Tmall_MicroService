@@ -62,6 +62,7 @@ public class CategoryController
 		Map<String, Object>condition=new HashMap<String, Object>();
 		if(!org.apache.commons.lang3.StringUtils.isEmpty(searchKey))
 		{
+			params.put("searchKey", searchKey);
 			try
 			{
 				Integer id=Integer.parseInt(searchKey);

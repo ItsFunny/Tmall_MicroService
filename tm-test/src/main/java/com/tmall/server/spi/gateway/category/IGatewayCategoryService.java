@@ -37,4 +37,7 @@ public interface IGatewayCategoryService
 	
 	@PostMapping(value="/valid/category/addOrUpdate",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	ResultDTO<String>addOrUpdateCategory(@RequestBody UserRequestDTO dto);
+	
+	@GetMapping(value="/valid/category/{categoryId}/childs")
+	ResultDTO<List<CategoryDTO>>findCategoryChilds(@PathVariable("categoryId")Integer categoryId);
 }

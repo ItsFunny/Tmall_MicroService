@@ -53,4 +53,9 @@ public class CategoryController
 	{
 		return facadedService.addOrUpdateCat(dto);
 	}
+	@GetMapping(value="/{categoryId}/childs",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<List<CategoryDTO>>findCategoryAllChilds(@PathVariable("categoryId")Integer categoryId)
+	{
+		return facadedService.findCategoryAllChilds(categoryId);
+	}
 }

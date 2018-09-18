@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 import javax.servlet.Filter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,8 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import com.tmall.common.filter.CharsetFilter;
+import com.tmall.common.utils.JWTUtilFactoryBean;
+import com.tmall.common.utils.KeyProperty;
 import com.tmall.system.sso.filter.SSOLoginFilter;
 import com.tmall.system.sso.interceptor.SSOLoginIterceptor;
 
@@ -30,8 +34,21 @@ import com.tmall.system.sso.interceptor.SSOLoginIterceptor;
  * @date 创建时间：2018年6月3日 下午10:06:56
  */
 @Configuration
+@EnableConfigurationProperties(value =
+{ KeyProperty.class })
 public class SSOSystemAutoConfiguration implements WebMvcConfigurer
 {
+	@Autowired
+	private KeyProperty keyProperty;
+
+	@Bean
+	public JWTUtilFactoryBean jwtUtilFactoryBean()
+	{
+		JWTUtilFactoryBean factoryBean = new JWTUtilFactoryBean(keyProperty.getAuthPrivateKey(),
+				keyProperty.getAuthPublicKey(), keyProperty.getSsoPrivateKey(), keyProperty.getSsoPublicKey());
+		return factoryBean;
+	}
+
 	@Bean
 	public FilterRegistrationBean<Filter> filterRegistrationBean()
 	{

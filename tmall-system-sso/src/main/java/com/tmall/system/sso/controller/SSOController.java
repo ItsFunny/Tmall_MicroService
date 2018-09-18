@@ -1,7 +1,5 @@
 package com.tmall.system.sso.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 
 import java.util.Map;
 
@@ -22,6 +20,7 @@ import com.joker.library.utils.JsonUtil;
 import com.tmall.common.constants.AuthConstant;
 import com.tmall.common.dto.AuthTokenDTO;
 import com.tmall.common.dto.UserDTO;
+import com.tmall.common.utils.JWTUtils;
 import com.tmall.server.spi.auth.IAuthFeignService;
 import com.tmall.server.spi.user.IUserFeignService;
 import com.tmall.system.sso.model.FormUserModel;
@@ -34,6 +33,9 @@ public class SSOController
 
 	@Autowired
 	private IAuthFeignService authFeignService;
+	
+	@Autowired
+	private JWTUtils jwtUtil;
 
 	@RequestMapping(value = "/login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response)
@@ -68,7 +70,8 @@ public class SSOController
 		 * 调用user提供的接口
 		 */
 		String json = JsonUtil.obj2Json(userModel);
-		ResultDTO<UserDTO> userRes = userFeignService.login(json);
+		String encryptJson = jwtUtil.buildBySSOPrivateKey(userModel);
+		ResultDTO<UserDTO> userRes = userFeignService.login(encryptJson);
 		if (!userRes.isSuccess())
 		{
 			params.put("error", userRes.getMsg());
@@ -83,7 +86,8 @@ public class SSOController
 		tokenDTO.setData(userRes.getData());
 		tokenDTO.setInvalidTime(System.currentTimeMillis() + 1000 * 60 * 5);
 		tokenDTO.setStoreAbbName(storeAbbName);
-		String authJson = JsonUtil.obj2Json(tokenDTO);
+//		String authJson = JsonUtil.obj2Json(tokenDTO);
+		String authJson=jwtUtil.buildBySSOPrivateKey(tokenDTO);
 		ResultDTO<String> authRes = authFeignService.auth(authJson);
 		if (!authRes.isSuccess())
 		{

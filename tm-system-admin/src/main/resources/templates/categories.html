@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="/css/style.css">
 	<script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
-    
 </head>
 <script>
 
@@ -76,18 +75,34 @@
 			}
 		},'json');
 	}
-	function showChilds(obj){
+	function showChild(obj){
+			$("#childs").empty();
 		var cid=$(obj).attr("categoryId");
 		$.ajax({
-			url: 
+			url: '/admin/api/v1/category/'+cid+'/childs',
 			dataType: 'json',
 			type: 'get',
-			successs:function(data){
-			
+			success:function(data){
+				var p=$("#childs");
+				var str="";
+				if(data.code==1){
+					var list=data.data;
+					if(list.length==0){
+						str+='<option value="'+没有数据+'">'+没有数据+'</option>';
+					}else{
+						for(var i=0;i<list.length;i++){
+							var cname=list[i].categoryName;
+							var cid=list[i].categoryId;
+							str+='<option value="'+cid+'">'+cname+'</option>';
+						}
+						p.append(str);
+					}
+				
+				}else{
+					alert(data.msg);
+				}
 			},
 			error:function(data){
-			
-			
 			}		
 		})
 	
@@ -192,7 +207,7 @@
 										      </td>
 									    <#--<th class="sorting">类型模板ID</th>  -->  
 			                                  <td class="text-center">		                                     
-			                                      <button type="button" class="btn bg-olive btn-xs" >查询下级</button> 		                                     
+			                                      <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"  data-target="#childModel" categoryId="${item.categoryId}" onclick="showChild(this)">查询下级</button> 		                                     
 			                                 	  <button type="button" class="btn bg-olive btn-xs" categoryId="${item.categoryId}" categoryName="${item.categoryName}" categoryDisplaySeq="${item.categoryDisplaySeq}"  data-toggle="modal" data-target="#editModal" onclick="update(this)">修改</button>                                          
 			                                  </td>
 				                          </tr>
@@ -264,5 +279,34 @@
 	</div>
 </div>
 </form>
+<div class="modal fade" id="childModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">商品分类编辑</h3>
+		</div>
+		<div class="modal-body">							
+			<table class="table table-bordered table-striped"  width="800px">
+				<tr>
+		      		<td>
+		      		
+		      		<select id="childs">
+		      				<option value="volvo">Volvo</option>
+		      		</select>
+		      		
+		      		</td>
+		      	</tr>
+			 </table>				
+		</div>
+		<div class="modal-footer">						
+			<input type="hidden" name="categoryId" id="categoryId">
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="addOrUpdate()">保存</button>
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+		</div>
+	  </div>
+	</div>
+</div>
+
 </body>
 </html>

@@ -134,7 +134,7 @@ public class SQLExtentionHolder
 			throw new RuntimeException(tableName+"对应的配置不存在");
 		}
 		DBInfo[] dbs = extentionInfo.getDbs();
-		if(null!=dbs)
+		if(null==dbs)
 		{
 			throw new RuntimeException(tableName+"对应的数据库信息为空,请确认配置信息是否正确");
 		}

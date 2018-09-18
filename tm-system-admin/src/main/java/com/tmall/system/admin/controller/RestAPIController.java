@@ -271,7 +271,8 @@ public class RestAPIController
 	@GetMapping(value="/category/{categoryId}/childs",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResultDTO<List<CategoryDTO>>showCategoryAllChilds(@PathVariable("categoryId")Integer categoryId)
 	{
-		return null;
+		ResultDTO<List<CategoryDTO>> res = categoryService.findCategoryChilds(categoryId);
+		return res;
 	}
 
 }

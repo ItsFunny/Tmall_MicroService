@@ -77,15 +77,15 @@ public class RestAuthController
 			return ResultUtils.fail("缺少参数:token");
 		}
 		AuthTokenDTO authRequestDTO = null;
-		try
-		{
-			token = URLDecoder.decode(token, "utf-8");
+//		try
+//		{
+//			token = URLDecoder.decode(token, "utf-8");
 			authRequestDTO = jwtUtil.parseBySSOPublicKey(token);
-		} catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-			return ResultUtils.fail("无效的token");
-		}
+//		} catch (UnsupportedEncodingException e)
+//		{
+//			e.printStackTrace();
+//			return ResultUtils.fail("无效的token");
+//		}
 		if (null == authRequestDTO)
 		{
 			return ResultUtils.fail("无效的token");

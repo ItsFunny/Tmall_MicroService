@@ -49,4 +49,10 @@ public class CategoryServiceImpl implements ICategoryService
 		return categoryFeignService.addOrUpdateCategory(dto);
 	}
 
+	@Override
+	public ResultDTO<List<CategoryDTO>> findCategoryAllChilds(Integer categoryId)
+	{
+		return categoryFeignService.findCateogryChilds(categoryId);
+	}
+
 }

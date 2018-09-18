@@ -21,6 +21,6 @@ public interface AuthConstant
 	
 	String AUTH_IN_SESSION="Authorization";
 	
-	String INVALID_TIME="InvalidTime";
+	String INVALID_TIME="invalidTime";
 	
 }

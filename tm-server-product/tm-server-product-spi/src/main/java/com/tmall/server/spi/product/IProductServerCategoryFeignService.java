@@ -34,23 +34,26 @@ public interface IProductServerCategoryFeignService
 	@RequestMapping(value = "/category/topLevel/all/{storeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	ResultDTO<List<CategoryDTO>> findStoreAllTopLevelCategories(@PathVariable("storeId") Long storeId);
 
-	@RequestMapping(value = "/category/child/{categoryPid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	ResultDTO<List<CategoryDTO>> findCateogryChilds(@PathVariable("cateogryPid") Integer categoryPid);
+	@RequestMapping(value = "/auth/category/{categoryId}/childs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	ResultDTO<List<CategoryDTO>> findCateogryChilds(@PathVariable("categoryId") Integer categoryPid);
 
 	/*
 	 * 分页显示类目
 	 */
 	@PostMapping(value = "/auth/category/show", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	ResultDTO<PageResponseDTO<List<CategoryDTO>>> findCategoriesByPage(@RequestBody PageRequestDTO pageRequestDTO);
+
 	/*
 	 * 显示某个类目下的所有父类
 	 */
-	@GetMapping(value="/auth/category/fathers/{categoryId}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	ResultDTO<CategoryDTO>findCategoryParents(@PathVariable("categoryId")Integer categoryId);
+	@GetMapping(value = "/auth/category/fathers/{categoryId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	ResultDTO<CategoryDTO> findCategoryParents(@PathVariable("categoryId") Integer categoryId);
+
 	/*
 	 * 添加或者更新类目
 	 */
-	@PostMapping(value="/auth/category/addOrUpdate",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	ResultDTO<String>addOrUpdateCategory(@RequestBody UserRequestDTO dto);
+	@PostMapping(value = "/auth/category/addOrUpdate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	ResultDTO<String> addOrUpdateCategory(@RequestBody UserRequestDTO dto);
+
 
 }

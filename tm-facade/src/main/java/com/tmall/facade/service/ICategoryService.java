@@ -32,5 +32,9 @@ public interface ICategoryService
 	/*
 	 * 添加或者更新类目
 	 */
-	ResultDTO<String>addOrUpdateCategory(@RequestBody UserRequestDTO dto);
+	ResultDTO<String>addOrUpdateCategory( UserRequestDTO dto);
+	/*
+	 * 查询某个类目下的所有子类目
+	 */
+	ResultDTO<List<CategoryDTO>>findCategoryAllChilds(Integer categoryId);
 }

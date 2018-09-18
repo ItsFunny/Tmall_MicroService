@@ -144,5 +144,11 @@ public class FacadedServiceImpl implements IFacadedService
 		// TODO Auto-generated method stub
 		return categoryService.addOrUpdateCategory(dto);
 	}
+
+	@Override
+	public ResultDTO<List<CategoryDTO>> findCategoryAllChilds(Integer categoryId)
+	{
+		return categoryService.findCategoryAllChilds(categoryId);
+	}
 	
 }
