@@ -69,5 +69,7 @@ public interface IFacadedService
 	ResultDTO<CategoryDTO>findCategoryParents(Integer categoryId);
 	ResultDTO<String>addOrUpdateCat(UserRequestDTO dto);
 	ResultDTO<List<CategoryDTO>>findCategoryAllChilds(Integer categoryId);
+	ResultDTO<List<CategoryDTO>>findCategoriesOnCondition(Map<String, Object>condition);
+	ResultDTO<Integer>deleteCategoriesInBatch(UserRequestDTO dto);
 	
 }

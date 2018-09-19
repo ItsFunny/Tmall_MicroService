@@ -150,5 +150,17 @@ public class FacadedServiceImpl implements IFacadedService
 	{
 		return categoryService.findCategoryAllChilds(categoryId);
 	}
+
+	@Override
+	public ResultDTO<List<CategoryDTO>> findCategoriesOnCondition(Map<String, Object> condition)
+	{
+		return categoryService.findCategoriesOnCondition(condition);
+	}
+
+	@Override
+	public ResultDTO<Integer> deleteCategoriesInBatch(UserRequestDTO dto)
+	{
+		return categoryService.deleteCategoriesInBatch(dto);
+	}
 	
 }

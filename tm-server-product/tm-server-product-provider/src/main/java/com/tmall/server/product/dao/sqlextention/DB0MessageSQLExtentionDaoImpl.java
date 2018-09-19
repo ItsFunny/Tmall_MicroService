@@ -55,4 +55,10 @@ public class DB0MessageSQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Messa
 		return null;
 	}
 
+	@Override
+	public Integer deleteInBatchByExample(Object example)
+	{
+		return null;
+	}
+
 }

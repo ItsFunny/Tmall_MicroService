@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.joker.library.dto.ResultDTO;
 import com.joker.library.page.AbstractPageService;
@@ -94,14 +95,26 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 		public List<TmallCategory> findByExample(Object object)
 		{
 			List<ISQLExtentionCRUDDao> daos = holder.getTableAllDaos(SQLExtentionConstant.CATEGORY);
-			List<TmallCategory>categories=new ArrayList<>();
+			List<TmallCategory> categories = new ArrayList<>();
 			for (ISQLExtentionCRUDDao dao : daos)
 			{
 				List<TmallCategory> category = dao.findByExample(object);
 				categories.addAll(category);
 			}
 			return categories;
-			
+
+		}
+
+		@Override
+		public Integer deleteInBatchByExample(Object example)
+		{
+			List<ISQLExtentionCRUDDao> daos = holder.getTableAllDaos(SQLExtentionConstant.CATEGORY);
+			Integer validCount = 0;
+			for (ISQLExtentionCRUDDao dao : daos)
+			{
+				validCount += dao.deleteInBatchByExample(example);
+			}
+			return validCount;
 		}
 	}
 
@@ -159,18 +172,18 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 	{
 		if (null == condition || condition.isEmpty())
 		{
-			return db0categoryDao.countCategory()+db1CategoryDao.countCategory();
+			return db0categoryDao.countCategory() + db1CategoryDao.countCategory();
 		}
 		TmallCategoryExample example = new TmallCategoryExample();
 		Criteria criteria = example.createCriteria();
-		if(condition.containsKey("searchKey"))
+		if (condition.containsKey("searchKey"))
 		{
-			example.or().andCategoryNameLike("%"+condition.get("searchKey").toString()+"%");
+			example.or().andCategoryNameLike("%" + condition.get("searchKey").toString() + "%");
 		}
-//		if (condition.containsKey("categoryName"))
-//		{
-//			example.or().andCategoryNameLike(condition.get("categoryName").toString());
-//		}
+		// if (condition.containsKey("categoryName"))
+		// {
+		// example.or().andCategoryNameLike(condition.get("categoryName").toString());
+		// }
 		if (condition.containsKey("categoryPid"))
 		{
 			criteria.andCategoryPidEqualTo(Integer.parseInt(condition.get("categoryPid").toString()));
@@ -288,7 +301,7 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 		db1Categories2.addAll(db0Categories2);
 		ProductServerUtil.sortByCategoryId(db1Categories2);
 		List<TmallCategory> res = new ArrayList<>();
-		for (int i = (start - offSet); i < end&&i<db1Categories2.size(); i++)
+		for (int i = (start - offSet); i < end && i < db1Categories2.size(); i++)
 		{
 			res.add(db1Categories2.get(i));
 		}
@@ -372,47 +385,117 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 	public ResultDTO<String> insertOrUpdate(UserRecordAspectWrapper<CategoryDTO> wrapper)
 	{
 		CategoryDTO dto = wrapper.getData();
-		TmallCategory category=new TmallCategory();
+		TmallCategory category = new TmallCategory();
 		category.from(dto);
-		Integer validCount=null;
+		Integer validCount = null;
 		if (null == category.getCategoryId())
 		{
-			category.setCategoryId(((Number)idWorkerService.nextId()).intValue());
-			validCount=insert(category);
-		}else {
+			category.setCategoryId(((Number) idWorkerService.nextId()).intValue());
+			validCount = insert(category);
+		} else
+		{
 			InnerSQLExtentionCRUDServiceImpl impl = this.new InnerSQLExtentionCRUDServiceImpl();
 			TmallCategoryExample example = new TmallCategoryExample();
 			Criteria criteria = example.createCriteria();
 			criteria.andCategoryIdEqualTo(category.getCategoryId());
-			 validCount = impl.update(SQLExtentionConstant.CATEGORY, category.getCategoryId(), category, example);
+			validCount = impl.update(SQLExtentionConstant.CATEGORY, category.getCategoryId(), category, example);
 		}
-		if(validCount>0)
+		if (validCount > 0)
 		{
 			return ResultUtils.sucess();
-		}else {
+		} else
+		{
 			throw new TmallProductException(ErrorCodeEnum.INTERNAL_DB_ERROR);
 		}
-	
-		
+
 	}
 
 	@Override
 	public List<CategoryDTO> findCategoryChilds(Integer categoryPid)
 	{
-		TmallCategoryExample example=new TmallCategoryExample();
+		TmallCategoryExample example = new TmallCategoryExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andCategoryPidEqualTo(categoryPid);
-		InnerSQLExtentionCRUDServiceImpl impl=this.new InnerSQLExtentionCRUDServiceImpl();
+		InnerSQLExtentionCRUDServiceImpl impl = this.new InnerSQLExtentionCRUDServiceImpl();
 		List<TmallCategory> categories = impl.findByExample(example);
-		
-		List<CategoryDTO>categoryDTOs=new ArrayList<>();
-		if(null!=categories)
+
+		List<CategoryDTO> categoryDTOs = new ArrayList<>();
+		if (null != categories)
 		{
-			categories.forEach(c->{
+			categories.forEach(c -> {
 				categoryDTOs.add(c.to());
 			});
 		}
 		return categoryDTOs;
-		
+
+	}
+
+	@Override
+	public List<CategoryDTO> findCategoriesOnConditionWithOutPage(Map<String, Object> condition)
+	{
+		TmallCategoryExample example = new TmallCategoryExample();
+		Criteria criteria = example.createCriteria();
+		if (condition.containsKey("categoryPid"))
+		{
+			criteria.andCategoryPidEqualTo(Integer.parseInt(condition.get("categoryPid").toString()));
+		}
+
+		InnerSQLExtentionCRUDServiceImpl impl = new InnerSQLExtentionCRUDServiceImpl();
+		List<TmallCategory> categories = impl.findByExample(example);
+		List<CategoryDTO> dtos = new ArrayList<>();
+		if (null != categories)
+		{
+			categories.forEach(c -> {
+				dtos.add(c.to());
+			});
+		}
+
+		return dtos;
+	}
+
+	@RabbitMQTransaction
+	@Override
+	public ResultDTO<Integer> deleteInBatch(UserRecordAspectWrapper<List<Integer>> wrapper)
+	{
+		List<Integer> idList = wrapper.getData();
+		if (null == idList || idList.isEmpty())
+		{
+			throw new TmallProductException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.ILLEGAL_ARGUMENT, "参数Id不能为空"));
+		}
+		log.info("[deleteInBatch]批量删除类目:{}", idList);
+		TmallCategoryExample example = new TmallCategoryExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andCategoryIdIn(idList);
+		InnerSQLExtentionCRUDServiceImpl impl = new InnerSQLExtentionCRUDServiceImpl();
+		Integer validCount = impl.deleteInBatchByExample(example);
+		if (validCount != idList.size())
+		{
+			log.error("[deleteInBatch]批量删除类目成功的数目与预期的不一致,成功删除:{}条记录,预期:{}条记录", validCount, idList.size());
+			throw new TmallProductException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.ILLEGAL_DB_RESULT, "操作成功记录数与预期的不一致"));
+		}
+		return ResultUtils.sucess(validCount);
+	}
+
+	@RabbitMQTransaction
+	@Override
+	public ResultDTO<Integer> updateStatus(UserRecordAspectWrapper<CategoryDTO> wrapper)
+	{
+		log.info("[updateStatus]更新店铺状态,wrapper:{}", wrapper);
+		CategoryDTO categoryDTO = wrapper.getData();
+		TmallCategoryExample example = new TmallCategoryExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andCategoryIdEqualTo(categoryDTO.getCategoryId());
+		TmallCategory category = new TmallCategory();
+		category.setStatus(categoryDTO.getStatus());
+		InnerSQLExtentionCRUDServiceImpl impl = new InnerSQLExtentionCRUDServiceImpl();
+		Integer validCount = impl.update(SQLExtentionConstant.CATEGORY, category.getCategoryId(), category, example);
+		if (validCount > 0)
+		{
+			return ResultUtils.sucess();
+		} else
+		{
+			log.error("[updateStatus]本地更新店铺状态失败,生效记录数为0");
+			throw new TmallProductException(ErrorCodeEnum.parseEnum(ErrorCodeEnum.INTERNAL_DB_ERROR, "本地更新数据失败"));
+		}
 	}
 }

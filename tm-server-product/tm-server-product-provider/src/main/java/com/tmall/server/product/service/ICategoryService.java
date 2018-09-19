@@ -7,6 +7,7 @@
 package com.tmall.server.product.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.joker.library.dto.ResultDTO;
 import com.joker.library.page.PageBaseService;
@@ -34,6 +35,12 @@ public interface ICategoryService  extends PageBaseService<List<CategoryDTO>>
 	CategoryDTO findCategoryFathers(Integer categoryId);
 	
 	List<CategoryDTO>findCategoryChilds(Integer categoryPid);
+	
+	List<CategoryDTO>findCategoriesOnConditionWithOutPage(Map<String, Object>condition);
+	
+	ResultDTO<Integer> deleteInBatch(UserRecordAspectWrapper<List<Integer>>wrapper);
+	
+	ResultDTO<Integer>updateStatus(UserRecordAspectWrapper<CategoryDTO>wrapper);
 	
 	
 }

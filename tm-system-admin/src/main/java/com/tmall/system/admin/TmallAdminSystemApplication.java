@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(exclude=RabbitAutoConfiguration.class,scanBasePackages="com.tmall")
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages= {"com.tmall.server.spi"})
+@EnableFeignClients(basePackages= {"com.tmall.server.spi","com.tmall.server.spi.open"})
 //@ComponentScan(basePackages="com.tmall")
 @MapperScan(basePackages="com.tmall.system.admin.dao")
 public class TmallAdminSystemApplication

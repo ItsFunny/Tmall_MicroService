@@ -2,183 +2,267 @@
 <html>
 
 <head>
-    <!-- 页面meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>商品分类管理</title>
-    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
-    <link rel="stylesheet" href="/plugins/adminLTE/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-	<script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- 页面meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>商品分类管理</title>
+<meta
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
+<link rel="stylesheet"
+	href="/plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <script>
-
-
-	function search(){
-		document.pageForm.pageNum.value=1;
-		document.pageForm.searchKey.value=$("#searchKey").val();
-		document.pageForm.submit();	
+	function search()
+	{
+		document.pageForm.pageNum.value = 1;
+		document.pageForm.searchKey.value = $("#searchKey").val();
+		document.pageForm.submit();
 	}
-	
-	function showRelations(cid){
-		$.ajax({
-			url: '/admin/api/v1/auth/category/parents/'+cid,
-			dataType: 'json',
-			type: 'get',
-			success:function(data){
-				if(data.code==1){
-					var cat=data.data;
-					var str=cat.categoryName;
-					str=loopShow(str,cat.parent);
+
+	function showRelations(cid)
+	{
+		$.ajax(
+		{
+			url : '/admin/api/v1/auth/category/parents/' + cid,
+			dataType : 'json',
+			type : 'get',
+			success : function(data)
+			{
+				if (data.code == 1)
+				{
+					var cat = data.data;
+					var str = cat.categoryName;
+					str = loopShow(str, cat.parent);
+					$("#relations").empty();
 					$("#relations").html(str);
-				}else{
+				} else
+				{
 					alert(data.msg);
 				}
 			},
-			error:function(){
+			error : function()
+			{
 				alert('无法获取该类目的父类信息');
 			}
 		})
 	}
-	function update(obj){
-		var cid=$(obj).attr("categoryId");
-		cid=cid.replace(/,/g, "")
-		var categoryDisplaySeq=$(obj).attr("categoryDisplaySeq");
-		var categoryName=$(obj).attr("categoryName");
+	function update(obj)
+	{
+		var cid = $(obj).attr("categoryId");
+		cid = cid.replace(/,/g, "")
+		var categoryDisplaySeq = $(obj).attr("categoryDisplaySeq");
+		var categoryName = $(obj).attr("categoryName");
 		$("#categoryName").val(categoryName);
 		$("#categoryDisplaySeq").val(categoryDisplaySeq);
 		$("#categoryId").val(cid);
 		showRelations(cid);
 	}
-	function loopShow(str,par){
-		if(par!=null)
+	function loopShow(str, par)
+	{
+		if (par != null)
 		{
-			str=par.categoryName+">>"+str;
-			var p=par.parent;
-			if(p!=null)
+			str = par.categoryName + ">>" + str;
+			var p = par.parent;
+			if (p != null)
 			{
-				str=loopShow(str,p);
+				str = loopShow(str, p);
 			}
 		}
 		return str;
 	}
-	function addOrUpdate(){
-		
-		jQuery.post('/admin/api/v1/addOrUpdate',$("#editForm").serialize(),function(data){
-			
+	function addOrUpdate()
+	{
+
+		jQuery.post('/admin/api/v1/addOrUpdate', $("#editForm").serialize(),
+				function(data)
+				{
+
+					alert(data.msg);
+					if (data.code == 1)
+					{
+						location.reload();
+					}
+				}, 'json');
+	}
+	function showChild(obj)
+	{
+		$("#childs").empty();
+		var cid = $(obj).attr("categoryId");
+		$
+				.ajax(
+				{
+					url : '/admin/api/v1/category/' + cid + '/childs',
+					dataType : 'json',
+					type : 'get',
+					success : function(data)
+					{
+						var p = $("#childs");
+						var str = "";
+						if (data.code == 1)
+						{
+							var list = data.data;
+							if (list.length == 0)
+							{
+								str += '<option value="'+没有数据+'">' + 没有数据
+										+ '</option>';
+							} else
+							{
+								for (var i = 0; i < list.length; i++)
+								{
+									var cname = list[i].categoryName;
+									var cid = list[i].categoryId;
+									str += '<option value="'+cid+'">' + cname
+											+ '</option>';
+								}
+								p.append(str);
+							}
+
+						} else
+						{
+							alert(data.msg);
+						}
+					},
+					error : function(data)
+					{
+					}
+				})
+	}
+	function showTopCategories()
+	{
+		var data =
+		{
+			"categoryPid" : 0
+		};
+		var obj = $("#relations");
+		obj.empty();
+		jQuery.get('/admin/api/v1/category/condition', data, function(data)
+		{
+			if (data.code == 1)
+			{
+				var list = data.data;
+				var str = '<select name="categoryPid">';
+				for (var i = 0; i < list.length; i++)
+				{
+					str += '<option value="'+list[i].categoryId+'">'
+							+ list[i].categoryName + '</option>';
+				}
+				str += '</select>';
+				alert(str);
+				obj.append(str);
+			} else
+			{
+				alert(data.msg);
+			}
+		}, 'json');
+	}
+	function batchDelete()
+	{
+
+		var ids = "";
+		$('.catCheckBox[type="checkbox"]:checked').each(function()
+		{
+			ids += $(this).val() + ",";
+		})
+		jQuery.get('/admin/api/v1/category/delete',
+		{
+			"ids" : ids
+		}, function(data)
+		{
+			alert(data.msg);
+			if (data.code == 1)
+			{
+				location.reload();
+			}
+		}, 'json');
+	}
+	function updateStatus(categoryId,status){
+		jQuery.get('/admin/api/v1/category/update/status',{"categoryId":categoryId,"status":status}',function(data){
 			alert(data.msg);
 			if(data.code==1){
 				location.reload();
 			}
 		},'json');
 	}
-	function showChild(obj){
-			$("#childs").empty();
-		var cid=$(obj).attr("categoryId");
-		$.ajax({
-			url: '/admin/api/v1/category/'+cid+'/childs',
-			dataType: 'json',
-			type: 'get',
-			success:function(data){
-				var p=$("#childs");
-				var str="";
-				if(data.code==1){
-					var list=data.data;
-					if(list.length==0){
-						str+='<option value="'+没有数据+'">'+没有数据+'</option>';
-					}else{
-						for(var i=0;i<list.length;i++){
-							var cname=list[i].categoryName;
-							var cid=list[i].categoryId;
-							str+='<option value="'+cid+'">'+cname+'</option>';
-						}
-						p.append(str);
-					}
-				
-				}else{
-					alert(data.msg);
-				}
-			},
-			error:function(data){
-			}		
-		})
-	
-	}
-
-
 </script>
+<body class="hold-transition skin-red sidebar-mini">
+	<!-- .box-body -->
+	<form name="pageForm" method="get" action="/admin/category/all">
+		<input type="hidden" name="pageSize"> <input type="hidden"
+			name="pageNum" value="${pageVO.pageNum!"1"}"> <input
+			type="hidden" name="searchKey" value="${key!""}">
+	</form>
+	<div class="box-header with-border">
+		<h3 class="box-title">商品分类管理</h3>
+	</div>
+	<div class="box-body">
+		<ol class="breadcrumb">
+			<li><a href="#">顶级分类列表</a></li>
+			<li><a href="#">珠宝</a></li>
+			<li><a href="#">银饰</a></li>
+		</ol>
 
-<body class="hold-transition skin-red sidebar-mini" >
-  <!-- .box-body -->
-                <form name="pageForm" method="get" action="/admin/category/all">
-                	<input type="hidden" name="pageSize" >
-                	<input type="hidden" name="pageNum" value="${pageVO.pageNum!"1"}">
-                	<input type="hidden" name="searchKey" value="${key!""}">
-                </form>
-                    <div class="box-header with-border">
-                        <h3 class="box-title">商品分类管理     
-                       	</h3>
-                    </div>
+		<!-- 数据表格 -->
+		<div class="table-box">
 
-                    <div class="box-body">
-                  			 <ol class="breadcrumb">	                        	
-                        		<li>
-		                        	<a href="#" >顶级分类列表</a> 
-		                        </li>
-		                        <li>
-		                       		<a href="#" >珠宝</a>
-		                        </li>
-		                        <li>
-		                        	<a href="#" >银饰</a>
-		                        </li>
-	                        </ol>
+			<!--工具栏-->
+			<div class="pull-left">
+				<div class="form-group form-inline">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" title="新建"
+							data-toggle="modal" data-target="#editModal"
+							onclick="showTopCategories()">
+							<i class="fa fa-file-o"></i> 新建
+						</button>
+						<button type="button" class="btn btn-default" title="删除"
+							onclick="batchDelete()">
+							<i class="fa fa-trash-o"></i> 删除
+						</button>
+						<button type="button" class="btn btn-default" title="刷新">
+							<i class="fa fa-check"></i> 刷新
+						</button>
+						<input type="text" placeholder="可通过分类名称,分类id查询" name="searchKey"
+							id="searchKey">
+						<button type="button" class="btn btn-default" title="查询"
+							onclick="search()">
+							<i class="fa fa-check"></i> 查询
+						</button>
+					</div>
+				</div>
+			</div>
 
-                        <!-- 数据表格 -->
-                        <div class="table-box">
-							
-                            <!--工具栏-->
-                            <div class="pull-left">
-                                <div class="form-group form-inline">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
-                                        <button type="button" class="btn btn-default" title="刷新" ><i class="fa fa-check"></i> 刷新</button>
-                                       	<input type="text"  placeholder="可通过分类名称,分类id查询" name="searchKey" id="searchKey">
-                                       	<button type="button" class="btn btn-default" title="查询" onclick="search()"><i class="fa fa-check"></i> 查询</button>
-                                    </div>
-                                </div>
-                            </div>                          
-                       		
-                        
-			                <!--数据列表-->
-			                  <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
-			                      <thead>
-			                          <tr>
-			                              <th class="" style="padding-right:0px">
-			                                  <input type="checkbox" class="icheckbox_square-blue">
-			                              </th> 
-										  <th class="sorting_asc">分类ID</th>
-									      <th class="sorting">分类名称</th>			
-									      <th class="sorting">分类排序码</th>						
-									      <th class="sorting">分类状态</th>						
-									      <th class="sorting">创建人</th>												   
-									      <th class="sorting">最近一次操作人</th>		
-									   <#--  <th class="sorting">类型模板ID</th> -->  
-									      <th class="sorting">创建时间</th>		
-									      <th class="sorting">更新时间</th>		
-					                      <th class="text-center">操作</th>
-			                          </tr>
-			                      </thead>
-			                	<#if pageVO.data??>
+
+			<!--数据列表-->
+			<table id="dataList"
+				class="table table-bordered table-striped table-hover dataTable">
+				<thead>
+					<tr>
+						<th class="" style="padding-right: 0px"><input
+							type="checkbox" class="icheckbox_square-blue"></th>
+						<th class="sorting_asc">分类ID</th>
+						<th class="sorting">分类名称</th>
+						<th class="sorting">分类排序码</th>
+						<th class="sorting">分类状态</th>
+						<th class="sorting">创建人</th>
+						<th class="sorting">最近一次操作人</th> <#--
+						<th class="sorting">类型模板ID</th> -->
+						<th class="sorting">创建时间</th>
+						<th class="sorting">更新时间</th>
+						<th class="text-center">操作</th>
+					</tr>
+				</thead>
+				<#if pageVO.data??>
 			                      <tbody>
 			                 
 			                      	<#list pageVO.data as item>
 				                      	<tr>
-				                              <td><input  type="checkbox" ></td>			                              
-					                          <td>${item.categoryId}</td>
+				                              <td><input  type="checkbox" class="catCheckBox" value="${item.categoryId?c}"></td>			                              
+					                          <td>${item.categoryId?c}</td>
 										      <td>${item.categoryName}</td>									    
 										      <td>
 										      	${item.categoryDisSeq!"0"}  
@@ -209,104 +293,109 @@
 			                                  <td class="text-center">		                                     
 			                                      <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"  data-target="#childModel" categoryId="${item.categoryId}" onclick="showChild(this)">查询下级</button> 		                                     
 			                                 	  <button type="button" class="btn bg-olive btn-xs" categoryId="${item.categoryId}" categoryName="${item.categoryName}" categoryDisplaySeq="${item.categoryDisplaySeq}"  data-toggle="modal" data-target="#editModal" onclick="update(this)">修改</button>                                          
+			                                 	  <@shiro.hasPermission name="edit_category_status_update">  
+			                                 	  <#if item.status==0>
+			                                 	    <button type="button" class="btn bg-olive btn-xs" categoryId="${item.categoryId}?c" onclick="updateStatus(${item.categoryId},1)">上架</button>
+			                                 	    <#else>
+			                                 	    <button type="button" class="btn bg-olive btn-xs" categoryId="${item.categoryId}?c"onclick="updateStatus(${item.categoryId},0)">下架</button>
+			                                 	  </#if>
+			                                 	  </@shiro.hasPermission>
 			                                  </td>
 				                          </tr>
 			                         </#list>
 			                      </tbody>
 			                  </table>
-			                  	<#if (pageVO.pageNum<1) > 
-										<a href="javascript:void(0)">第一页</a><a href="javascript:void(0)">上一页</a>	
-									<#else>
-										<a href="javascript:document.pageForm.pageNum.value=1;document.pageForm.submit();">第一页</a>
-										<a href="javascript:document.pageForm.pageNum.value=pageVO.pageNum+1;document.pageForm.submit()">上一页</a>
-									</#if>			
-									<#if (pageVO.pageNum>=pageVO.maxPage)> 
-										<a href="javascript:void(0)">下一页</a> <a href="javascript:void(0)">最后一页</a>
-									 <#else>
-										 <a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}+1);document.pageForm.submit();">下一页</a>
-										 <a href="javascript:document.pageForm.pageNum.value=${pageVO.maxPage};document.pageForm.submit();">最后一页</a> 								
-		                     		</#if>
-			                      <#else>
-			                      	暂无数据
-			                      </#if>
-			                      当前第${pageVO.pageNum}页,总共有${pageVO.maxPage}页
-			                  <!--数据列表/-->                      
-                        </div>
-                        <!-- 数据表格 /-->
-                     </div>
-                    <!-- /.box-body -->
-<!-- 编辑窗口 -->
-<form name="editForm" id="editForm">
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" >
-	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="myModalLabel">商品分类编辑</h3>
+			<#if (pageVO.pageNum<1) > <a href="javascript:void(0)">第一页</a>
+			<a href="javascript:void(0)">上一页</a> <#else> <a
+				href="javascript:document.pageForm.pageNum.value=1;document.pageForm.submit();">第一页</a>
+			<a
+				href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}-1);document.pageForm.submit()">上一页</a></#if>
+			<#if (pageVO.pageNum>=pageVO.maxPage)> <a
+				href="javascript:void(0)">下一页</a> <a href="javascript:void(0)">最后一页</a>
+			<#else> <a
+				href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}+1);document.pageForm.submit();">下一页</a>
+			<a
+				href="javascript:document.pageForm.pageNum.value=${pageVO.maxPage};document.pageForm.submit();">最后一页</a></#if>
+			<#else> 暂无数据 </#if> 当前第${pageVO.pageNum}页,总共有${pageVO.maxPage}页 <!--数据列表/-->
 		</div>
-		<div class="modal-body">							
-			   
-			<table class="table table-bordered table-striped"  width="800px">
-				<tr>
-		      		<td>上级商品分类</td>
-		      		<td id="relations">
-		      		<#-- 这里采用ajax吧 -->
-		      		</td>
-		      	</tr>
-		      	<tr>
-		      		<td>商品分类名称</td>
-		      		<td><input  class="form-control" placeholder="商品分类名称" name="categoryName" id="categoryName">  </td>
-		      	</tr>	
-		      	 <tr>
-		      		<td>商品分类排序号</td>
-		      		<td><input  class="form-control" placeholder="商品分类排序号" name="categoryDisplaySeq" id="categoryDisplaySeq">  </td>
-		      	</tr>			  
-		      	<tr>
-		      		<td>类型模板</td>
-		      		<td>	      		
-		      			<input select2 config="options['type_template']" placeholder="商品类型模板" class="form-control" type="text"/>
-		      		</td>		      		      		
-		      	</tr>		      	
-			 </table>				
-			
-		</div>
-		<div class="modal-footer">						
-			<input type="hidden" name="categoryId" id="categoryId">
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="addOrUpdate()">保存</button>
-			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-		</div>
-	  </div>
+		<!-- 数据表格 /-->
 	</div>
-</div>
-</form>
-<div class="modal fade" id="childModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" >
-	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="myModalLabel">商品分类编辑</h3>
+	<!-- /.box-body -->
+	<!-- 编辑窗口 -->
+	<form name="editForm" id="editForm">
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="myModalLabel">商品分类编辑</h3>
+					</div>
+					<div class="modal-body">
+
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>上级商品分类</td>
+								<td id="relations"><#-- 这里采用ajax吧 --></td>
+							</tr>
+							<tr>
+								<td>商品分类名称</td>
+								<td><input class="form-control" placeholder="商品分类名称"
+									name="categoryName" id="categoryName"></td>
+							</tr>
+							<tr>
+								<td>商品分类排序号</td>
+								<td><input class="form-control" placeholder="商品分类排序号"
+									name="categoryDisplaySeq" id="categoryDisplaySeq"></td>
+							</tr>
+							<tr>
+								<td>类型模板</td>
+								<td><input select2 config="options['type_template']"
+									placeholder="商品类型模板" class="form-control" type="text" /></td>
+							</tr>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="categoryId" id="categoryId">
+						<button class="btn btn-success" data-dismiss="modal"
+							aria-hidden="true" onclick="addOrUpdate()">保存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关闭</button>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="modal-body">							
-			<table class="table table-bordered table-striped"  width="800px">
-				<tr>
-		      		<td>
-		      		
-		      		<select id="childs">
-		      				<option value="volvo">Volvo</option>
-		      		</select>
-		      		
-		      		</td>
-		      	</tr>
-			 </table>				
+	</form>
+	<div class="modal fade" id="childModel" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">商品分类编辑</h3>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered table-striped" width="800px">
+						<tr>
+							<td><select id="childs">
+									<option value="volvo">Volvo</option>
+							</select></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="categoryId" id="categoryId">
+					<button class="btn btn-success" data-dismiss="modal"
+						aria-hidden="true" onclick="addOrUpdate()">保存</button>
+					<button class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+				</div>
+			</div>
 		</div>
-		<div class="modal-footer">						
-			<input type="hidden" name="categoryId" id="categoryId">
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="addOrUpdate()">保存</button>
-			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-		</div>
-	  </div>
 	</div>
-</div>
 
 </body>
 </html>

@@ -60,7 +60,7 @@ public class TmallTransactioonAOP
 
 	@SuppressWarnings("unchecked")
 	@Around(value = "dateTransactionWithMessage()")
-	public ResultDTO<String> confirmDateIsolutation(ProceedingJoinPoint proceedingJoinPoint)
+	public ResultDTO<?> confirmDateIsolutation(ProceedingJoinPoint proceedingJoinPoint)
 	{
 		// RabbitMQTransaction rabbitMQTransaction = (RabbitMQTransaction)
 		// proceedingJoinPoint.getSignature();

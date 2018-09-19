@@ -34,6 +34,12 @@
 			<artifactId>tmall-micro-common</artifactId>
 			<version>${tmall-micro-common.version}</version>
 		</dependency>
+		<!-- 内部服务接口 -->
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-internal-spi</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- gateway spi -->
 		<dependency>
 			<groupId>com.tmall</groupId>

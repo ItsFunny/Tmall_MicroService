@@ -7,6 +7,7 @@
 package com.tmall.server.spi.product;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.joker.library.dto.ResultDTO;
 import com.joker.library.page.PageRequestDTO;
@@ -54,6 +56,15 @@ public interface IProductServerCategoryFeignService
 	 */
 	@PostMapping(value = "/auth/category/addOrUpdate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	ResultDTO<String> addOrUpdateCategory(@RequestBody UserRequestDTO dto);
-
+	/*
+	 * 条件显示某些类目
+	 */
+	@PostMapping(value="/auth/category/condition",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	ResultDTO<List<CategoryDTO>>findCategoriesOnConditionWithOutPage(@RequestBody Map<String, Object>condition);
+	/*
+	 * 批量删除类目
+	 */
+	@PostMapping(value="/auth/category/delete",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	ResultDTO<Integer>deleteCategoriesInBatch(@RequestBody UserRequestDTO userRequestDTO);
 
 }

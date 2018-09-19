@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: tm-server-auth-provider
-Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: joker
-Implementation-Vendor-Id: com.tmall
-Build-Jdk: 1.8.0_171
-Implementation-URL: http://maven.apache.org
-Created-By: Maven Integration for Eclipse
-

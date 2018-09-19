@@ -7,6 +7,7 @@
 package com.tmall.facade.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,19 @@ public class CategoryServiceImpl implements ICategoryService
 	public ResultDTO<List<CategoryDTO>> findCategoryAllChilds(Integer categoryId)
 	{
 		return categoryFeignService.findCateogryChilds(categoryId);
+	}
+
+	@Override
+	public ResultDTO<List<CategoryDTO>> findCategoriesOnCondition(Map<String, Object> params)
+	{
+		return categoryFeignService.findCategoriesOnConditionWithOutPage(params);
+		
+	}
+
+	@Override
+	public ResultDTO<Integer> deleteCategoriesInBatch(UserRequestDTO dto)
+	{
+		return categoryFeignService.deleteCategoriesInBatch(dto);
 	}
 
 }

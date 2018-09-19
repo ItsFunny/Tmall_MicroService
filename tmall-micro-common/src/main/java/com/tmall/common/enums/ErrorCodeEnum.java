@@ -29,6 +29,7 @@ public enum ErrorCodeEnum
 	ILLEGAL_DB_RESULT(10, "数据操作返回结果异常:%s"),
 	NULL_POINTER(11,"空指针异常"),
 	INTERNAL_DB_ERROR(12,"本地数据库失败"),
+	ILLEGAL_ARGUMENT(13,"参数错误:%s"),
 	/*
 	 * auth-server
 	 */

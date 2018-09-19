@@ -17,5 +17,9 @@ public interface UserRequestConstant
 	
 	String USER_REQUEST_BRAND_ID_LIST="idList";
 	String USER_REQUEST_CATEGORY="categoryDTO";
+	
+	String PRODUCT_CATEGORY_DELETE_IDLIST="idList";
+	
+	String PRODUCT_CATEGORY="categoryDTO";
 
 }

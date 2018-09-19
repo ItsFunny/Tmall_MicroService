@@ -7,6 +7,7 @@
 package com.tmall.facade.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -37,4 +38,12 @@ public interface ICategoryService
 	 * 查询某个类目下的所有子类目
 	 */
 	ResultDTO<List<CategoryDTO>>findCategoryAllChilds(Integer categoryId);
+	/*
+	 * 条件查询类目:如查询所有的顶级类目,或者查询某个店铺下的类目等
+	 */
+	ResultDTO<List<CategoryDTO>>findCategoriesOnCondition(Map<String, Object>params);
+	/*
+	 * 批量删除
+	 */
+	ResultDTO<Integer>deleteCategoriesInBatch(UserRequestDTO dto);
 }

@@ -26,6 +26,8 @@ public interface ISQLExtentionCRUDDao<T>
 	
 	List<T>findByExample(Object example);
 	
+	Integer deleteInBatchByExample(Object example);
+	
 	
 
 }

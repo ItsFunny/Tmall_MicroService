@@ -54,6 +54,13 @@ public class DB0CategorySQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Tmal
 		return db0CategoryDao.selectByExample(example2);
 	}
 
+	@Override
+	public Integer deleteInBatchByExample(Object example)
+	{
+		TmallCategoryExample example2=(TmallCategoryExample) example;
+		return db0CategoryDao.deleteByExample(example2);
+	}
+
 //	@Override
 //	public List<TmallCategory> selectByExample(TmallCategoryExample e)
 //	{
