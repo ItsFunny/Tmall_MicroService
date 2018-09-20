@@ -487,6 +487,7 @@ public class CategoryServiceImpl extends AbstractPageService<List<CategoryDTO>> 
 		criteria.andCategoryIdEqualTo(categoryDTO.getCategoryId());
 		TmallCategory category = new TmallCategory();
 		category.setStatus(categoryDTO.getStatus());
+		category.setCategoryId(categoryDTO.getCategoryId());
 		InnerSQLExtentionCRUDServiceImpl impl = new InnerSQLExtentionCRUDServiceImpl();
 		Integer validCount = impl.update(SQLExtentionConstant.CATEGORY, category.getCategoryId(), category, example);
 		if (validCount > 0)

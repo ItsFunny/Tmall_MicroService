@@ -334,6 +334,7 @@ public class RestAPIController
 		categoryDTO.setCategoryId(Integer.parseInt(categoryIdStr));
 		categoryDTO.setStatus(Integer.parseInt(statusStr));
 		props.put(UserRequestConstant.PRODUCT_CATEGORY, categoryDTO);
+		dto.setExtProps(props);
 		return internalCategoryService.updateCategoryStatus(dto);
 	}
 

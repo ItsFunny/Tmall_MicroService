@@ -6,16 +6,21 @@
 */
 package com.tmall.system.admin.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,6 +90,37 @@ public class CategoryController
 		{
 			params.put("pageVO", pageRes.getData());
 			modelAndView = new ModelAndView("categories", params);
+		}
+		return modelAndView;
+	}
+	private void loopFind(CategoryDTO dto,Stack<CategoryDTO>stack)
+	{
+		stack.push(dto);
+		if(dto.getParent()!=null)
+		{
+			loopFind(dto.getParent(),stack);
+		}
+		
+	}
+	@GetMapping(value="/{categoryId}/detail",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ModelAndView showCategoryDetailChilds(@PathVariable("categoryId")Integer categoryId)
+	{
+		ModelAndView modelAndView=null;
+		//查询所有的父类目
+		ResultDTO<CategoryDTO> parentsRes = gatewayCategoryService.findCategoryParents(categoryId);
+		ResultDTO<List<CategoryDTO>> childsRes = gatewayCategoryService.findCategoryChilds(categoryId);
+		if(childsRes.isSuccess()&&parentsRes.isSuccess())
+		{
+			modelAndView =new ModelAndView("categories_detail");
+			modelAndView.addObject("childItems",childsRes.getData());
+			//因为freemakrer好像无法做到递归,那只能通过在内存中解析了
+			Stack<CategoryDTO>stack=new Stack<>();
+			loopFind(parentsRes.getData()	, stack);
+			modelAndView.addObject("selfItem",parentsRes.getData());
+			modelAndView.addObject("parentItems",stack);
+		}else {
+			modelAndView=new ModelAndView("error");
+			modelAndView.addObject("error","查询数据出错");
 		}
 		return modelAndView;
 	}

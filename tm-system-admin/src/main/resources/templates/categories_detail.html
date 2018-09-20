@@ -193,20 +193,19 @@
 <body class="hold-transition skin-red sidebar-mini">
 	<!-- .box-body -->
 	<form name="pageForm" method="get" action="/admin/category/all">
-		<input type="hidden" name="pageSize"> <input type="hidden"
-			name="pageNum" value="${pageVO.pageNum!"1"}"> <input
-			type="hidden" name="searchKey" value="${key!""}">
 	</form>
 	<div class="box-header with-border">
 		<h3 class="box-title">商品分类管理</h3>
 	</div>
 	<div class="box-body">
 		<ol class="breadcrumb">
-			<li><a href="#">顶级分类列表</a></li>
-			<li><a href="#">珠宝</a></li>
-			<li><a href="#">银饰</a></li>
+			<li><a href="#">${selfItem.categoryName}的分类列表</a></li>
+			<#if parentItems??>
+			<#list parentItems as item>
+				<li><a href="#">${item.categoryName}</a></li>			
+			</#list>
+			</#if>
 		</ol>
-
 		<!-- 数据表格 -->
 		<div class="table-box">
 
@@ -256,14 +255,14 @@
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<#if pageVO.data??>
+				<#if childItems??>
 			                      <tbody>
 			                 
-			                      	<#list pageVO.data as item>
+			                      	<#list childItems as item>
 				                      	<tr>
 				                              <td><input  type="checkbox" class="catCheckBox" value="${item.categoryId?c}"></td>			                              
 					                          <td>${item.categoryId?c}</td>
-										     <td><a href="/admin/category/${item.categoryId?c}/detail">${item.categoryName}</a></td>							    
+										      <td><a href="/admin/category/${item.categoryId?c}/detail">${item.categoryName}</a></td>									    
 										      <td>
 										      	${item.categoryDisSeq!"0"}  
 										      </td>				
@@ -304,19 +303,9 @@
 				                          </tr>
 			                         </#list>
 			                      </tbody>
+				</#if>
 			                  </table>
-			<#if (pageVO.pageNum<1) > <a href="javascript:void(0)">第一页</a>
-			<a href="javascript:void(0)">上一页</a> <#else> <a
-				href="javascript:document.pageForm.pageNum.value=1;document.pageForm.submit();">第一页</a>
-			<a
-				href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}-1);document.pageForm.submit()">上一页</a></#if>
-			<#if (pageVO.pageNum>=pageVO.maxPage)> <a
-				href="javascript:void(0)">下一页</a> <a href="javascript:void(0)">最后一页</a>
-			<#else> <a
-				href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}+1);document.pageForm.submit();">下一页</a>
-			<a
-				href="javascript:document.pageForm.pageNum.value=${pageVO.maxPage};document.pageForm.submit();">最后一页</a></#if>
-			<#else> 暂无数据 </#if> 当前第${pageVO.pageNum}页,总共有${pageVO.maxPage}页 <!--数据列表/-->
+			                  
 		</div>
 		<!-- 数据表格 /-->
 	</div>

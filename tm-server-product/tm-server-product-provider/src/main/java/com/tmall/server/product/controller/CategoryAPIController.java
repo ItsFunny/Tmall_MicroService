@@ -185,7 +185,9 @@ public class CategoryAPIController
 	public ResultDTO<?> updateCategoryStatus(@RequestBody UserRequestDTO dto)
 	{
 		Map<String, Object> props = dto.getExtProps();
-		CategoryDTO categoryDTO = (CategoryDTO) props.get(UserRequestConstant.PRODUCT_CATEGORY);
+		Object categoryDTOObj = props.get(UserRequestConstant.PRODUCT_CATEGORY);
+		ObjectMapper mapper=new ObjectMapper();
+		CategoryDTO categoryDTO = mapper.convertValue(categoryDTOObj, CategoryDTO.class);
 		String detail = "";
 		if (categoryDTO.getStatus().equals(CommonStatusEnum.disable.ordinal()))
 		{
