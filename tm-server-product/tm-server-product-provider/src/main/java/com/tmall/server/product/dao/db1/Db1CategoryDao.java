@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.tmall.common.dto.CategoryDTO;
@@ -28,7 +29,8 @@ import com.tmall.server.product.dao.TmallCategoryDao;
  */
 @Component(value="db1CategoryDao")
 @Mapper
-public interface Db1CategoryDao 
+@Order(0)
+public interface Db1CategoryDao extends TmallCategoryDao 
 {
 	@Select("select count(1) from tmall_category_0")
 	Long countCategory();

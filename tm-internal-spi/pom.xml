@@ -30,6 +30,12 @@
 			<artifactId>tm-server-product-open-spi</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- STORE的open spi -->
+		<dependency>
+			<groupId>com.tmall</groupId>
+			<artifactId>tm-server-store-open-spi</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -27,7 +27,7 @@ public class DB0MessageSQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Messa
 	private DB0MessageDao db0MessageDao;
 
 	@Override
-	public Integer insertSelective(String tableName, Object t)
+	public Integer insertSelective(String tableName, MessageModel t)
 	{
 		MessageModel messageModel=(MessageModel) t;
 		messageModel.setTableName(tableName);
@@ -35,7 +35,7 @@ public class DB0MessageSQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Messa
 	}
 
 	@Override
-	public Integer updateSelectTive(String tableName, Object t, Object example)
+	public Integer updateSelectTive(String tableName, MessageModel t, Object example)
 	{
 		// TODO Auto-generated method stub
 		return null;

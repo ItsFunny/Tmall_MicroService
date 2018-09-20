@@ -21,5 +21,7 @@ public interface UserRequestConstant
 	String PRODUCT_CATEGORY_DELETE_IDLIST="idList";
 	
 	String PRODUCT_CATEGORY="categoryDTO";
+	
+	String PRODUCT_PROPERTY="propertyDTO";
 
 }

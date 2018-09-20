@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.tmall.server.product.dao.db0.DB0TmallPropertyDao">
+	<resultMap id="BaseResultMap"
+		type="com.tmall.server.product.common.model.TmallProperty">
+		<id column="property_id" jdbcType="INTEGER" property="propertyId" />
+		<result column="property_name" jdbcType="VARCHAR"
+			property="propertyName" />
+		<result column="property_is_search" jdbcType="BIT"
+			property="propertyIsSearch" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		property_id, property_name, property_is_search
+	</sql>
+	<select id="selectByExample"
+		parameterType="com.tmall.server.product.common.model.TmallPropertyExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from tmall_property_0
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tmall_property_0
+		where property_id =
+		#{propertyId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from tmall_property_0
+		where property_id =
+		#{propertyId,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.tmall.server.product.common.model.TmallPropertyExample">
+		delete from tmall_property_0
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert"
+		parameterType="com.tmall.server.product.common.model.TmallProperty">
+		insert into tmall_property_0 (property_id,
+		property_name, property_is_search
+		)
+		values
+		(#{propertyId,jdbcType=INTEGER}, #{propertyName,jdbcType=VARCHAR},
+		#{propertyIsSearch,jdbcType=BIT}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tmall.server.product.common.model.TmallProperty">
+		insert into tmall_property_0
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="propertyId != null">
+				property_id,
+			</if>
+			<if test="propertyName != null">
+				property_name,
+			</if>
+			<if test="propertyIsSearch != null">
+				property_is_search,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="propertyId != null">
+				#{propertyId,jdbcType=INTEGER},
+			</if>
+			<if test="propertyName != null">
+				#{propertyName,jdbcType=VARCHAR},
+			</if>
+			<if test="propertyIsSearch != null">
+				#{propertyIsSearch,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.tmall.server.product.common.model.TmallPropertyExample"
+		resultType="java.lang.Long">
+		select count(*) from tmall_property_0
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update tmall_property_0
+		<set>
+			<if test="record.propertyId != null">
+				property_id = #{record.propertyId,jdbcType=INTEGER},
+			</if>
+			<if test="record.propertyName != null">
+				property_name = #{record.propertyName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.propertyIsSearch != null">
+				property_is_search =
+				#{record.propertyIsSearch,jdbcType=BIT},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update tmall_property_0
+		set property_id =
+		#{record.propertyId,jdbcType=INTEGER},
+		property_name =
+		#{record.propertyName,jdbcType=VARCHAR},
+		property_is_search =
+		#{record.propertyIsSearch,jdbcType=BIT}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tmall.server.product.common.model.TmallProperty">
+		update tmall_property_0
+		<set>
+			<if test="propertyName != null">
+				property_name = #{propertyName,jdbcType=VARCHAR},
+			</if>
+			<if test="propertyIsSearch != null">
+				property_is_search = #{propertyIsSearch,jdbcType=BIT},
+			</if>
+		</set>
+		where property_id = #{propertyId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tmall.server.product.common.model.TmallProperty">
+		update tmall_property_0
+		set property_name =
+		#{propertyName,jdbcType=VARCHAR},
+		property_is_search =
+		#{propertyIsSearch,jdbcType=BIT}
+		where property_id =
+		#{propertyId,jdbcType=INTEGER}
+	</update>
+</mapper>

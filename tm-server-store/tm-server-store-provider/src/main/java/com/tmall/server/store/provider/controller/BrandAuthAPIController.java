@@ -71,6 +71,12 @@ public class BrandAuthAPIController
 	// @Autowired
 	// private AppEventPublisher eventPublisher;
 
+	@GetMapping(value = "/allBrands")
+	public ResultDTO<List<BrandDTO>> findAllBrands()
+	{
+		return ResultUtils.sucess(brandService.findAll());
+	}
+
 	@RequestMapping(value = "/all", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResultDTO<PageResponseDTO<List<BrandDTO>>> findBrandsByPageCondition(
 			@RequestBody PageRequestDTO pageRequestDTO)

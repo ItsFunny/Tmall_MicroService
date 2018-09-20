@@ -18,9 +18,9 @@ import com.tmall.common.dto.PageExample;
 */
 public interface ISQLExtentionCRUDDao<T>
 {
-	Integer insertSelective(String tableName,Object t);
+	Integer insertSelective(String tableName,T t);
 	
-	Integer updateSelectTive(String tableName,Object t,Object example);
+	Integer updateSelectTive(String tableName,T t,Object example);
 	
 	T findByPrimaryKey(Number id);
 	

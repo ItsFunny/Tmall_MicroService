@@ -90,6 +90,7 @@ public class BrandController
 				.findBrandsByPage(pageRequestDTO);
 		if (resultDTO.isSuccess())
 		{
+			
 //			BeanFactory beanFactory=new ClassPathXmlApplicationContext(configLocation)
 //			ApplicationContext context=new AnnotationConfigApplicationContext(annotatedClasses)
 			params.put("pageVO", resultDTO.getData());

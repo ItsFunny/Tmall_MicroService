@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.Filter;
 import javax.sql.DataSource;
 
@@ -46,6 +47,8 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.joker.library.service.IdWorkerService;
 import com.joker.library.service.IdWorkerServiceTwitter;
+import com.joker.library.sqlextention.SQLExtentionConfigProperty;
+import com.joker.library.sqlextention.SQLExtentionHolderV2;
 import com.tmall.common.config.TmallConfigProperty;
 import com.tmall.common.filter.CharsetFilter;
 import com.tmall.common.filter.RestBaseAuthFilter;
@@ -63,7 +66,7 @@ import com.tmall.server.product.service.impl.CategoryServiceImpl;
  */
 @Configuration
 @EnableConfigurationProperties(value =
-{ KeyProperty.class, TmallConfigProperty.class, TmallProductProperty.class })
+{ KeyProperty.class, TmallConfigProperty.class, TmallProductProperty.class ,SQLExtentionConfigProperty.class})
 //@ComponentScan(basePackages =
 //{ "com.tmall.server.product.service" })
 //绑定的是db1下的sql文件
@@ -80,7 +83,16 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 
 	@Autowired
 	private KeyProperty keyProperty;
-
+	@Autowired
+	private SQLExtentionConfigProperty extentionConfigProperty;
+	
+	@Bean
+	public SQLExtentionHolderV2 v2()
+	{
+		SQLExtentionHolderV2 v2=new SQLExtentionHolderV2(context);
+		v2.config(extentionConfigProperty);
+		return v2;
+	}
 	@Bean("db0TransactionManager")
 	public DataSourceTransactionManager transactionManager()
 	{

@@ -50,6 +50,7 @@ import com.tmall.common.enums.StoreStatusEnum;
 import com.tmall.common.mq.TmallMQEnum;
 import com.tmall.common.utils.ResultUtils;
 import com.tmall.internal.spi.service.IInternalCategoryServiece;
+import com.tmall.internal.spi.service.IInternalStoreService;
 import com.tmall.server.spi.gateway.brand.IGatewayBrandService;
 import com.tmall.server.spi.gateway.category.IGatewayCategoryService;
 import com.tmall.server.spi.gateway.store.IGatewayStoreFeignService;
@@ -94,6 +95,8 @@ public class RestAPIController
 	// 内部接口
 	@Autowired
 	private IInternalCategoryServiece internalCategoryService;
+	@Autowired
+	private IInternalStoreService innternalStoreService;
 
 	// 显示商家下的所有类目
 	// @RequestMapping(value = "/category/topLevel/all", method =
@@ -134,10 +137,11 @@ public class RestAPIController
 	// //调用store服务的接口 ,,这里记得改为通过zuul调用
 	// return facadedService.findStoreDetail(storeId);
 	// }
+
+
 	/*
 	 * 显示店铺详情
 	 */
-
 	@RequiresPermissions(value =
 	{ "edit_store_show_detail" })
 	@RequestMapping(value = "/store/detail/{storeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -336,6 +340,22 @@ public class RestAPIController
 		props.put(UserRequestConstant.PRODUCT_CATEGORY, categoryDTO);
 		dto.setExtProps(props);
 		return internalCategoryService.updateCategoryStatus(dto);
+	}
+
+	/*
+	 * 查询所有的brands
+	 */
+	@GetMapping(value = "/brand/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<List<BrandDTO>> findAllBrands()
+	{
+		ResultDTO<List<BrandDTO>> res = innternalStoreService.findAllBrands();
+		return res;
+	}
+	@PostMapping(value="/property/add",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<String>addProperty()
+	{
+		
+		return ResultUtils.sucess();
 	}
 
 }

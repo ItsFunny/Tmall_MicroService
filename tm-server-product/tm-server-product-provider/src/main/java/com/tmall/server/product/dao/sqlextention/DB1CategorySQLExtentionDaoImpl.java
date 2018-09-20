@@ -23,13 +23,13 @@ import com.tmall.server.product.dao.db1.Db1CategoryDao;
 * @date 创建时间：2018年9月15日 下午3:55:44
 */
 @Repository(value="db1DaoImpl")
-public class DB1CategorySQLExtentionDaoImpl implements ISQLExtentionCRUDDao<TmallCategory>
+public class DB1CategorySQLExtentionDaoImpl  implements ISQLExtentionCRUDDao<TmallCategory>
 {
 	@Autowired
 	private Db1CategoryDao db1CategoryDao;
 
 	@Override
-	public Integer insertSelective(String tableName, Object t)
+	public Integer insertSelective(String tableName, TmallCategory t)
 	{
 		TmallCategory category=(TmallCategory) t;
 		category.setTableName(tableName);
@@ -43,7 +43,7 @@ public class DB1CategorySQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Tmal
 		return db1CategoryDao.selectByPrimaryKey(id.intValue());
 	}
 	@Override
-	public Integer updateSelectTive(String tableName, Object t,Object example)
+	public Integer updateSelectTive(String tableName, TmallCategory t,Object example)
 	{
 		return db1CategoryDao.updateByExampleSelective((TmallCategory) t, (TmallCategoryExample)example);
 	}

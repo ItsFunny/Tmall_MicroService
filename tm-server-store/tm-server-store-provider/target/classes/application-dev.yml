@@ -25,7 +25,14 @@ tmall:
     sso-public-key-path: classpath:keys/sso_public.key
     sso-private-key-path: classpath:keys/sso_private.key
   
-  
+sql: 
+  extention: 
+    config-table-counts: 1
+    table-names: 'tmall_category'
+    detail-config: '2:categoryFacadedDaoImpl:1=tmall_category_0;1=tmall_category_0'
+
+
+
 eureka:
   client:
     service-url: 

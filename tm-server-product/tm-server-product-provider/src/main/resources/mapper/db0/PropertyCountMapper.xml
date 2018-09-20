@@ -7,7 +7,7 @@
 	<select id="countPropertyInCatIds"
 		parameterType="java.util.List" resultType="java.lang.Integer">
 		select count(1) from tmall_category_property where category_id in
-		<foreach collection="list" index="index" open="(" close=")" 
+		<foreach collection="list" index="index" open="(" close=")"
 			separator="," item="categoryId">
 			#{categoryId}
 		</foreach>

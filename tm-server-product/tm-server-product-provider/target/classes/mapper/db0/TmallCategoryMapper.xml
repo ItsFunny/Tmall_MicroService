@@ -127,7 +127,8 @@
 		select
 		<include refid="Base_Column_List" />
 		from tmall_category_0
-		where category_id = #{categoryId,jdbcType=INTEGER}
+		where category_id =
+		#{categoryId,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey"
 		parameterType="java.lang.Integer">

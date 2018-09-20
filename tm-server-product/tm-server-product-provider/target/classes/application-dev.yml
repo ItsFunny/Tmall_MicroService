@@ -38,6 +38,11 @@ eureka:
 feign: 
   hystrix: 
     enabled: false
+sql: 
+  extention: 
+    config-table-counts: 1
+    table-names: 'tmall_category'
+    detail-config: '2:categoryFacadedDaoImpl:1=tmall_category_0;1=tmall_category_0'
     
     
 #hystrix:

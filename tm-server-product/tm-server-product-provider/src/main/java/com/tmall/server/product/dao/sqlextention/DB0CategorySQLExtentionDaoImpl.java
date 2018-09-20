@@ -28,7 +28,7 @@ public class DB0CategorySQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Tmal
 	private Db0CategoryDao db0CategoryDao;
 
 	@Override
-	public Integer insertSelective(String tableName, Object t)
+	public Integer insertSelective(String tableName, TmallCategory t)
 	{
 		TmallCategory category=(TmallCategory) t;
 		category.setTableName(tableName);
@@ -42,7 +42,7 @@ public class DB0CategorySQLExtentionDaoImpl implements ISQLExtentionCRUDDao<Tmal
 	}
 
 	@Override
-	public Integer updateSelectTive(String tableName, Object t,Object example)
+	public Integer updateSelectTive(String tableName, TmallCategory t,Object example)
 	{
 		return db0CategoryDao.updateByExampleSelective((TmallCategory) t, (TmallCategoryExample)example);
 	}
