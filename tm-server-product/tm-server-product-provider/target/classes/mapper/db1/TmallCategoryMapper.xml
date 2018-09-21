@@ -126,8 +126,8 @@
 		parameterType="java.lang.Integer" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from tmall_category_0
-		where category_id = #{categoryId,jdbcType=INTEGER}
+		from ${tableName}
+		where category_id = #{primaryKey}
 	</select>
 	<delete id="deleteByPrimaryKey"
 		parameterType="java.lang.Integer">
@@ -251,7 +251,7 @@
 		</if>
 	</select>
 	<update id="updateByExampleSelective" parameterType="map">
-		update tmall_category_0
+		update ${record.tableName}
 		<set>
 			<if test="record.categoryId != null">
 				category_id = #{record.categoryId,jdbcType=INTEGER},

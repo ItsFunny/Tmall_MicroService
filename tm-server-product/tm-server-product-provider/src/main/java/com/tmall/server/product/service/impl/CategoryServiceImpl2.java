@@ -77,7 +77,7 @@ public class CategoryServiceImpl2 extends AbstractPageService<List<CategoryDTO>>
 			ISQLExtentionBaseCRUDDao<TmallCategory> dao = daoWP.getDao();
 			String tableName = daoWP.getTableName();
 			category.setTableName(tableName);
-			validCount=dao.updateSelectiveByExample(category, example);
+			validCount=dao.updateByExampleSelective(category, example);
 		}
 		if (validCount > 0)
 		{

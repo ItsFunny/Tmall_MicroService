@@ -14,10 +14,12 @@ import org.springframework.stereotype.Component;
 
 import com.joker.library.sqlextention.ISQLExtentionBaseCRUDDao;
 import com.joker.library.sqlextention.ISQLExtentionProxyBaseCRUDDao;
+import com.tmall.common.enums.ErrorCodeEnum;
 import com.tmall.server.product.common.model.TmallCategory;
 import com.tmall.server.product.common.model.TmallCategoryExample;
 import com.tmall.server.product.common.model.TmallCategoryExample.Criteria;
 import com.tmall.server.product.dao.TmallCategoryDao;
+import com.tmall.server.product.exception.TmallProductException;
 
 /**
  * 
@@ -27,7 +29,7 @@ import com.tmall.server.product.dao.TmallCategoryDao;
  * @author joker
  * @date 创建时间：2018年9月21日 下午4:29:51
  */
-@Component(value="categorySQLExtentionProxyDaoImpl")
+@Component(value = "categorySQLExtentionProxyDaoImpl")
 public class CategorySQLExtentionProxyDaoImpl
 		implements ISQLExtentionProxyBaseCRUDDao<TmallCategory>, ISQLExtentionBaseCRUDDao<TmallCategory>
 {
@@ -46,22 +48,6 @@ public class CategorySQLExtentionProxyDaoImpl
 		Number key = t.getUniquekey();
 		ISQLExtentionBaseCRUDDao<TmallCategory> dao = getDetailConfigDao(key);
 		return dao.insertSelective(t);
-	}
-
-	@Override
-	public Integer updateSelectiveByExample(TmallCategory t, Object example)
-	{
-		Number key = t.getUniquekey();
-		ISQLExtentionBaseCRUDDao<TmallCategory> dao = getDetailConfigDao(key);
-		return dao.updateSelectiveByExample(t, example);
-	}
-
-
-	@Override
-	public TmallCategory selectByExample(Number key,Object example)
-	{
-		ISQLExtentionBaseCRUDDao<TmallCategory> dao = getDetailConfigDao(key);
-		return dao.selectByExample(key, example);
 	}
 
 	@Override
@@ -96,11 +82,41 @@ public class CategorySQLExtentionProxyDaoImpl
 	public TmallCategory selectByPrimaryKey(String tableName, Number primaryKey)
 	{
 		ISQLExtentionBaseCRUDDao<TmallCategory> dao = getDetailConfigDao(primaryKey);
-		TmallCategoryExample example=new TmallCategoryExample();
+		TmallCategoryExample example = new TmallCategoryExample();
 		example.setTableName(tableName);
 		Criteria criteria = example.createCriteria();
 		criteria.andCategoryIdEqualTo((Integer) primaryKey);
-		return dao.selectByExample(primaryKey, example);
+		List<TmallCategory> res = dao.selectByExample(example);
+		if (res == null || res.isEmpty())
+		{
+			return null;
+		} else if (res.size() > 1)
+		{
+			throw new TmallProductException(ErrorCodeEnum.FIND_MULTIPLE_RECORDS);
+		} else
+		{
+			return res.iterator().next();
+		}
+	}
+
+	@Override
+	public List<? extends ISQLExtentionBaseCRUDDao<TmallCategory>> getAllDaos()
+	{
+		return this.daos;
+	}
+
+	@Override
+	public List<TmallCategory> selectByExample(Object example)
+	{
+		return null;
+	}
+
+	@Override
+	public int updateByExampleSelective(TmallCategory record, Object example)
+	{
+		Number key = record.getUniquekey();
+		ISQLExtentionBaseCRUDDao<TmallCategory> dao = getDetailConfigDao(key);
+		return dao.updateByExampleSelective(record, example);
 	}
 
 }

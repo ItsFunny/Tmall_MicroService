@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.joker.library.dto.ResultDTO;
 import com.joker.library.mq.AppEvent;
+import com.joker.library.sqlextention.AbstractSQLExtentionModel;
+import com.joker.library.sqlextention.ISQLExtentionBaseCRUDDao;
+import com.joker.library.sqlextention.SQLExtentionDaoWrapper;
+import com.joker.library.sqlextention.SQLExtentionHolderV3;
 import com.tmall.common.constants.SQLExtentionConstant;
 import com.tmall.common.dto.MessageDTO;
 import com.tmall.common.dto.UserDTO;
@@ -38,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CommonMessageServiceImpl implements ICommonMessageService
 {
 	@Autowired
-	private SQLExtentionHolder holder;
+	private SQLExtentionHolderV3 holder;
 
 	@Autowired
 	private IGatewayMessageService gatewayMessageService;
@@ -47,9 +51,12 @@ public class CommonMessageServiceImpl implements ICommonMessageService
 	public void insertToLocalMessageAndNotify(UserDTO user, AppEvent event, String eventJson, Integer messageStatus)
 	{
 		MessageModel model = new MessageModel(event.getUuid(), eventJson, messageStatus);
-		SQLExtentionDAOWrapper<Object> wrapper = holder.getBaseDao(SQLExtentionConstant.MESSAGE, (long) model.getMessageId().hashCode());
-		ISQLExtentionCRUDDao<Object> messageDao = wrapper.getBaseDao();
-		Integer validCount = messageDao.insertSelective(wrapper.getTableDetailName(), model);
+//		SQLExtentionDAOWrapper<Object> wrapper = holder.getBaseDao(SQLExtentionConstant.MESSAGE, (long) model.getMessageId().hashCode());
+		SQLExtentionDaoWrapper<MessageModel> wrapper = holder.getBaseDao(SQLExtentionConstant.MESSAGE, model.getMessageId().hashCode());
+		ISQLExtentionBaseCRUDDao<MessageModel> messageDao = wrapper.getDao();
+		model.setTableName(wrapper.getTableName());
+		Integer validCount = messageDao.insert(model);
+//		messageDao.insertSelective(t)
 		if (validCount <= 0)
 		{
 			// 本地消息记录失败直接返回,不进行业务插入

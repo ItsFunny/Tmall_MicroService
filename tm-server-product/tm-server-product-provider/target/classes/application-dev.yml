@@ -42,7 +42,7 @@ sql:
   extention: 
     config-table-counts: 1
     table-names: 'tmall_category'
-    detail-config: '2:categorySQLExtentionProxyDaoImpl:1=tmall_category_0;1=tmall_category_0'
+    detail-config: '2:categorySQLExtentionProxyDaoImpl:1=tmall_category_0;1=tmall_category_0-2:messageSQLExtentionDaoImpl:1=message_0;1=message_0'
     
     
 #hystrix:

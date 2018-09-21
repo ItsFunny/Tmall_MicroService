@@ -109,14 +109,10 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 	public SQLExtentionHolderV3 holderV3()
 	{
 		SQLExtentionHolderV3 v3=new SQLExtentionHolderV3();
-		extentionConfigProperty.setDetailConfigStr("2:categorySQLExtentionProxyDaoImpl:1=tmall_category_0;1=tmall_category_0");
-		extentionConfigProperty.setTablePrefixNames("tmall_category");
-		extentionConfigProperty.setTotalTableCounts(1);
+		extentionConfigProperty.setDetailConfigStr("2:categorySQLExtentionProxyDaoImpl:1=tmall_category_0;1=tmall_category_0-2:messageSQLExtentionDaoImpl:1=message_0;1=message_0");
+		extentionConfigProperty.setTablePrefixNames("tmall_category,message");
+		extentionConfigProperty.setTotalTableCounts(2);
 		v3.config(extentionConfigProperty, context);
-		SQLExtentionDaoWrapper<AbstractSQLExtentionModel> wrapper = v3.getBaseDao(SQLExtentionConstant.CATEGORY, 34);
-		ISQLExtentionBaseCRUDDao<AbstractSQLExtentionModel> dao= wrapper.getDao();
-		TmallCategory category = (TmallCategory) dao.selectByPrimaryKey(wrapper.getTableName(), 34);
-		System.out.println(category);
 		return v3;
 	}
 	

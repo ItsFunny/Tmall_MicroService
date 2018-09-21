@@ -12,8 +12,10 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.core.annotation.Order;
 
 import com.tmall.common.model.MessageModel;
+import com.tmall.server.product.dao.MessageDao;
 
 
 
@@ -23,13 +25,14 @@ import com.tmall.common.model.MessageModel;
  * @date 创建时间：2018年9月5日 上午10:46:58
  */
 @Mapper
-public interface DB0MessageDao
+@Order(0)
+public interface DB0MessageDao extends MessageDao
 {
 	@Select("select * from message where message_id=#{id}")
 	MessageModel findById(String id);
 
 	@Insert("insert into ${tableName} values (#{messageId},#{messageDetail},#{messageStatus})")
-	Integer insert(MessageModel messageModel);
+	int insert(MessageModel messageModel);
 	
 	@Delete("delete from ${tableName} where message_id =#{id} ")
 	Integer deleteById(String id);
