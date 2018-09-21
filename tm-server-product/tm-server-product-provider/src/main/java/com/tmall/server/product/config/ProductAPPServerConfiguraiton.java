@@ -47,17 +47,21 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.joker.library.service.IdWorkerService;
 import com.joker.library.service.IdWorkerServiceTwitter;
+import com.joker.library.sqlextention.AbstractSQLExtentionModel;
+import com.joker.library.sqlextention.ISQLExtentionBaseCRUDDao;
 import com.joker.library.sqlextention.SQLExtentionConfigProperty;
-import com.joker.library.sqlextention.SQLExtentionHolderV2;
+import com.joker.library.sqlextention.SQLExtentionDaoWrapper;
+import com.joker.library.sqlextention.SQLExtentionHolderV3;
 import com.tmall.common.config.TmallConfigProperty;
+import com.tmall.common.constants.SQLExtentionConstant;
 import com.tmall.common.filter.CharsetFilter;
 import com.tmall.common.filter.RestBaseAuthFilter;
 import com.tmall.common.interceptor.RestAuthTokenInterceptor;
 import com.tmall.common.other.SQLExtentionHolder;
 import com.tmall.common.utils.JWTUtilFactoryBean;
 import com.tmall.common.utils.KeyProperty;
+import com.tmall.server.product.common.model.TmallCategory;
 import com.tmall.server.product.service.ICategoryService;
-import com.tmall.server.product.service.impl.CategoryServiceImpl;
 
 /**
  * 
@@ -86,13 +90,6 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 	@Autowired
 	private SQLExtentionConfigProperty extentionConfigProperty;
 	
-	@Bean
-	public SQLExtentionHolderV2 v2()
-	{
-		SQLExtentionHolderV2 v2=new SQLExtentionHolderV2(context);
-		v2.config(extentionConfigProperty);
-		return v2;
-	}
 	@Bean("db0TransactionManager")
 	public DataSourceTransactionManager transactionManager()
 	{
@@ -108,6 +105,21 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 	{
 		return new IdWorkerServiceTwitter(0L,1L);
 	}
+	@Bean
+	public SQLExtentionHolderV3 holderV3()
+	{
+		SQLExtentionHolderV3 v3=new SQLExtentionHolderV3();
+		extentionConfigProperty.setDetailConfigStr("2:categorySQLExtentionProxyDaoImpl:1=tmall_category_0;1=tmall_category_0");
+		extentionConfigProperty.setTablePrefixNames("tmall_category");
+		extentionConfigProperty.setTotalTableCounts(1);
+		v3.config(extentionConfigProperty, context);
+		SQLExtentionDaoWrapper<AbstractSQLExtentionModel> wrapper = v3.getBaseDao(SQLExtentionConstant.CATEGORY, 34);
+		ISQLExtentionBaseCRUDDao<AbstractSQLExtentionModel> dao= wrapper.getDao();
+		TmallCategory category = (TmallCategory) dao.selectByPrimaryKey(wrapper.getTableName(), 34);
+		System.out.println(category);
+		return v3;
+	}
+	
 	@Bean
 	public SQLExtentionHolder sqlExtentionHolder()
 	{

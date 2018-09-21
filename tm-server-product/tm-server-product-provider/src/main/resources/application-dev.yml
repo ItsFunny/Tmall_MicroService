@@ -16,7 +16,7 @@ tmall:
     email-account: 18757883747@163.com
     email-pwd: lvcong1215
     email-host: smtp.163.com
-    mysql-extention: 'tmall_category:2:1=db0DaoImpl,1=db1DaoImpl-message:2:1=db0MessageDaoImpl,1=db1MessageDaoImpl'
+#    mysql-extention: 'tmall_category:2:1=db0DaoImpl,1=db1DaoImpl-message:2:1=db0MessageDaoImpl,1=db1MessageDaoImpl'
     amqp-host: localhost
     amqp-username: guest
     amqp-password: guest
@@ -42,7 +42,7 @@ sql:
   extention: 
     config-table-counts: 1
     table-names: 'tmall_category'
-    detail-config: '2:categoryFacadedDaoImpl:1=tmall_category_0;1=tmall_category_0'
+    detail-config: '2:categorySQLExtentionProxyDaoImpl:1=tmall_category_0;1=tmall_category_0'
     
     
 #hystrix:

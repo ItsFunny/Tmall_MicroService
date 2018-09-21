@@ -46,36 +46,37 @@ public class SQLExtentionHolder
 	public void config(String configString,ApplicationContext context)
 	{
 		// 总共有几个表需要配置
-		String[] strings = configString.split("-");
-		for (int i=0;i<strings.length;i++)
-		{
-			ExtentionInfo info=new ExtentionInfo();
-		
-			// 详细信息,如表名,数据库个数
-			String[] details = strings[i].split(":");
-			String tableName = details[0];
-			Integer dbCounts = Integer.parseInt(details[1]);
-			info.setDbCounts(dbCounts);
-			DBInfo[] dbs=new DBInfo[dbCounts];
-			// 每个表的详细信息,如有几张表,每个数据库对应的dao
-			String[] strings2 = details[2].split(",");
-			for (int j=0;j<strings2.length;j++)
-			{
-				dbs[j]=new DBInfo();
-				String[] strings3 = strings2[j].split("=");
-				Integer tableCountss = Integer.parseInt(strings3[0]);
-				dbs[j].setTableCounts(tableCountss);
-				String configClassName = strings3[1];
-				Object bean = context.getBean(configClassName);
-				if(!(bean instanceof ISQLExtentionCRUDDao))
-				{
-					throw new RuntimeException("sql扩展配置错误,对应的dao类不是指定的类型");
-				}
-				dbs[j].setBaseDao((ISQLExtentionCRUDDao) bean);
-			}
-			info.setDbs(dbs);
-			sqlRepository.put(tableName, info);
-		}
+		return;
+//		String[] strings = configString.split("-");
+//		for (int i=0;i<strings.length;i++)
+//		{
+//			ExtentionInfo info=new ExtentionInfo();
+//		
+//			// 详细信息,如表名,数据库个数
+//			String[] details = strings[i].split(":");
+//			String tableName = details[0];
+//			Integer dbCounts = Integer.parseInt(details[1]);
+//			info.setDbCounts(dbCounts);
+//			DBInfo[] dbs=new DBInfo[dbCounts];
+//			// 每个表的详细信息,如有几张表,每个数据库对应的dao
+//			String[] strings2 = details[2].split(",");
+//			for (int j=0;j<strings2.length;j++)
+//			{
+//				dbs[j]=new DBInfo();
+//				String[] strings3 = strings2[j].split("=");
+//				Integer tableCountss = Integer.parseInt(strings3[0]);
+//				dbs[j].setTableCounts(tableCountss);
+//				String configClassName = strings3[1];
+//				Object bean = context.getBean(configClassName);
+//				if(!(bean instanceof ISQLExtentionCRUDDao))
+//				{
+//					throw new RuntimeException("sql扩展配置错误,对应的dao类不是指定的类型");
+//				}
+//				dbs[j].setBaseDao((ISQLExtentionCRUDDao) bean);
+//			}
+//			info.setDbs(dbs);
+//			sqlRepository.put(tableName, info);
+//		}
 	}
 
 	public static void main(String[] args)

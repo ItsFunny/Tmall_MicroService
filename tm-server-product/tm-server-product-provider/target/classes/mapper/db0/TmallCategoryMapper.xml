@@ -123,12 +123,12 @@
 		</if>
 	</select>
 	<select id="selectByPrimaryKey"
-		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		 resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from tmall_category_0
+		from ${tableName}
 		where category_id =
-		#{categoryId,jdbcType=INTEGER}
+		#{primaryKey}
 	</select>
 	<delete id="deleteByPrimaryKey"
 		parameterType="java.lang.Integer">

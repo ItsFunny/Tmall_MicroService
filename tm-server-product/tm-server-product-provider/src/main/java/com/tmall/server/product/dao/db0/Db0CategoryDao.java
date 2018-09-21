@@ -29,7 +29,7 @@ import com.tmall.server.product.dao.TmallCategoryDao;
  */
 @Component(value="db0CategoryDao")
 @Mapper
-@Order(1)
+@Order(0)
 public interface Db0CategoryDao  extends TmallCategoryDao
 {
 	
@@ -50,27 +50,27 @@ public interface Db0CategoryDao  extends TmallCategoryDao
 
 	@Select("select category_id,parent_category_id,category_name,create_date,update_date,display_sequence from tmall_category_0 where parent_category_id in (select category_id from tmall_category_0 where parent_category_id=0) union all select category_id,parent_category_id,category_name,create_date,update_date,display_sequence from tmall_category_0 where parent_category_id=0;")
 	Collection<CategoryDTO> findParentCategoryAndChildCategory();
-
-	long countByExample(TmallCategoryExample example);
-
-	int deleteByExample(TmallCategoryExample example);
-
-	int deleteByPrimaryKey(Integer categoryId);
-
-	int insert(TmallCategory record);
-
-	int insertSelective(TmallCategory record);
-
-	List<TmallCategory> selectByExample(TmallCategoryExample example);
-
-	TmallCategory selectByPrimaryKey(Integer categoryId);
-
-	int updateByExampleSelective(@Param("record") TmallCategory record, @Param("example") TmallCategoryExample example);
-
-	int updateByExample(@Param("record") TmallCategory record, @Param("example") TmallCategoryExample example);
-
-	int updateByPrimaryKeySelective(TmallCategory record);
-
-	int updateByPrimaryKey(TmallCategory record);
+//
+//	long countByExample(TmallCategoryExample example);
+//
+//	int deleteByExample(TmallCategoryExample example);
+//
+//	int deleteByPrimaryKey(Integer categoryId);
+//
+//	int insert(TmallCategory record);
+//
+//	Integer insertSelective(TmallCategory record);
+//
+//	List<TmallCategory> selectByExample(TmallCategoryExample example);
+//
+//	TmallCategory selectByPrimaryKey(Integer categoryId);
+//
+//	int updateByExampleSelective(@Param("record") TmallCategory record, @Param("example") TmallCategoryExample example);
+//
+//	int updateByExample(@Param("record") TmallCategory record, @Param("example") TmallCategoryExample example);
+//
+//	int updateByPrimaryKeySelective(TmallCategory record);
+//
+//	int updateByPrimaryKey(TmallCategory record);
 
 }
