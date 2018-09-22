@@ -38,6 +38,9 @@ public class PropertyController
 		//分页查询所有的规格选项
 		//从有到无,因此先从添加开始做起
 		modelAndView=new ModelAndView("properties",params);
+		//如何拼接propertyDTO呢
+		//前台全部以string 的形式上传,以某种格式分隔 
+		
 		return modelAndView;
 	}
 

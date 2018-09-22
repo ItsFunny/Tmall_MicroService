@@ -27,6 +27,7 @@ import com.tmall.facade.service.ICategoryService;
 import com.tmall.facade.service.IFacadedService;
 import com.tmall.facade.service.ILoginService;
 import com.tmall.facade.service.IMessageService;
+import com.tmall.facade.service.IPropertyService;
 import com.tmall.server.spi.auth.IAuthFeignService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 
@@ -50,7 +51,9 @@ public class FacadedServiceImpl implements IFacadedService
 	private IBrandService brandService;
 	@Autowired
 	private ICategoryService categoryService;
-	
+		
+	@Autowired
+	private IPropertyService propertyService;
 	
 
 	@Override
@@ -161,6 +164,12 @@ public class FacadedServiceImpl implements IFacadedService
 	public ResultDTO<Integer> deleteCategoriesInBatch(UserRequestDTO dto)
 	{
 		return categoryService.deleteCategoriesInBatch(dto);
+	}
+
+	@Override
+	public ResultDTO<?> addPropertyAndValue(UserRequestDTO dto)
+	{
+		return propertyService.addPropertyAndValue(dto);
 	}
 	
 }

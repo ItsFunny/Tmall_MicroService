@@ -19,6 +19,10 @@ public class TmallProperty extends AbstractSQLExtentionModel {
     	//先直接这么写吧,反射还是尽量少用
     	BeanUtils.copyProperties(dto, this);
     }
+    public void to(PropertyDTO propertyDTO)
+    {
+    	BeanUtils.copyProperties(this, propertyDTO);
+    }
 
     public Integer getPropertyId() {
         return propertyId;

@@ -41,11 +41,13 @@ import com.joker.library.utils.JsonUtil;
 import com.tmall.common.constants.UserRequestConstant;
 import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.CategoryDTO;
+import com.tmall.common.dto.PropertyDTO;
 import com.tmall.common.dto.RecordDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
 import com.tmall.common.dto.UserDTO;
 import com.tmall.common.dto.UserRequestDTO;
+import com.tmall.common.dto.PropertyDTO.PropertyValueDTO;
 import com.tmall.common.enums.StoreStatusEnum;
 import com.tmall.common.mq.TmallMQEnum;
 import com.tmall.common.utils.ResultUtils;
@@ -53,6 +55,7 @@ import com.tmall.internal.spi.service.IInternalCategoryServiece;
 import com.tmall.internal.spi.service.IInternalStoreService;
 import com.tmall.server.spi.gateway.brand.IGatewayBrandService;
 import com.tmall.server.spi.gateway.category.IGatewayCategoryService;
+import com.tmall.server.spi.gateway.property.IGatewayProductServerPropertyFeignService;
 import com.tmall.server.spi.gateway.store.IGatewayStoreFeignService;
 import com.tmall.server.spi.store.IStoreServerFeignService;
 import com.tmall.system.admin.model.BrandFormModel;
@@ -78,7 +81,8 @@ public class RestAPIController
 	// private IFacadedService facadedService;
 	@Autowired
 	private IGatewayStoreFeignService gatewayStoreFeignService;
-
+	@Autowired
+	private IGatewayProductServerPropertyFeignService propertyFeignService;
 	@Autowired
 	private IGatewayBrandService gatewayBrandService;
 	@Autowired
@@ -351,11 +355,46 @@ public class RestAPIController
 		ResultDTO<List<BrandDTO>> res = innternalStoreService.findAllBrands();
 		return res;
 	}
-	@PostMapping(value="/property/add",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResultDTO<String>addProperty()
+	@PostMapping(value="/property/addOrUpdate",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<?>addOrUpdateProperty(HttpServletRequest request)
 	{
+		//如果有propertyId,则表示是更新
+		String propertyName = request.getParameter("propertyName");
+		String propertyDisSeqStr=StringUtils.defaultString(request.getParameter("propertyDisSeqStr"),"0");
+		String propertyIdStr = request.getParameter("propertyId");
+		Integer propertyId=null;
+		if(!StringUtils.isEmpty(propertyIdStr))
+		{
+			propertyId=Integer.parseInt(propertyIdStr);
+		}
 		
-		return ResultUtils.sucess();
+		String[] values = request.getParameterValues("propertyValue");
+		String[] disSeqValues = request.getParameterValues("propertyValueDisSeq");
+		if(values==null || disSeqValues==null||values.length==0||values.length!=disSeqValues.length)
+		{
+			return ResultUtils.fail("请补足数据,不可提交空数据");
+		}
+		List<PropertyValueDTO>valueDTOs=new ArrayList<>();
+		for(int i=0;i<values.length;i++)
+		{
+			PropertyValueDTO valueDTO=new PropertyValueDTO();
+			valueDTO.setPropertyDisSeq(Integer.parseInt(disSeqValues[i]));
+			valueDTO.setPropertyId(propertyId);
+			valueDTO.setPropertyValue(values[i]);
+			valueDTO.setPropertyValueId(idWorkerService.nextId());
+			valueDTOs.add(valueDTO);
+		}
+		PropertyDTO propertyDTO=new PropertyDTO();
+		propertyDTO.setPropertyDisSeq(Integer.parseInt(propertyDisSeqStr));
+		propertyDTO.setPropertyName(propertyName);
+		propertyDTO.setPropertyId(propertyId);
+		propertyDTO.setValues(valueDTOs);
+		UserRequestDTO userRequestDTO=new UserRequestDTO();
+		userRequestDTO.setUser(AdminUtil.getLoginUser());
+		Map<String, Object>params=new HashMap<>();
+		params.put(UserRequestConstant.PRODUCT_PROPERTY, propertyDTO);
+		userRequestDTO.setExtProps(params);
+		return propertyFeignService.addProperty(userRequestDTO);
 	}
 
 }

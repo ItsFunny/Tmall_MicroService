@@ -15,6 +15,29 @@
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
     
 </head>
+<script type="text/javascript">
+	var index=2;
+	function addPropValue(){
+		index++;
+		var str=' <tr id="tr'+index+'"><td><input  class="form-control" name="propertyValue" placeholder="规格选项"></td><td><input  class="form-control" name="propertyValueDisSeq" placeholder="排序"> </td><td><button type="button" class="btn btn-default" title="删除" onclick="remove('+index+')"><i class="fa fa-trash-o"></i> 删除</button></td></tr>';
+		$("#valueBody").append(str);
+	}
+	function save(){
+		alert($("#propetyForm").serialize());
+		var data=$("#propetyForm").serialize();
+		jQuery.post('/admin/api/v1/property/addOrUpdate',data,function(data,textStauts,jqXHR){
+			alert(data.msg);
+			if(data.code==1){
+				location.reload();
+			}
+		},'json');
+	}
+	function remove(index){
+		var id="#tr"+index;
+		$(id).remove();
+	}
+</script>
+
 
 <body class="hold-transition skin-red sidebar-mini" >
   <!-- .box-body -->                
@@ -81,6 +104,8 @@
                     <!-- /.box-body -->                    
 	          		    
                                 
+<form method="post" name="propertyForm" action="/admin/api/v1/property/addOrUpdate" id="propetyForm">
+
 <!-- 编辑窗口 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" >
@@ -94,74 +119,71 @@
 			<table class="table table-bordered table-striped"  width="800px">
 		      	<tr>
 		      		<td>规格名称</td>
-		      		<td><input  class="form-control" placeholder="规格名称" >  </td>
+		      		<td><input  class="form-control" name="propertyName" placeholder="规格名称" >  </td>
 		      	</tr>
 			 </table>				
 			 
 			 <!-- 规格选项 -->
 			 <div class="btn-group">
-                  <button type="button" class="btn btn-default" title="新建" ><i class="fa fa-file-o"></i> 新增规格选项</button>
+                  <button type="button" class="btn btn-default" title="新建"  onclick="addPropValue()"><i class="fa fa-file-o"></i> 新增规格选项</button>
                   
              </div>
 			 
 			 <table class="table table-bordered table-striped table-hover dataTable">
                     <thead>
                         <tr>
-                          
-					 
 				      <th class="sorting">规格选项</th>
 				      <th class="sorting">排序</th>																
                       <th class="sorting">操作</th>	
                     </thead>
-                    <tbody>
-                      <tr>
+                    <tbody id="valueBody">
+                      <tr id="tr0">
                            
 				            <td>
-				            	<input  class="form-control" placeholder="规格选项"> 
+				            	<input  class="form-control" name="propertyValue" placeholder="规格选项"> 
 				            </td>
-				            <td>
-				            	<input  class="form-control" placeholder="排序"> 
+				            <td>							
+				            	<input  class="form-control" name="propertyValueDisSeq" placeholder="排序"> 
 				            </td>
 							<td>
-								<button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+								<button type="button" class="btn btn-default" title="删除" onclick="remove(0)"><i class="fa fa-trash-o"></i> 删除</button>
 							</td>
                       </tr>
-					  <tr>
+					  <tr id="tr1">
                          
 				            <td>
-				            	<input  class="form-control" placeholder="规格选项"> 
+				            	<input  class="form-control" name="propertyValue" placeholder="规格选项"> 
 				            </td>
 				            <td>
-				            	<input  class="form-control" placeholder="排序"> 
+				            	<input  class="form-control" name="propertyValueDisSeq" placeholder="排序"> 
 				            </td>
 							<td>
-								<button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+								<button type="button" class="btn btn-default" title="删除" onclick="remove(1)"><i class="fa fa-trash-o"></i> 删除</button>
 							</td>
                       </tr>
-					  <tr>
-                           
-				            <td>
-				            	<input  class="form-control" placeholder="规格选项"> 
+					  <tr id="tr2">
+                            <td>
+				            	<input  class="form-control" name="propertyValue" placeholder="规格选项"> 
 				            </td>
 				            <td>
-				            	<input  class="form-control" placeholder="排序"> 
+				            	<input  class="form-control" name="propertyValueDisSeq" placeholder="排序"> 
 				            </td>
 							<td>
-								<button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+								<button type="button" class="btn btn-default" title="删除" onclick="remove(2)"><i class="fa fa-trash-o"></i> 删除</button>
 							</td>
                       </tr>
                     </tbody>
 			  </table> 
-			
-			
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="save()">保存</button>
+
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>
 	</div>
 </div>    
+</form> 
 
 </body>
 

@@ -3,7 +3,9 @@ package com.tmall.server.product.common.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TmallPropertyExample {
+import com.tmall.common.dto.PageExample;
+
+public class TmallPropertyExample extends PageExample {
     protected String orderByClause;
 
     protected boolean distinct;

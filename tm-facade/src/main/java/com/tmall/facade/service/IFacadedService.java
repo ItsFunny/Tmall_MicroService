@@ -71,5 +71,7 @@ public interface IFacadedService
 	ResultDTO<List<CategoryDTO>>findCategoryAllChilds(Integer categoryId);
 	ResultDTO<List<CategoryDTO>>findCategoriesOnCondition(Map<String, Object>condition);
 	ResultDTO<Integer>deleteCategoriesInBatch(UserRequestDTO dto);
+	//property
+	ResultDTO<?>addPropertyAndValue(UserRequestDTO dto);
 	
 }

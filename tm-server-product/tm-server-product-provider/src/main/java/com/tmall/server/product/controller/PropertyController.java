@@ -7,6 +7,7 @@
 */
 package com.tmall.server.product.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joker.library.dto.ResultDTO;
+import com.joker.library.page.PageRequestDTO;
+import com.joker.library.page.PageResponseDTO;
+import com.joker.library.service.IdWorkerService;
 import com.tmall.common.annotation.ArgumentCheckAnnotation;
 import com.tmall.common.constants.SQLExtentionConstant;
 import com.tmall.common.constants.UserRequestConstant;
 import com.tmall.common.dto.PropertyDTO;
 import com.tmall.common.dto.UserRequestDTO;
+import com.tmall.common.dto.PropertyDTO.PropertyValueDTO;
 import com.tmall.common.mq.UserRecordFactory;
 import com.tmall.common.utils.ResultUtils;
 import com.tmall.common.wrapper.UserRecordAspectWrapper;
@@ -42,6 +47,9 @@ public class PropertyController
 {
 	@Autowired
 	private IPropertyService propertyService;
+	@Autowired
+	private IdWorkerService idWorkService;
+
 	@ArgumentCheckAnnotation(mapKey = UserRequestConstant.PRODUCT_PROPERTY, parseType = PropertyDTO.class)
 	@PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResultDTO<?> addPropertyAndValue(@RequestBody UserRequestDTO userRequestDTO)
@@ -50,10 +58,36 @@ public class PropertyController
 		Object obj = props.get(UserRequestConstant.PRODUCT_PROPERTY);
 		ObjectMapper mapper = new ObjectMapper();
 		PropertyDTO propertyDTO = mapper.convertValue(obj, PropertyDTO.class);
-		String detail = "添加" + propertyDTO.getPropertyName() + "属性";
+		Integer id = propertyDTO.getPropertyId();
+		String detail = "";
+		if (null == id)
+		{
+			detail = "添加" + propertyDTO.getPropertyName() + "属性";
+			// 添加
+			id = ((Number) idWorkService.nextId()).intValue();
+			if(id<0)
+			{
+				id*=-1;
+			}
+			propertyDTO.setPropertyId(id);
+			for (PropertyValueDTO valueDTO : propertyDTO.getValues())
+			{
+				valueDTO.setPropertyId(id);
+			}
+		} else
+		{
+			// 更新
+			detail = "更新id为:" + id + ",属性为:" + propertyDTO.getPropertyName() + "的属性";
+		}
+
 		UserRecordAspectWrapper<PropertyDTO> wrapper = UserRecordFactory.create(userRequestDTO.getUser(), detail,
 				propertyDTO);
 		return propertyService.addPropertyAndValue(wrapper);
+	}
+	@PostMapping(value="/show",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<PageResponseDTO<List<PropertyDTO>>>showProperties(@RequestBody PageRequestDTO pageRequestDTO)
+	{
+		
 	}
 
 }
