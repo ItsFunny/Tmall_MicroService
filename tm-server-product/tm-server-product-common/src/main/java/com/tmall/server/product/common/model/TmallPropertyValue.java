@@ -1,43 +1,68 @@
 package com.tmall.server.product.common.model;
 
-public class TmallPropertyValue {
-    private Long propertyValueId;
+import org.springframework.beans.BeanUtils;
 
-    private Integer propertyId;
+import com.joker.library.sqlextention.AbstractSQLExtentionModel;
+import com.tmall.common.dto.PropertyDTO.PropertyValueDTO;
 
-    private String propertyValue;
+public class TmallPropertyValue extends AbstractSQLExtentionModel
+{
+	private Long propertyValueId;
 
-    private Integer propertyDisSeq;
+	private Integer propertyId;
 
-    public Long getPropertyValueId() {
-        return propertyValueId;
-    }
+	private String propertyValue;
 
-    public void setPropertyValueId(Long propertyValueId) {
-        this.propertyValueId = propertyValueId;
-    }
+	private Integer propertyDisSeq;
+	
+	public void from(PropertyValueDTO valueDTO)
+	{
+		BeanUtils.copyProperties(valueDTO, this);
+	}
 
-    public Integer getPropertyId() {
-        return propertyId;
-    }
+	public Long getPropertyValueId()
+	{
+		return propertyValueId;
+	}
 
-    public void setPropertyId(Integer propertyId) {
-        this.propertyId = propertyId;
-    }
+	public void setPropertyValueId(Long propertyValueId)
+	{
+		this.propertyValueId = propertyValueId;
+	}
 
-    public String getPropertyValue() {
-        return propertyValue;
-    }
+	public Integer getPropertyId()
+	{
+		return propertyId;
+	}
 
-    public void setPropertyValue(String propertyValue) {
-        this.propertyValue = propertyValue == null ? null : propertyValue.trim();
-    }
+	public void setPropertyId(Integer propertyId)
+	{
+		this.propertyId = propertyId;
+	}
 
-    public Integer getPropertyDisSeq() {
-        return propertyDisSeq;
-    }
+	public String getPropertyValue()
+	{
+		return propertyValue;
+	}
 
-    public void setPropertyDisSeq(Integer propertyDisSeq) {
-        this.propertyDisSeq = propertyDisSeq;
-    }
+	public void setPropertyValue(String propertyValue)
+	{
+		this.propertyValue = propertyValue == null ? null : propertyValue.trim();
+	}
+
+	public Integer getPropertyDisSeq()
+	{
+		return propertyDisSeq;
+	}
+
+	public void setPropertyDisSeq(Integer propertyDisSeq)
+	{
+		this.propertyDisSeq = propertyDisSeq;
+	}
+
+	@Override
+	public Number getUniquekey()
+	{
+		return this.propertyValueId;
+	}
 }

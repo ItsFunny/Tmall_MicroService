@@ -1,42 +1,60 @@
 package com.tmall.server.product.common.model;
 
-import com.tmall.common.other.SQLExtentionModel;
+import org.springframework.beans.BeanUtils;
 
-public class TmallProperty extends SQLExtentionModel
-{
-	private Integer propertyId;
+import com.joker.library.sqlextention.AbstractSQLExtentionModel;
+import com.tmall.common.dto.PropertyDTO;
 
-	private String propertyName;
+public class TmallProperty extends AbstractSQLExtentionModel {
+    private Integer propertyId;
 
-	private Boolean propertyIsSearch;
+    private String propertyName;
 
-	public Integer getPropertyId()
+    private Integer propertyDisSeq;
+
+    private Boolean propertyIsSearch;
+    
+    public void from(PropertyDTO dto)
+    {
+    	//先直接这么写吧,反射还是尽量少用
+    	BeanUtils.copyProperties(dto, this);
+    }
+
+    public Integer getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(Integer propertyId) {
+        this.propertyId = propertyId;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName == null ? null : propertyName.trim();
+    }
+
+    public Integer getPropertyDisSeq() {
+        return propertyDisSeq;
+    }
+
+    public void setPropertyDisSeq(Integer propertyDisSeq) {
+        this.propertyDisSeq = propertyDisSeq;
+    }
+
+    public Boolean getPropertyIsSearch() {
+        return propertyIsSearch;
+    }
+
+    public void setPropertyIsSearch(Boolean propertyIsSearch) {
+        this.propertyIsSearch = propertyIsSearch;
+    }
+
+	@Override
+	public Number getUniquekey()
 	{
-		return propertyId;
-	}
-
-	public void setPropertyId(Integer propertyId)
-	{
-		this.propertyId = propertyId;
-	}
-
-	public String getPropertyName()
-	{
-		return propertyName;
-	}
-
-	public void setPropertyName(String propertyName)
-	{
-		this.propertyName = propertyName == null ? null : propertyName.trim();
-	}
-
-	public Boolean getPropertyIsSearch()
-	{
-		return propertyIsSearch;
-	}
-
-	public void setPropertyIsSearch(Boolean propertyIsSearch)
-	{
-		this.propertyIsSearch = propertyIsSearch;
+		return this.propertyId;
 	}
 }

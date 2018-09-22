@@ -16,25 +16,25 @@ import com.tmall.server.product.dao.TmallPropertyDao;
 @Order(1)
 public interface DB1TmallPropertyDao extends TmallPropertyDao
 {
-	long countByExample(TmallPropertyExample example);
-
-	int deleteByExample(TmallPropertyExample example);
-
-	int deleteByPrimaryKey(Integer propertyId);
-
-	int insert(TmallProperty record);
-
-	int insertSelective(TmallProperty record);
-
-	List<TmallProperty> selectByExample(TmallPropertyExample example);
-
-	TmallProperty selectByPrimaryKey(Integer propertyId);
-
-	int updateByExampleSelective(@Param("record") TmallProperty record, @Param("example") TmallPropertyExample example);
-
-	int updateByExample(@Param("record") TmallProperty record, @Param("example") TmallPropertyExample example);
-
-	int updateByPrimaryKeySelective(TmallProperty record);
-
-	int updateByPrimaryKey(TmallProperty record);
+//	long countByExample(TmallPropertyExample example);
+//
+//	int deleteByExample(TmallPropertyExample example);
+//
+//	int deleteByPrimaryKey(Integer propertyId);
+//
+//	int insert(TmallProperty record);
+//
+//	int insertSelective(TmallProperty record);
+//
+//	List<TmallProperty> selectByExample(TmallPropertyExample example);
+//
+//	TmallProperty selectByPrimaryKey(Integer propertyId);
+//
+//	int updateByExampleSelective(@Param("record") TmallProperty record, @Param("example") TmallPropertyExample example);
+//
+//	int updateByExample(@Param("record") TmallProperty record, @Param("example") TmallPropertyExample example);
+//
+//	int updateByPrimaryKeySelective(TmallProperty record);
+//
+//	int updateByPrimaryKey(TmallProperty record);
 }

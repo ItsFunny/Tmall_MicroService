@@ -292,7 +292,7 @@
 									    <#--<th class="sorting">类型模板ID</th>  -->  
 			                                  <td class="text-center">		                                     
 			                                      <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"  data-target="#childModel" categoryId="${item.categoryId}" onclick="showChild(this)">查询下级</button> 		                                     
-			                                 	  <button type="button" class="btn bg-olive btn-xs" categoryId="${item.categoryId}" categoryName="${item.categoryName}" categoryDisplaySeq="${item.categoryDisplaySeq}"  data-toggle="modal" data-target="#editModal" onclick="update(this)">修改</button>                                          
+			                                 	  <button type="button" class="btn bg-olive btn-xs" categoryId="${item.categoryId?c}" categoryName="${item.categoryName}" categoryDisplaySeq="${item.categoryDisplaySeq}"  data-toggle="modal" data-target="#editModal" onclick="update(this)">修改</button>                                          
 			                                 	  <@shiro.hasPermission name="edit_category_status_update">  
 			                                 	  <#if item.status==0>
 			                                 	    <button type="button" class="btn bg-olive btn-xs" categoryId="${item.categoryId}?c" onclick="updateStatus(${item.categoryId},1)">上架</button>

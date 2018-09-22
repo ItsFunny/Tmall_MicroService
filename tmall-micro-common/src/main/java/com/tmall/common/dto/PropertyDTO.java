@@ -8,6 +8,8 @@ package com.tmall.common.dto;
 
 import java.util.List;
 
+import com.tmall.server.product.common.model.TmallPropertyValue;
+
 import lombok.Data;
 
 /**
@@ -20,13 +22,19 @@ public class PropertyDTO
 {
 	private Integer propertyId;
 	private String propertyName;
+	private Integer propertyDisSeq;
 	private List<PropertyValueDTO>values;
 	
 	@Data
 	public static class PropertyValueDTO
 	{
-		private Integer propertyValueId;
+		private Long propertyValueId;
+
+		private Integer propertyId;
+
 		private String propertyValue;
+
+		private Integer propertyDisSeq;
 	}
 	
 

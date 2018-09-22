@@ -119,7 +119,7 @@
 	</delete>
 	<insert id="insert"
 		parameterType="com.tmall.server.product.common.model.TmallProperty">
-		insert into tmall_property_0 (property_id,
+		insert into ${tableName} (property_id,
 		property_name, property_is_search
 		)
 		values
@@ -129,7 +129,7 @@
 	</insert>
 	<insert id="insertSelective"
 		parameterType="com.tmall.server.product.common.model.TmallProperty">
-		insert into tmall_property_0
+		insert into ${tableName}
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="propertyId != null">
 				property_id,

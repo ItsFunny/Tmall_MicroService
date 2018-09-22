@@ -1,20 +1,16 @@
-package com.tmall.server.product.dao.db0;
+package com.tmall.server.product.dao.db1;
 
-import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.tmall.server.product.common.model.TmallPropertyValue;
-import com.tmall.server.product.common.model.TmallPropertyValueExample;
 import com.tmall.server.product.dao.TmallPropertyValueDao;
 
-@Component(value="db0TmallPropertyValueDao")
+@Component(value = "db1TmallPropertyValueDao")
 @Mapper
-@Order(0)
-public interface DB0TmallPropertyValueDao extends TmallPropertyValueDao
+@Order(1)
+public interface DB1TmallPropertyValueDao extends TmallPropertyValueDao
 {
 //	long countByExample(TmallPropertyValueExample example);
 //

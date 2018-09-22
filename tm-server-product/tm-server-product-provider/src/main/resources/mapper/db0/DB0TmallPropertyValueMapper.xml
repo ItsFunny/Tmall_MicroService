@@ -83,6 +83,7 @@
 		property_value_id, property_id, property_value,
 		property_dis_seq
 	</sql>
+
 	<select id="selectByExample"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValueExample"
 		resultMap="BaseResultMap">
@@ -121,6 +122,15 @@
 			<include refid="Example_Where_Clause" />
 		</if>
 	</delete>
+	<insert id="insertBatchSelective">
+		insert into ${tableName}
+		(property_value_id,property_id,property_value,property_dis_seq)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.propertyValueId},#{item.propertyId},#{item.propertyValue},#{item.propertyDisSeq})
+		</foreach>
+	</insert>
 	<insert id="insert"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValue">
 		insert into tmall_property_value_0 (property_value_id,
@@ -134,7 +144,7 @@
 	</insert>
 	<insert id="insertSelective"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValue">
-		insert into tmall_property_value_0
+		insert into ${tableName}
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="propertyValueId != null">
 				property_value_id,

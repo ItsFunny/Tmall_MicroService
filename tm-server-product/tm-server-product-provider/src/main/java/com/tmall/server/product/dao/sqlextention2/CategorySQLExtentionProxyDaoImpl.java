@@ -119,4 +119,10 @@ public class CategorySQLExtentionProxyDaoImpl
 		return dao.updateByExampleSelective(record, example);
 	}
 
+	@Override
+	public int insertBatchSelective(String tableName,List<TmallCategory> list)
+	{
+		return 0;
+	}
+
 }

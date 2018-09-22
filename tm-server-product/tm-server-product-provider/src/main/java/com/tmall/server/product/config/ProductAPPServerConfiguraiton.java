@@ -70,13 +70,13 @@ import com.tmall.server.product.service.ICategoryService;
  */
 @Configuration
 @EnableConfigurationProperties(value =
-{ KeyProperty.class, TmallConfigProperty.class, TmallProductProperty.class ,SQLExtentionConfigProperty.class})
-//@ComponentScan(basePackages =
-//{ "com.tmall.server.product.service" })
-//绑定的是db1下的sql文件
+{ KeyProperty.class, TmallConfigProperty.class, TmallProductProperty.class, SQLExtentionConfigProperty.class })
+// @ComponentScan(basePackages =
+// { "com.tmall.server.product.service" })
+// 绑定的是db1下的sql文件
 @MapperScan(basePackages =
-{ "com.tmall.server.product.dao.db1" },sqlSessionFactoryRef="sqlSessionTwo")
-public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,ApplicationContextAware
+{ "com.tmall.server.product.dao.db1" }, sqlSessionFactoryRef = "sqlSessionTwo")
+public class ProductAPPServerConfiguraiton implements WebMvcConfigurer, ApplicationContextAware
 {
 	private ApplicationContext context;
 	@Autowired
@@ -89,42 +89,48 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 	private KeyProperty keyProperty;
 	@Autowired
 	private SQLExtentionConfigProperty extentionConfigProperty;
-	
+
 	@Bean("db0TransactionManager")
 	public DataSourceTransactionManager transactionManager()
 	{
 		return new DataSourceTransactionManager(dataSource());
 	}
+
 	@Bean("db1TransactionManager")
 	public DataSourceTransactionManager transactionManager2()
 	{
 		return new DataSourceTransactionManager(dataSourceTwo());
 	}
+
 	@Bean
 	public IdWorkerService idWorkerService()
 	{
-		return new IdWorkerServiceTwitter(0L,1L);
+		return new IdWorkerServiceTwitter(0L, 1L);
 	}
+
 	@Bean
 	public SQLExtentionHolderV3 holderV3()
 	{
-		SQLExtentionHolderV3 v3=new SQLExtentionHolderV3();
-		extentionConfigProperty.setDetailConfigStr("2:categorySQLExtentionProxyDaoImpl:1=tmall_category_0;1=tmall_category_0-2:messageSQLExtentionDaoImpl:1=message_0;1=message_0");
-		extentionConfigProperty.setTablePrefixNames("tmall_category,message");
-		extentionConfigProperty.setTotalTableCounts(2);
+		SQLExtentionHolderV3 v3 = new SQLExtentionHolderV3();
+		extentionConfigProperty.setDetailConfigStr(
+				"2:categorySQLExtentionProxyDaoImpl:1=tmall_category_0;1=tmall_category_0"
+				+ "-2:messageSQLExtentionDaoImpl:1=message_0;1=message_0"
+				+ "-2:propertySQLExtentionProxyDaoImpl:1=tmalL_property;1=tmall_property_0"
+				+ "-2:proeprtyValueSQLExtentionProxyDaoImpl:1=tmall_property_value;1=tmall_property_value_0");
+		extentionConfigProperty.setTablePrefixNames("tmall_category,message,property,property_value");
+		extentionConfigProperty.setTotalTableCounts(4);
 		v3.config(extentionConfigProperty, context);
 		return v3;
 	}
-	
+
 	@Bean
 	public SQLExtentionHolder sqlExtentionHolder()
 	{
-		SQLExtentionHolder holder=new SQLExtentionHolder();
+		SQLExtentionHolder holder = new SQLExtentionHolder();
 		holder.config(tmallConfigProperty.getMysqlExtention(), context);
 		return holder;
 	}
-	
-	
+
 	@Bean
 	public JWTUtilFactoryBean jwtUtilFactoryBean()
 	{
@@ -171,7 +177,7 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 		dataSource.setDriverClassName(tmallConfigProperty.getDriverClassName());
 		return dataSource;
 	}
-	
+
 	@Primary
 	@Bean(name = "sqlSessionOne")
 	public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier("dataSourceOne") DataSource dataSource)
@@ -182,8 +188,8 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 		org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
 		configuration.setMapUnderscoreToCamelCase(true);
 		sqlSessionFactoryBean.setConfiguration(configuration);
-		sqlSessionFactoryBean
-				.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/db0/*.xml"));
+		sqlSessionFactoryBean.setMapperLocations(
+				new PathMatchingResourcePatternResolver().getResources("classpath:mapper/db0/*.xml"));
 		return sqlSessionFactoryBean;
 	}
 
@@ -197,20 +203,21 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 		dataSource.setDriverClassName(tmallConfigProperty.getDriverClassName());
 		return dataSource;
 	}
-	
 
 	@Bean(name = "sqlSessionTwo")
-	public SqlSessionFactoryBean sqlSessionFactoryBeanTwo(@Qualifier("dataSourceTwo") DataSource dataSource) throws IOException
+	public SqlSessionFactoryBean sqlSessionFactoryBeanTwo(@Qualifier("dataSourceTwo") DataSource dataSource)
+			throws IOException
 	{
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource);
 		org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
 		configuration.setMapUnderscoreToCamelCase(true);
 		sqlSessionFactoryBean.setConfiguration(configuration);
-		sqlSessionFactoryBean
-				.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/db1/*.xml"));
+		sqlSessionFactoryBean.setMapperLocations(
+				new PathMatchingResourcePatternResolver().getResources("classpath:mapper/db1/*.xml"));
 		return sqlSessionFactoryBean;
 	}
+
 	@Bean
 	public ViewResolver viewResolver()
 	{
@@ -261,24 +268,23 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer,Applicati
 		return rabbitAdmin;
 	}
 
-
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
 	{
-		this.context=applicationContext;
+		this.context = applicationContext;
 	}
 
-	//先暂时注释
-//	@Bean
-//	public RestAuthTokenInterceptor tokenInterceptor()
-//	{
-//		return new RestAuthTokenInterceptor();
-//	}
+	// 先暂时注释
+	// @Bean
+	// public RestAuthTokenInterceptor tokenInterceptor()
+	// {
+	// return new RestAuthTokenInterceptor();
+	// }
 
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry)
-//	{
-//		WebMvcConfigurer.super.addInterceptors(registry);
-//		registry.addInterceptor(tokenInterceptor()).addPathPatterns("/auth/**");
-//	}
+	// @Override
+	// public void addInterceptors(InterceptorRegistry registry)
+	// {
+	// WebMvcConfigurer.super.addInterceptors(registry);
+	// registry.addInterceptor(tokenInterceptor()).addPathPatterns("/auth/**");
+	// }
 }

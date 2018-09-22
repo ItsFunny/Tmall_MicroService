@@ -16,4 +16,8 @@ public interface SQLExtentionConstant
 	String CATEGORY="tmall_category";
 	
 	String MESSAGE="message";
+	
+	String PROPERTY="property";
+	
+	String PROPERTY_VALUE="property_value";
 }

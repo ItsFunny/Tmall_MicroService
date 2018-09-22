@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.tmall.server.product.dao.db1.DB1TmallPropertyValueMapper">
+	namespace="com.tmall.server.product.dao.db1.DB1TmallPropertyValueDao">
 	<resultMap id="BaseResultMap"
 		type="com.tmall.server.product.common.model.TmallPropertyValue">
 		<id column="property_value_id" jdbcType="BIGINT"
@@ -121,6 +121,15 @@
 			<include refid="Example_Where_Clause" />
 		</if>
 	</delete>
+	<insert id="insertBatchSelective" parameterType="map">
+		insert into ${tableName}
+		(property_value_id,property_id,property_value,property_dis_seq)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.propertyValueId},#{item.propertyId},#{item.propertyValue},#{item.propertyDisSeq})
+		</foreach>
+	</insert>
 	<insert id="insert"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValue">
 		insert into tmall_property_value_0 (property_value_id,

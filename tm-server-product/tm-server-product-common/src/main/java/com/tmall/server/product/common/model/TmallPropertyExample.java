@@ -234,6 +234,66 @@ public class TmallPropertyExample {
             return (Criteria) this;
         }
 
+        public Criteria andPropertyDisSeqIsNull() {
+            addCriterion("property_dis_seq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqIsNotNull() {
+            addCriterion("property_dis_seq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqEqualTo(Integer value) {
+            addCriterion("property_dis_seq =", value, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqNotEqualTo(Integer value) {
+            addCriterion("property_dis_seq <>", value, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqGreaterThan(Integer value) {
+            addCriterion("property_dis_seq >", value, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqGreaterThanOrEqualTo(Integer value) {
+            addCriterion("property_dis_seq >=", value, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqLessThan(Integer value) {
+            addCriterion("property_dis_seq <", value, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqLessThanOrEqualTo(Integer value) {
+            addCriterion("property_dis_seq <=", value, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqIn(List<Integer> values) {
+            addCriterion("property_dis_seq in", values, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqNotIn(List<Integer> values) {
+            addCriterion("property_dis_seq not in", values, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqBetween(Integer value1, Integer value2) {
+            addCriterion("property_dis_seq between", value1, value2, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andPropertyDisSeqNotBetween(Integer value1, Integer value2) {
+            addCriterion("property_dis_seq not between", value1, value2, "propertyDisSeq");
+            return (Criteria) this;
+        }
+
         public Criteria andPropertyIsSearchIsNull() {
             addCriterion("property_is_search is null");
             return (Criteria) this;
