@@ -7,25 +7,17 @@
 */
 package com.tmall.server.product.service.impl;
 
-import static org.hamcrest.CoreMatchers.containsString;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.joker.library.dto.ResultDTO;
-import com.joker.library.page.AbstractPageService;
-import com.joker.library.page.PageBaseService;
+import com.joker.library.page.AbstractMultipartDBPageService;
 import com.joker.library.page.PageRequestDTO;
 import com.joker.library.page.PageResponseDTO;
-import com.joker.library.service.IdWorkerService;
-import com.joker.library.service.IdWorkerServiceTwitter;
 import com.joker.library.sqlextention.AbstractSQLExtentionModel;
 import com.joker.library.sqlextention.ISQLExtentionBaseCRUDDao;
 import com.joker.library.sqlextention.SQLExtentionDaoWrapper;
@@ -33,17 +25,15 @@ import com.joker.library.sqlextention.SQLExtentionHolderV3;
 import com.joker.library.sqlextention.SQLExtentionInfo.DBInfo;
 import com.joker.library.sqlextention.SQLExtentionInfo.TableInfo;
 import com.joker.library.utils.ResultUtils;
-import com.tmall.common.annotation.ArgumentCheckAnnotation;
 import com.tmall.common.annotation.RabbitMQTransaction;
 import com.tmall.common.constants.SQLExtentionConstant;
 import com.tmall.common.dto.PropertyDTO;
 import com.tmall.common.dto.PropertyDTO.PropertyValueDTO;
 import com.tmall.common.enums.ErrorCodeEnum;
-import com.tmall.common.other.ISQLExtentionBaseCRUDService;
-import com.tmall.common.other.SQLExtentionHolder;
 import com.tmall.common.wrapper.UserRecordAspectWrapper;
 import com.tmall.server.product.common.model.TmallProperty;
 import com.tmall.server.product.common.model.TmallPropertyExample;
+import com.tmall.server.product.common.model.TmallPropertyExample.Criteria;
 import com.tmall.server.product.common.model.TmallPropertyValue;
 import com.tmall.server.product.exception.TmallProductException;
 import com.tmall.server.product.service.IPropertyService;
@@ -60,36 +50,38 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
-public class PropertyServiceImpl extends AbstractPageService<List<PropertyDTO>>implements IPropertyService
+public class PropertyServiceImpl extends AbstractMultipartDBPageService<TmallProperty, TmallPropertyExample>
+		implements IPropertyService
 {
 
 	@Autowired
 	private SQLExtentionHolderV3 holder;
 
-//	public static void main(String[] args)
-//	{
-//		IdWorkerServiceTwitter idWorkerServiceTwitter = new IdWorkerServiceTwitter(1l, 0L);
-//		for (int i = 0; i < 10; i++)
-//		{
-//			Thread thread = new Thread(new Runnable()
-//			{
-//
-//				@Override
-//				public void run()
-//				{
-//					for (int i = 0; i < 10000; i++)
-//					{
-//						long nextId = idWorkerServiceTwitter.nextId();
-//						if (nextId < 0)
-//						{
-//							System.out.println(nextId);
-//						}
-//					}
-//				}
-//			});
-//			thread.start();
-//		}
-//	}
+	// public static void main(String[] args)
+	// {
+	// IdWorkerServiceTwitter idWorkerServiceTwitter = new
+	// IdWorkerServiceTwitter(1l, 0L);
+	// for (int i = 0; i < 10; i++)
+	// {
+	// Thread thread = new Thread(new Runnable()
+	// {
+	//
+	// @Override
+	// public void run()
+	// {
+	// for (int i = 0; i < 10000; i++)
+	// {
+	// long nextId = idWorkerServiceTwitter.nextId();
+	// if (nextId < 0)
+	// {
+	// System.out.println(nextId);
+	// }
+	// }
+	// }
+	// });
+	// thread.start();
+	// }
+	// }
 
 	@RabbitMQTransaction
 	@Override
@@ -153,7 +145,7 @@ public class PropertyServiceImpl extends AbstractPageService<List<PropertyDTO>>i
 			// 插入操作,内部中的每个list都是相同的表名
 			for (List<TmallPropertyValue> list2 : tList)
 			{
-				if(null==list2||list2.isEmpty())
+				if (null == list2 || list2.isEmpty())
 				{
 					continue;
 				}
@@ -171,43 +163,103 @@ public class PropertyServiceImpl extends AbstractPageService<List<PropertyDTO>>i
 	@Override
 	public PageResponseDTO<List<PropertyDTO>> findByCondition(PageRequestDTO pageRequestDTO)
 	{
-		Map<String, Object> data = pageRequestDTO.getData();
-		return null;
+		PageResponseDTO<List<TmallProperty>> responseDTO = super.findByPage(pageRequestDTO);
+		List<TmallProperty> data = responseDTO.getData();
+		List<PropertyDTO> dtos = new ArrayList<>();
+		if (null != data && !data.isEmpty())
+		{
+			data.forEach(d -> {
+				PropertyDTO propertyDTO = new PropertyDTO();
+				d.to(propertyDTO);
+				dtos.add(propertyDTO);
+			});
+		}
+		PageResponseDTO<List<PropertyDTO>> pageResponseDTO = new PageResponseDTO<List<PropertyDTO>>(dtos,
+				responseDTO.getPageSize(), responseDTO.getPageNum(), responseDTO.getTotalCount());
+		return pageResponseDTO;
 	}
 
 	@Override
-	protected List<PropertyDTO> findSingleById(Object id)
+	protected Long countByCondition(DBInfo<TmallProperty>[] dbs, TmallPropertyExample example)
 	{
-		SQLExtentionDaoWrapper<TmallProperty> wrapper = holder.getBaseDao(SQLExtentionConstant.PROPERTY, (Number) id);
-		TmallProperty tmallProperty = wrapper.getDao().selectByPrimaryKey(wrapper.getTableName(),(Number) id);
-		PropertyDTO propertyDTO=new PropertyDTO();
-		tmallProperty.to(propertyDTO);
-		return Arrays.asList(propertyDTO);
+		// example 很可能不起作用
+		Long totalCount = 0L;
+		for (DBInfo<TmallProperty> dbInfo : dbs)
+		{
+			ISQLExtentionBaseCRUDDao<TmallProperty> dao = dbInfo.getDao();
+			TableInfo<TmallProperty>[] tables = dbInfo.getTables();
+			for (TableInfo<TmallProperty> tableInfo : tables)
+			{
+				example.setTableName(tableInfo.getTableName());
+				totalCount += dao.countByExample(example);
+			}
+		}
+		return totalCount;
 	}
 
 	@Override
-	public List<PropertyDTO> findByCondition(Integer start, Integer end, Map<String, Object> condition)
+	protected TmallPropertyExample getExample(Map<String, Object> condition)
 	{
-		TmallPropertyExample example=new TmallPropertyExample();
-		example.setStart(start);
-		example.setEnd(end);
-		List<? extends ISQLExtentionBaseCRUDDao<AbstractSQLExtentionModel>> daos = holder.getAllDaos(SQLExtentionConstant.PROPERTY);
-		
-		return null;
+		TmallPropertyExample example = new TmallPropertyExample();
+		return example;
 	}
 
 	@Override
-	public List<PropertyDTO> findAllByPage(Integer start, Integer end)
+	protected List<TmallProperty> doFindByExample(String tableName,
+			ISQLExtentionBaseCRUDDao<? extends AbstractSQLExtentionModel> dao, Integer avgStart, Integer end,
+			Object exampleObj)
 	{
-		return null;
+		TmallPropertyExample propertyExample = (TmallPropertyExample) exampleObj;
+		propertyExample.setStart(avgStart);
+		propertyExample.setEnd(end);
+		propertyExample.setTableName(tableName);
+		return (List<TmallProperty>) dao.selectByExample(propertyExample);
 	}
 
 	@Override
-	public Long countByCondition(Map<String, Object> condition)
+	protected Long getMinId(List<List<TmallProperty>> list)
+	{
+		long minId = Long.MAX_VALUE;
+		for (List<TmallProperty> list2 : list)
+		{
+			if (list2.isEmpty())
+			{
+				continue;
+			}
+			Long cid = ((Number) list2.iterator().next().getPropertyId()).longValue();
+			minId = minId < cid ? minId : cid;
+		}
+		return minId;
+	}
+
+	@Override
+	protected void getMaxId(List<Long> maxId, List<List<TmallProperty>> totalList)
 	{
 		// TODO Auto-generated method stub
-		return null;
+		for (List<TmallProperty> list : totalList)
+		{
+			if (list == null || list.isEmpty())
+			{
+				maxId.add((long) Integer.MAX_VALUE);
+			} else
+			{
+				Integer m = list.get(list.size() - 1).getPropertyId();
+				maxId.add(((Number) m).longValue());
+			}
+		}
+
 	}
 
+	@Override
+	protected List<TmallProperty> secondFindByBetween(String concreteTableName,
+			ISQLExtentionBaseCRUDDao<TmallProperty> dao, long min, long max, Map<String, Object> condition)
+	{
+		TmallPropertyExample example=new TmallPropertyExample();
+		example.setTableName(concreteTableName);
+		Criteria criteria = example.createCriteria();
+		criteria.andPropertyIdBetween((int)min, (int)max);
+		
+		return dao.selectByExample(example);
+	}
 
 }

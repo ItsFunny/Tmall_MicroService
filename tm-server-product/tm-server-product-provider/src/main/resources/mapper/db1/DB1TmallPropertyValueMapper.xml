@@ -92,12 +92,18 @@
 		</if>
 		'true' as QUERYID,
 		<include refid="Base_Column_List" />
-		from tmall_property_value_0
+		from ${tableName}
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
+		</if>
+		<if test="start != null ">
+			limit #{start}
+			<if test="end != null ">
+				,#{end}
+			</if>
 		</if>
 	</select>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
@@ -176,7 +182,7 @@
 	<select id="countByExample"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValueExample"
 		resultType="java.lang.Long">
-		select count(*) from tmall_property_value_0
+		select count(*) from ${tableName}
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>

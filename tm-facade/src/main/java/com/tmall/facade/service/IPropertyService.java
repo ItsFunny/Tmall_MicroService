@@ -7,7 +7,12 @@
 */
 package com.tmall.facade.service;
 
+import java.util.List;
+
 import com.joker.library.dto.ResultDTO;
+import com.joker.library.page.PageRequestDTO;
+import com.joker.library.page.PageResponseDTO;
+import com.tmall.common.dto.PropertyDTO;
 import com.tmall.common.dto.UserRequestDTO;
 
 /**
@@ -21,4 +26,8 @@ import com.tmall.common.dto.UserRequestDTO;
 public interface IPropertyService
 {
 	ResultDTO<?>addPropertyAndValue(UserRequestDTO dto);
+	
+	
+	ResultDTO<PageResponseDTO<List<PropertyDTO>>>findPropertiesByCondition(PageRequestDTO pageRequestDTO);
+	
 }

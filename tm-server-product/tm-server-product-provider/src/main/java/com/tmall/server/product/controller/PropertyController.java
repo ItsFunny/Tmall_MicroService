@@ -84,10 +84,11 @@ public class PropertyController
 				propertyDTO);
 		return propertyService.addPropertyAndValue(wrapper);
 	}
-//	@PostMapping(value="/show",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	public ResultDTO<PageResponseDTO<List<PropertyDTO>>>showProperties(@RequestBody PageRequestDTO pageRequestDTO)
-//	{
-//		
-//	}
+	@PostMapping(value="/show",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<PageResponseDTO<List<PropertyDTO>>>showProperties(@RequestBody PageRequestDTO pageRequestDTO)
+	{
+		PageResponseDTO<List<PropertyDTO>> pageResponseDTO = propertyService.findByCondition(pageRequestDTO);
+		return ResultUtils.sucess(pageResponseDTO);
+	}
 
 }

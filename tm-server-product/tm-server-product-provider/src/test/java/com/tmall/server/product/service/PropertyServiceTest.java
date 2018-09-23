@@ -7,8 +7,11 @@
 */
 package com.tmall.server.product.service;
 
+import static org.mockito.Mockito.calls;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +21,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.joker.library.dto.ResultDTO;
+import com.joker.library.page.PageRequestDTO;
+import com.joker.library.page.PageResponseDTO;
+import com.tmall.common.constants.SQLExtentionConstant;
 import com.tmall.common.dto.PropertyDTO;
 import com.tmall.common.dto.PropertyDTO.PropertyValueDTO;
 import com.tmall.common.mq.TmallMQEnum;
@@ -45,22 +51,22 @@ public class PropertyServiceTest
 	@Test
 	public void testAdd()
 	{
-		UserDTO user=new UserDTO();
+		UserDTO user = new UserDTO();
 		user.setUsername("joker");
 		user.setUserId(1L);
-		String detail="ss";
-		PropertyDTO propertyDTO=new PropertyDTO();
+		String detail = "ss";
+		PropertyDTO propertyDTO = new PropertyDTO();
 		propertyDTO.setPropertyId(10);
 		propertyDTO.setPropertyName("test-property");
 		propertyDTO.setPropertyDisSeq(1);
-		List<PropertyValueDTO>values=new ArrayList<PropertyDTO.PropertyValueDTO>();
-		PropertyValueDTO valueDTO=new PropertyValueDTO();
+		List<PropertyValueDTO> values = new ArrayList<PropertyDTO.PropertyValueDTO>();
+		PropertyValueDTO valueDTO = new PropertyValueDTO();
 		valueDTO.setPropertyValue("test-property-value1");
 		valueDTO.setPropertyId(propertyDTO.getPropertyId());
 		valueDTO.setPropertyDisSeq(1);
 		valueDTO.setPropertyValueId(1L);
 		values.add(valueDTO);
-		PropertyValueDTO valueDTO2=new PropertyValueDTO();
+		PropertyValueDTO valueDTO2 = new PropertyValueDTO();
 		valueDTO2.setPropertyValue("test-property-value2");
 		valueDTO2.setPropertyId(propertyDTO.getPropertyId());
 		valueDTO2.setPropertyDisSeq(1);
@@ -69,7 +75,21 @@ public class PropertyServiceTest
 		propertyDTO.setValues(values);
 		UserRecordAspectWrapper<PropertyDTO> wrapper = UserRecordFactory.create(user, detail, propertyDTO);
 		ResultDTO<?> resultDTO = propertyService.addPropertyAndValue(wrapper);
-		
+	}
+
+	@Test
+	public void testFindByPage()
+	{
+		PageRequestDTO pageRequestDTO = new PageRequestDTO();
+		pageRequestDTO.setTablePrefixName(SQLExtentionConstant.PROPERTY);
+		pageRequestDTO.setPageNum(1);
+		pageRequestDTO.setPageSize(10);
+		PageResponseDTO<List<PropertyDTO>> pageResponseDTO = propertyService.findByCondition(pageRequestDTO);
+		List<PropertyDTO> data = pageResponseDTO.getData();
+		for (PropertyDTO propertyDTO : data)
+		{
+			System.out.println(propertyDTO);
+		}
 	}
 
 }

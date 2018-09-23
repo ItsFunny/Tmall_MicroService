@@ -40,6 +40,11 @@
 
 
 <body class="hold-transition skin-red sidebar-mini" >
+<form name="pageForm" method="post">
+	<input type="hidden" name="pageNum" value="${pageNum!""}">
+	<input type="hidden" name="searchKey" value="${searchKey!""}">
+
+</form>
   <!-- .box-body -->                
                     <div class="box-header with-border">
                         <h3 class="box-title">规格管理</h3>
@@ -79,29 +84,34 @@
 			                          </tr>
 			                      </thead>
 			                      <tbody>
-			                          <tr >
-			                              <td><input  type="checkbox" ></td>			                              
-				                          <td>1</td>
-									      <td>网络制式</td>
-		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>                                           
-		                                  </td>
-			                          </tr>
-									  <tr >
-			                              <td><input  type="checkbox" ></td>			                              
-				                          <td>2</td>
-									      <td>服装尺码</td>
-		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>                                           
-		                                  </td>
-			                          </tr>
+			                      <#if pageVO??>
+			                      	<#if pageVO.data??>
+			                      		<#list pageVO.data as item>
+				                          <tr >
+				                              <td><input  type="checkbox" ></td>			                              
+					                          <td>${item.propertyId?c}</td>
+										      <td>${item.propertyName}</td>
+			                                  <td class="text-center">                                           
+			                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>                                           
+			                                  </td>
+				                          </tr>
+			                          	</#list>>
+			                          <#else> 无数据
+			                          </#if>
 			                      </tbody>
 			                  </table>
-			                  <!--数据列表/-->    
+			 <#if (pageVO.pageNum<1) > <a href="javascript:void(0)">第一页</a><a href="javascript:void(0)">上一页</a> 
+			<#else> <a href="javascript:document.pageForm.pageNum.value=1;document.pageForm.submit();">第一页</a><a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}-1);document.pageForm.submit()">上一页</a></#if>
+			<#if (pageVO.pageNum>=pageVO.maxPage)> 
+			<a href="javascript:void(0)">下一页</a> <a href="javascript:void(0)">最后一页</a>
+			<#else> <a href="javascript:document.pageForm.pageNum.value=(${pageVO.pageNum}+1);document.pageForm.submit();">下一页</a>
+			<a href="javascript:document.pageForm.pageNum.value=${pageVO.maxPage};document.pageForm.submit();">最后一页</a>
+			</#if>
+			<#else> 暂无数据 
+			</#if> 
+			当前第${pageVO.pageNum}页,总共有${pageVO.maxPage}页 ,共有 ${pageVO.totalCount} 条记录<!--数据列表/-->
                         </div>
-                        <!-- 数据表格 /--> 
                      </div>
-                    <!-- /.box-body -->                    
 	          		    
                                 
 <form method="post" name="propertyForm" action="/admin/api/v1/property/addOrUpdate" id="propetyForm">

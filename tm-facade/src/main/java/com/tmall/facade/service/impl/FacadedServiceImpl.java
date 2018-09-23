@@ -18,6 +18,7 @@ import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.CategoryDTO;
 import com.tmall.common.dto.MessageDTO;
+import com.tmall.common.dto.PropertyDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
 import com.tmall.common.dto.TmallConfigTemplateDTO;
@@ -170,6 +171,12 @@ public class FacadedServiceImpl implements IFacadedService
 	public ResultDTO<?> addPropertyAndValue(UserRequestDTO dto)
 	{
 		return propertyService.addPropertyAndValue(dto);
+	}
+
+	@Override
+	public ResultDTO<PageResponseDTO<List<PropertyDTO>>> findProertiesByCondition(PageRequestDTO pageRequestDTO)
+	{
+		return propertyService.findPropertiesByCondition(pageRequestDTO);
 	}
 	
 }

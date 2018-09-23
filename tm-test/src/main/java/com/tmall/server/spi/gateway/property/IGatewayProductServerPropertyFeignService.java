@@ -7,12 +7,17 @@
 */
 package com.tmall.server.spi.gateway.property;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.joker.library.dto.ResultDTO;
+import com.joker.library.page.PageRequestDTO;
+import com.joker.library.page.PageResponseDTO;
+import com.tmall.common.dto.PropertyDTO;
 import com.tmall.common.dto.UserRequestDTO;
 
 /**
@@ -29,4 +34,6 @@ public interface IGatewayProductServerPropertyFeignService
 	@PostMapping(value = "/valid/property/add", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	ResultDTO<?> addProperty(@RequestBody UserRequestDTO dto);
 
+	@PostMapping(value = "/valid/property/show", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	ResultDTO<PageResponseDTO<List<PropertyDTO>>> findPropertiesByCondition(@RequestBody PageRequestDTO pageRequestDTO);
 }

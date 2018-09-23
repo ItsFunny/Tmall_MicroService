@@ -88,31 +88,37 @@
 		</if>
 		'true' as QUERYID,
 		<include refid="Base_Column_List" />
-		from tmall_property_0
+		from ${tableName}
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
+		<if test="start != null ">
+			limit #{start}
+			<if test="end != null ">
+				,#{end}
+			</if>
+		</if>
 	</select>
 	<select id="selectByPrimaryKey"
 		parameterType="java.lang.Integer" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from tmall_property_0
+		from ${tableName}
 		where property_id =
 		#{propertyId,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey"
 		parameterType="java.lang.Integer">
-		delete from tmall_property_0
+		delete from ${tableName}
 		where property_id =
 		#{propertyId,jdbcType=INTEGER}
 	</delete>
 	<delete id="deleteByExample"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyExample">
-		delete from tmall_property_0
+		delete from ${tableName}
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -120,10 +126,12 @@
 	<insert id="insert"
 		parameterType="com.tmall.server.product.common.model.TmallProperty">
 		insert into ${tableName} (property_id,
-		property_name, property_is_search
+		property_name,
+		property_is_search
 		)
 		values
-		(#{propertyId,jdbcType=INTEGER}, #{propertyName,jdbcType=VARCHAR},
+		(#{propertyId,jdbcType=INTEGER},
+		#{propertyName,jdbcType=VARCHAR},
 		#{propertyIsSearch,jdbcType=BIT}
 		)
 	</insert>
@@ -156,13 +164,13 @@
 	<select id="countByExample"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyExample"
 		resultType="java.lang.Long">
-		select count(*) from tmall_property_0
+		select count(*) from ${tableName}
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
 	</select>
 	<update id="updateByExampleSelective" parameterType="map">
-		update tmall_property_0
+		update ${tableName}
 		<set>
 			<if test="record.propertyId != null">
 				property_id = #{record.propertyId,jdbcType=INTEGER},
@@ -180,7 +188,7 @@
 		</if>
 	</update>
 	<update id="updateByExample" parameterType="map">
-		update tmall_property_0
+		update ${tableName}
 		set property_id =
 		#{record.propertyId,jdbcType=INTEGER},
 		property_name =
@@ -193,7 +201,7 @@
 	</update>
 	<update id="updateByPrimaryKeySelective"
 		parameterType="com.tmall.server.product.common.model.TmallProperty">
-		update tmall_property_0
+		update ${tableName}
 		<set>
 			<if test="propertyName != null">
 				property_name = #{propertyName,jdbcType=VARCHAR},
@@ -206,7 +214,7 @@
 	</update>
 	<update id="updateByPrimaryKey"
 		parameterType="com.tmall.server.product.common.model.TmallProperty">
-		update tmall_property_0
+		update ${tableName}
 		set property_name =
 		#{propertyName,jdbcType=VARCHAR},
 		property_is_search =

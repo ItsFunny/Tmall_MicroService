@@ -16,6 +16,7 @@ import com.joker.library.page.PageResponseDTO;
 import com.tmall.common.dto.BrandDTO;
 import com.tmall.common.dto.CategoryDTO;
 import com.tmall.common.dto.MessageDTO;
+import com.tmall.common.dto.PropertyDTO;
 import com.tmall.common.dto.StoreDTO;
 import com.tmall.common.dto.StoreDetail;
 import com.tmall.common.dto.TmallConfigTemplateDTO;
@@ -73,5 +74,6 @@ public interface IFacadedService
 	ResultDTO<Integer>deleteCategoriesInBatch(UserRequestDTO dto);
 	//property
 	ResultDTO<?>addPropertyAndValue(UserRequestDTO dto);
+	ResultDTO<PageResponseDTO<List<PropertyDTO>>>findProertiesByCondition(PageRequestDTO pageRequestDTO);
 	
 }
