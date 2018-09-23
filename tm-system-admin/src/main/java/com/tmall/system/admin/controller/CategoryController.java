@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.joker.library.dto.ResultDTO;
 import com.joker.library.page.PageRequestDTO;
 import com.joker.library.page.PageResponseDTO;
+import com.tmall.common.constants.SQLExtentionConstant;
 import com.tmall.common.constants.UserRequestConstant;
 import com.tmall.common.dto.CategoryDTO;
 import com.tmall.server.spi.gateway.category.IGatewayCategoryService;
@@ -80,6 +81,7 @@ public class CategoryController
 				pageRequestDTO.setData(condition);
 			}
 		}
+		pageRequestDTO.setTablePrefixName(SQLExtentionConstant.CATEGORY);
 		ResultDTO<PageResponseDTO<List<CategoryDTO>>> pageRes = gatewayCategoryService
 				.findCategoriesByPage(pageRequestDTO);
 		if (!pageRes.isSuccess())

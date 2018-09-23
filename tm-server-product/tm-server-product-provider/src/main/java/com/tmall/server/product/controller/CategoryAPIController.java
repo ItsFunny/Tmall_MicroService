@@ -6,6 +6,7 @@ package com.tmall.server.product.controller;
 * 
 */
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -108,8 +109,19 @@ public class CategoryAPIController
 	@PostMapping(value = "/show", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResultDTO<PageResponseDTO<List<CategoryDTO>>> showCategories(@RequestBody PageRequestDTO pageRequestDTO)
 	{
-
-		return ResultUtils.sucess(categoryService.findByPage(pageRequestDTO));
+		PageResponseDTO<List<TmallCategory>> resp = categoryService.findByPage(pageRequestDTO);
+		List<TmallCategory> categories = resp.getData();
+		List<CategoryDTO> dtos = new ArrayList<CategoryDTO>();
+		if (null != categories && !categories.isEmpty())
+		{
+			for (TmallCategory category : categories)
+			{
+				dtos.add(category.to());
+			}
+		}
+		PageResponseDTO<List<CategoryDTO>> pageResponseDTO = new PageResponseDTO<List<CategoryDTO>>(dtos,
+				resp.getPageSize(), resp.getPageNum(), resp.getTotalCount());
+		return ResultUtils.sucess(pageResponseDTO);
 	}
 
 	@GetMapping(value = "/fathers/{categoryId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -186,7 +198,7 @@ public class CategoryAPIController
 	{
 		Map<String, Object> props = dto.getExtProps();
 		Object categoryDTOObj = props.get(UserRequestConstant.PRODUCT_CATEGORY);
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();
 		CategoryDTO categoryDTO = mapper.convertValue(categoryDTOObj, CategoryDTO.class);
 		String detail = "";
 		if (categoryDTO.getStatus().equals(CommonStatusEnum.disable.ordinal()))

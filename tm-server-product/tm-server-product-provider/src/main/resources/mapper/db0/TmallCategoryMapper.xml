@@ -108,7 +108,7 @@
 		</if>
 		'true' as QUERYID,
 		<include refid="Base_Column_List" />
-		from tmall_category_0
+		from ${tableName}
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -246,7 +246,7 @@
 	<select id="countByExample"
 		parameterType="com.tmall.server.product.common.model.TmallCategoryExample"
 		resultType="java.lang.Long">
-		select count(*) from tmall_category_0
+		select count(1) from ${tableName}
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>

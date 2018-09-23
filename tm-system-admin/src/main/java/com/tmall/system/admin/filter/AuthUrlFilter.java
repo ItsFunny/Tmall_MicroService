@@ -38,13 +38,17 @@ import com.tmall.common.constants.AuthConstant;
 import com.tmall.common.constants.TmallURLConstant;
 import com.tmall.common.dto.AuthTokenDTO;
 import com.tmall.common.dto.UserDTO;
+import com.tmall.common.enums.ErrorCodeEnum;
 import com.tmall.common.utils.JWTUtils;
 import com.tmall.common.utils.JsonUtils;
 import com.tmall.server.spi.gateway.auth.IGatewayAuthFeignService;
 import com.tmall.server.spi.gateway.user.IGatewayUserFeignService;
 import com.tmall.system.admin.config.TmallAdminConfigProperty;
+import com.tmall.system.admin.exception.TmallAdminException;
 import com.tmall.system.admin.model.TmallUsernamePasswordToken;
 import com.tmall.system.admin.util.ApplicationContextUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -54,6 +58,7 @@ import com.tmall.system.admin.util.ApplicationContextUtil;
  * @author joker
  * @date 创建时间：2018年7月28日 下午9:03:30
  */
+@Slf4j
 public class AuthUrlFilter implements Filter
 {
 
@@ -70,6 +75,11 @@ public class AuthUrlFilter implements Filter
 	private String getServerUrl(String server)
 	{
 		ServiceInstance instance = loadBalancerClient.choose(server);
+		if(null==instance)
+		{
+			
+			throw new TmallAdminException(ErrorCodeEnum.SERVER_NOT_EXISTS);
+		}
 		String host = instance.getHost();
 		int port = instance.getPort();
 		// 这个http不能这样写,感觉

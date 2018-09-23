@@ -21,7 +21,7 @@ import com.tmall.server.product.common.model.TmallCategory;
 * @author joker 
 * @date 创建时间：2018年9月13日 下午1:42:38
 */
-public interface ICategoryService  extends PageBaseService<List<CategoryDTO>>
+public interface ICategoryService  extends PageBaseService<List<TmallCategory>>
 {
 	
 	Integer insert(TmallCategory category);

@@ -8,7 +8,6 @@ package com.tmall.common.other;
 
 import java.util.List;
 
-import com.tmall.common.dto.PageExample;
 
 /**
 * 

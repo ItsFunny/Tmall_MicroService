@@ -3,7 +3,8 @@ package com.tmall.server.product.common.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tmall.common.dto.PageExample;
+import com.joker.library.page.PageExample;
+
 
 public class TmallPropertyExample extends PageExample {
     protected String orderByClause;

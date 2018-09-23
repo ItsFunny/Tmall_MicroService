@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.tmall.common.dto.PageExample;
+import com.joker.library.page.PageExample;
+
 
 public class TmallCategoryExample extends PageExample{
     protected String orderByClause;

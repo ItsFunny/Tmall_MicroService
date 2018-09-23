@@ -31,6 +31,7 @@ public enum ErrorCodeEnum
 	INTERNAL_DB_ERROR(12,"本地数据库失败"),
 	ILLEGAL_ARGUMENT(13,"参数错误:%s"),
 	CONFIG_ERROR(14,"配置错误:%s"),
+	SERVER_NOT_EXISTS(15,"服务不存在"),
 	/*
 	 * auth-server
 	 */
