@@ -44,4 +44,67 @@ public class MessageSQLProxyExtentionDaoImpl implements ISQLExtentionProxyBaseCR
 		return daos;
 	}
 
+	@Override
+	public Integer insertSelective(MessageModel t)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int insertBatchSelective(String tableName, List<MessageModel> list)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateByExampleSelective(MessageModel record, Object example)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<MessageModel> selectByExample(Object example)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countByExample(Object example)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteByExample(Object example)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteByPrimaryKey(Integer uniquekey)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int insert(MessageModel record)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public MessageModel selectByPrimaryKey(String tableConcreteName, Number primaryKey)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

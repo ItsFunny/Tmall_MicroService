@@ -108,7 +108,7 @@
 		<include refid="Base_Column_List" />
 		from ${tableName}
 		where property_id =
-		#{propertyId,jdbcType=INTEGER}
+		#{primaryKey}
 	</select>
 	<delete id="deleteByPrimaryKey"
 		parameterType="java.lang.Integer">
@@ -160,6 +160,11 @@
 				#{propertyIsSearch,jdbcType=BIT},
 			</if>
 		</trim>
+		on duplicate key update  property_id=#{propertyId}
+		<if test="propertyName!=null">
+			,property_name=#{propertyName}
+		</if>
+		<if test="propertyIsSearch!=null">property_is_search=#{propertyIsSearch}</if>
 	</insert>
 	<select id="countByExample"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyExample"

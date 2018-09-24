@@ -273,6 +273,13 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer, Applicat
 	{
 		this.context = applicationContext;
 	}
+	
+	@PostConstruct
+	public void afterPropertiesSet()
+	{
+		SQLExtentionHolderV3 holderV3 = context.getBean(SQLExtentionHolderV3.class);
+		holderV3.config(extentionConfigProperty, context);
+	}
 
 	// 先暂时注释
 	// @Bean

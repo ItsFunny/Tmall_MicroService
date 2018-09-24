@@ -111,19 +111,19 @@
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from tmall_property_value_0
+		from ${tableName}
 		where property_value_id =
 		#{propertyValueId,jdbcType=BIGINT}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from
-		tmall_property_value_0
+		${tableName}
 		where property_value_id =
 		#{propertyValueId,jdbcType=BIGINT}
 	</delete>
 	<delete id="deleteByExample"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValueExample">
-		delete from tmall_property_value_0
+		delete from ${tableName}
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -136,10 +136,11 @@
 			separator=",">
 			(#{item.propertyValueId},#{item.propertyId},#{item.propertyValue},#{item.propertyDisSeq})
 		</foreach>
+		on duplicate key update property_value=#{item.propertyValue},property_dis_seq=#{item.propertyDisSeq}
 	</insert>
 	<insert id="insert"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValue">
-		insert into tmall_property_value_0 (property_value_id,
+		insert into ${tableName} (property_value_id,
 		property_id,
 		property_value,
 		property_dis_seq)
@@ -189,7 +190,7 @@
 		</if>
 	</select>
 	<update id="updateByExampleSelective" parameterType="map">
-		update tmall_property_value_0
+		update ${tableName}
 		<set>
 			<if test="record.propertyValueId != null">
 				property_value_id =
@@ -212,7 +213,7 @@
 		</if>
 	</update>
 	<update id="updateByExample" parameterType="map">
-		update tmall_property_value_0
+		update ${tableName}
 		set property_value_id =
 		#{record.propertyValueId,jdbcType=BIGINT},
 		property_id =
@@ -227,7 +228,7 @@
 	</update>
 	<update id="updateByPrimaryKeySelective"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValue">
-		update tmall_property_value_0
+		update ${tableName}
 		<set>
 			<if test="propertyId != null">
 				property_id = #{propertyId,jdbcType=INTEGER},
@@ -243,7 +244,7 @@
 	</update>
 	<update id="updateByPrimaryKey"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValue">
-		update tmall_property_value_0
+		update ${tableName}
 		set property_id =
 		#{propertyId,jdbcType=INTEGER},
 		property_value =

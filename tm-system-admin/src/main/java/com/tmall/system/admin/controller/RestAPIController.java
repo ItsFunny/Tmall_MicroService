@@ -6,7 +6,10 @@
 */
 package com.tmall.system.admin.controller;
 
+import static org.assertj.core.api.Assertions.useRepresentation;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +55,7 @@ import com.tmall.common.enums.StoreStatusEnum;
 import com.tmall.common.mq.TmallMQEnum;
 import com.tmall.common.utils.ResultUtils;
 import com.tmall.internal.spi.service.IInternalCategoryServiece;
+import com.tmall.internal.spi.service.IInternalFacadedService;
 import com.tmall.internal.spi.service.IInternalStoreService;
 import com.tmall.server.spi.gateway.brand.IGatewayBrandService;
 import com.tmall.server.spi.gateway.category.IGatewayCategoryService;
@@ -101,6 +105,9 @@ public class RestAPIController
 	private IInternalCategoryServiece internalCategoryService;
 	@Autowired
 	private IInternalStoreService innternalStoreService;
+	
+	@Autowired
+	private IInternalFacadedService internalFacadedService;
 
 	// 显示商家下的所有类目
 	// @RequestMapping(value = "/category/topLevel/all", method =
@@ -395,6 +402,73 @@ public class RestAPIController
 		params.put(UserRequestConstant.PRODUCT_PROPERTY, propertyDTO);
 		userRequestDTO.setExtProps(params);
 		return propertyFeignService.addProperty(userRequestDTO);
+	}
+	@GetMapping(value="/property/{propertyId}/values",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<PropertyDTO>showPropertyValues(@PathVariable("propertyId")Integer propertyId)
+	{
+		ResultDTO<PropertyDTO> resultDTO = internalFacadedService.findPropertyValues(propertyId);
+		return resultDTO;
+	}
+	@GetMapping(value="/property/update",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<?>updateProperty(HttpServletRequest request,HttpServletResponse response)
+	{
+		String deleteIdsStr = request.getParameter("deleteIds");
+		String updateIdsStr=request.getParameter("updateIds");
+		String propertyIdStr=request.getParameter("propertyId");
+		if(StringUtils.isEmpty(propertyIdStr))
+		{
+			return ResultUtils.fail("属性的id不能为空");
+		}
+		Integer propertyId=Integer.parseInt(propertyIdStr);
+		List<String>updateIdList=new ArrayList<>();
+		//如果updateIdStr为空,表明并没有更新操作,全是
+		if(!StringUtils.isEmpty(updateIdsStr))
+		{
+			updateIdList.addAll(Arrays.asList(updateIdsStr.split(",")));
+		}
+		PropertyDTO propertyDTO=new PropertyDTO();
+		String propertyName = request.getParameter("propertyName");
+		String propertyDisSeqStr=StringUtils.defaultString(request.getParameter("propertyDisSeqStr"),"0");
+		propertyDTO.setPropertyName(propertyName);
+		propertyDTO.setPropertyDisSeq(Integer.parseInt(propertyDisSeqStr));
+		propertyDTO.setPropertyId(propertyId);
+		
+		String[] values = request.getParameterValues("propertyValue");
+		 String[] valueIds = request.getParameterValues("propertyValueId");
+		 String[] proDisSeqs = request.getParameterValues("propertyValueDisSeq");
+		 if(valueIds.length!=values.length||valueIds.length!=proDisSeqs.length)
+		 {
+			 return ResultUtils.fail("参数数目不一致,一个value对应一个id,对应一个排序号");
+		 }
+		 List<PropertyValueDTO>addOrUpdateDTOs=new ArrayList<>();
+		 for(int i=0;i<values.length;i++)
+		 {
+			 PropertyValueDTO valueDTO=new PropertyValueDTO();
+			 valueDTO.setPropertyId(propertyId);
+			 valueDTO.setPropertyDisSeq(Integer.parseInt(proDisSeqs[i]));
+			 valueDTO.setPropertyValue(values[i]);
+			 if(Long.parseLong(valueIds[i])-(-1)==0)
+			 {
+				 valueDTO.setPropertyValueId(idWorkerService.nextId());
+			 }else if(updateIdsStr.contains(valueIds[i]))
+			 {
+				 valueDTO.setPropertyValueId(Long.parseLong(valueIds[i]));
+				 addOrUpdateDTOs.add(valueDTO);
+			 }
+		 }
+		 propertyDTO.setValues(addOrUpdateDTOs);
+		 
+		 Map<String, Object>extraProps=new HashMap<>();
+		 extraProps.put(UserRequestConstant.PRODUCT_PROPERTY, propertyDTO);
+		 if(!StringUtils.isEmpty(deleteIdsStr))
+		 {
+			 extraProps.put(UserRequestConstant.PRODUCT_PROPERTY_DELETEIDS, Arrays.asList(deleteIdsStr.split(",")));
+		 }
+		 
+		 UserRequestDTO dto=new UserRequestDTO();
+		 dto.setUser(AdminUtil.getLoginUser());
+		 dto.setExtProps(extraProps);
+		 return internalFacadedService.updateProperty(dto);
 	}
 
 }

@@ -7,11 +7,16 @@
 */
 package com.tmall.server.product.service.impl;
 
+import static org.mockito.Mockito.validateMockitoUsage;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.language.bm.Rule.RPattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.joker.library.dto.ResultDTO;
@@ -20,6 +25,7 @@ import com.joker.library.page.PageRequestDTO;
 import com.joker.library.page.PageResponseDTO;
 import com.joker.library.sqlextention.AbstractSQLExtentionModel;
 import com.joker.library.sqlextention.ISQLExtentionBaseCRUDDao;
+import com.joker.library.sqlextention.ISQLExtentionProxyBaseCRUDDao;
 import com.joker.library.sqlextention.SQLExtentionDaoWrapper;
 import com.joker.library.sqlextention.SQLExtentionHolderV3;
 import com.joker.library.sqlextention.SQLExtentionInfo.DBInfo;
@@ -35,6 +41,7 @@ import com.tmall.server.product.common.model.TmallProperty;
 import com.tmall.server.product.common.model.TmallPropertyExample;
 import com.tmall.server.product.common.model.TmallPropertyExample.Criteria;
 import com.tmall.server.product.common.model.TmallPropertyValue;
+import com.tmall.server.product.common.model.TmallPropertyValueExample;
 import com.tmall.server.product.exception.TmallProductException;
 import com.tmall.server.product.service.IPropertyService;
 
@@ -54,6 +61,7 @@ public class PropertyServiceImpl extends AbstractMultipartDBPageService<TmallPro
 		implements IPropertyService
 {
 
+	@Lazy
 	@Autowired
 	private SQLExtentionHolderV3 holder;
 
@@ -103,12 +111,15 @@ public class PropertyServiceImpl extends AbstractMultipartDBPageService<TmallPro
 		// 插入value
 		List<PropertyValueDTO> values = propertyDTO.getValues();
 		List<TmallPropertyValue> propertyValues = new ArrayList<TmallPropertyValue>();
-		List<? extends ISQLExtentionBaseCRUDDao<TmallPropertyValue>> daos = holder
-				.getAllDaos(SQLExtentionConstant.PROPERTY_VALUE);
-		DBInfo<?>[] dbs = holder.getAllDbinfos(SQLExtentionConstant.PROPERTY_VALUE);
+		// List<? extends ISQLExtentionBaseCRUDDao<TmallPropertyValue>> daos = holder
+		// .getAllDaos(SQLExtentionConstant.PROPERTY_VALUE);
+		ISQLExtentionProxyBaseCRUDDao<TmallPropertyValue> proxyDao = holder.getProxyDao(SQLExtentionConstant.PROPERTY_VALUE);
+	
+		DBInfo<TmallPropertyValue>[] dbs = (DBInfo<TmallPropertyValue>[]) holder
+				.getAllDbinfos(SQLExtentionConstant.PROPERTY_VALUE);
 
-		List<List<TmallPropertyValue>> list = new ArrayList<>(daos.size());
-		for (int i = 0; i < daos.size(); i++)
+		List<List<TmallPropertyValue>> list = new ArrayList<>(dbs.length);
+		for (int i = 0; i < dbs.length; i++)
 		{
 			list.add(new ArrayList<>());
 		}
@@ -116,47 +127,65 @@ public class PropertyServiceImpl extends AbstractMultipartDBPageService<TmallPro
 			TmallPropertyValue value = new TmallPropertyValue();
 			value.from(v);
 			propertyValues.add(value);
-			int index = (int) (value.getUniquekey().longValue() % daos.size());
+			int index = (int) (value.getUniquekey().longValue() % dbs.length);
 			list.get(index).add(value);
 		});
+		int validCount = proxyDao.insertBatchSelective(SQLExtentionConstant.PROPERTY_VALUE, propertyValues);
+		if(validCount-propertyValues.size()!=0)
+		{
+			 log.error("[addPropertyAndValue]本地插入数据失败");
+			 throw new TmallProductException(ErrorCodeEnum.INTERNAL_DB_ERROR);
+		}
 		/*
 		 * 还需要对其内部进行拆分,尽管将相同数据库下的记录都放在了一起, 但是还有不同表的区别,相同表的放一起
 		 */
 		// 对内部的数据进行拆分:
-		for (int i = 0; i < list.size(); i++)
-		{
-			Integer tableCounts = dbs[i].getTableCounts();
-			// 有几个表就需要几个list存放
-			List<List<TmallPropertyValue>> tList = new ArrayList<>(tableCounts);
-			for (int k = 0; k < tableCounts; k++)
-			{
-				// 初始化
-				tList.add(new ArrayList<>());
-			}
-			// 拆分数据
-			for (TmallPropertyValue value : list.get(i))
-			{
-				int index2 = (int) (value.getUniquekey().longValue() % tableCounts);
-				TableInfo<?> tableInfo = dbs[i].getTables()[index2];
-				String tableName = tableInfo.getTableName();
-				value.setTableName(tableName);
-				tList.get(index2).add(value);
-			}
-			// 插入操作,内部中的每个list都是相同的表名
-			for (List<TmallPropertyValue> list2 : tList)
-			{
-				if (null == list2 || list2.isEmpty())
-				{
-					continue;
-				}
-				int validCot = daos.get(i).insertBatchSelective(list2.iterator().next().getTableName(), list2);
-				if (validCot < 1)
-				{
-					log.error("[addPropertyAndValue]本地插入数据失败");
-					throw new TmallProductException(ErrorCodeEnum.INTERNAL_DB_ERROR);
-				}
-			}
-		}
+//		for (int i = 0; i < list.size(); i++)
+//		{
+//			Integer tableCounts = dbs[i].getTableCounts();
+//			// 有几个表就需要几个list存放
+//			List<List<TmallPropertyValue>> tList = new ArrayList<>(tableCounts);
+//			for (int k = 0; k < tableCounts; k++)
+//			{
+//				// 初始化
+//				tList.add(new ArrayList<>());
+//			}
+//			// 拆分数据
+//			for (TmallPropertyValue value : list.get(i))
+//			{
+//				int index2 = (int) (value.getUniquekey().longValue() % tableCounts);
+//				TableInfo<?> tableInfo = dbs[i].getTables()[index2];
+//				String tableName = tableInfo.getTableName();
+//				value.setTableName(tableName);
+//				tList.get(index2).add(value);
+//			}
+//			// 插入操作,内部中的每个list都是相同的表名
+//			TableInfo<TmallPropertyValue>[] tableInfos = (TableInfo<TmallPropertyValue>[]) dbs[i].getTables();
+//			for (int j = 0; j < tableInfos.length; j++)
+//			{
+//				List<TmallPropertyValue> l = tList.get(j);
+//				if (null == l || l.isEmpty())
+//				{
+//					continue;
+//				}
+//				dbs[i].getDao().insertBatchSelective(tableInfos[j].getTableName(), l);
+//			}
+//			// for (List<TmallPropertyValue> list2 : tList)
+//			// {
+//			// if (null == list2 || list2.isEmpty())
+//			// {
+//			// continue;
+//			// }
+//			// int validCot =
+//			// daos.get(i).insertBatchSelective(list2.iterator().next().getTableName(),
+//			// list2);
+//			// if (validCot < 1)
+//			// {
+//			// log.error("[addPropertyAndValue]本地插入数据失败");
+//			// throw new TmallProductException(ErrorCodeEnum.INTERNAL_DB_ERROR);
+//			// }
+//			// }
+//		}
 		return ResultUtils.sucess();
 	}
 
@@ -254,12 +283,126 @@ public class PropertyServiceImpl extends AbstractMultipartDBPageService<TmallPro
 	protected List<TmallProperty> secondFindByBetween(String concreteTableName,
 			ISQLExtentionBaseCRUDDao<TmallProperty> dao, long min, long max, Map<String, Object> condition)
 	{
-		TmallPropertyExample example=new TmallPropertyExample();
+		TmallPropertyExample example = new TmallPropertyExample();
 		example.setTableName(concreteTableName);
 		Criteria criteria = example.createCriteria();
-		criteria.andPropertyIdBetween((int)min, (int)max);
-		
+		criteria.andPropertyIdBetween((int) min, (int) max);
+
 		return dao.selectByExample(example);
+	}
+
+	@Override
+	public ResultDTO<PropertyDTO> showPropertyValues(Integer propertyId)
+	{
+		SQLExtentionDaoWrapper<TmallProperty> wrapper = holder.getBaseDao(SQLExtentionConstant.PROPERTY, propertyId);
+		TmallProperty property = wrapper.getDao().selectByPrimaryKey(wrapper.getTableName(), propertyId);
+		if (null == property)
+		{
+			return ResultUtils.fail("property info not exists ,check and try again");
+		}
+		TmallPropertyValueExample valueExample = new TmallPropertyValueExample();
+		com.tmall.server.product.common.model.TmallPropertyValueExample.Criteria criteria = valueExample
+				.createCriteria();
+		criteria.andPropertyIdEqualTo(propertyId);
+		List<TmallPropertyValue> values = new ArrayList<>();
+		DBInfo<TmallPropertyValue>[] dbs = (DBInfo<TmallPropertyValue>[]) holder
+				.getAllDbinfos(SQLExtentionConstant.PROPERTY_VALUE);
+		for (DBInfo<TmallPropertyValue> dbInfo : dbs)
+		{
+			ISQLExtentionBaseCRUDDao<TmallPropertyValue> dao = dbInfo.getDao();
+			TableInfo<TmallPropertyValue>[] tables = dbInfo.getTables();
+			for (TableInfo<TmallPropertyValue> tableInfo : tables)
+			{
+				valueExample.setTableName(tableInfo.getTableName());
+				List<TmallPropertyValue> vals = dao.selectByExample(valueExample);
+				if (null != vals && !vals.isEmpty())
+				{
+					values.addAll(vals);
+				}
+			}
+		}
+		PropertyDTO dto = new PropertyDTO();
+		property.to(dto);
+		if (!values.isEmpty())
+		{
+			List<PropertyValueDTO> vdtos = new ArrayList<>();
+			values.forEach(v -> {
+				PropertyValueDTO valueDTO = new PropertyValueDTO();
+				v.to(valueDTO);
+				vdtos.add(valueDTO);
+			});
+			dto.setValues(vdtos);
+		}
+		return ResultUtils.sucess(dto);
+	}
+
+	@RabbitMQTransaction
+	@Override
+	public ResultDTO<?> updateProperty(UserRecordAspectWrapper<PropertyDTO> wrapper,List<Long>deleteIds)
+	{
+		log.info("[updateProperty]更新property,wrapper:{}", wrapper);
+		PropertyDTO propertyDTO = wrapper.getData();
+		Integer propertyId = propertyDTO.getPropertyId();
+		if (propertyId == null || propertyId < 0)
+		{
+			return ResultUtils.fail("不合法的参数");
+		}
+		SQLExtentionDaoWrapper<TmallProperty> sqlWrapper = holder.getBaseDao(SQLExtentionConstant.PROPERTY,
+				propertyDTO.getPropertyId());
+		TmallProperty property = new TmallProperty();
+		property.from(propertyDTO);
+		// 这里直接插入即可,内部修改了sql语句,只不过名字还没改
+		property.setTableName(sqlWrapper.getTableName());
+		Integer integer = sqlWrapper.getDao().insertSelective(property);
+		if (integer < 1)
+		{
+			log.info("[updateProperty]更新本地属性,无法插入数据:{}", property);
+			throw new TmallProductException(ErrorCodeEnum.INTERNAL_DB_ERROR);
+		}
+		//删除过期的
+		if(null!=deleteIds&&!deleteIds.isEmpty())
+		{
+			DBInfo<TmallPropertyValue>[] allDbinfos = (DBInfo<TmallPropertyValue>[]) holder.getAllDbinfos(SQLExtentionConstant.PROPERTY_VALUE);
+			TmallPropertyValueExample example=new TmallPropertyValueExample();
+			com.tmall.server.product.common.model.TmallPropertyValueExample.Criteria criteria = example.createCriteria();
+			criteria.andPropertyValueIdIn(deleteIds);
+			Integer validDelCount=0;
+			for (DBInfo<TmallPropertyValue> dbInfo : allDbinfos)
+			{
+				TableInfo<TmallPropertyValue>[] tableInfos = dbInfo.getTables();
+				ISQLExtentionBaseCRUDDao<TmallPropertyValue> dao = dbInfo.getDao();
+				for (TableInfo<TmallPropertyValue> tableInfo : tableInfos)
+				{
+					example.setTableName(tableInfo.getTableName());
+					validDelCount+=dao.deleteByExample(example);
+				}
+			}
+			if(validDelCount-deleteIds.size()!=0)
+			{
+				log.error("[updateProperty]删除本地属性value值的时候出错,预期删除{}条,实际删除{}",deleteIds.size(),validDelCount);
+				throw new TmallProductException(ErrorCodeEnum.INTERNAL_DB_ERROR);
+			}
+		}
+		// 插入或者更新value值
+		ISQLExtentionProxyBaseCRUDDao<TmallPropertyValue> proxyDao = holder
+				.getProxyDao(SQLExtentionConstant.PROPERTY_VALUE);
+		List<PropertyValueDTO> valueDTOs = propertyDTO.getValues();
+		if (null != valueDTOs && !valueDTOs.isEmpty())
+		{
+			List<TmallPropertyValue> values = new ArrayList<>();
+			valueDTOs.forEach(v -> {
+				TmallPropertyValue value = new TmallPropertyValue();
+				value.from(v);
+				values.add(value);
+			});
+			int validCount = proxyDao.insertBatchSelective(SQLExtentionConstant.PROPERTY_VALUE, values);
+			if (validCount - values.size() != 0)
+			{
+				log.error("[updateProperty]本地插入属性值,实际插入的与预期的不一致,预期插入:{}条,实际:{}", values.size(), validCount);
+				throw new TmallProductException(ErrorCodeEnum.INTERNAL_DB_ERROR);
+			}
+		}
+		return ResultUtils.sucess();
 	}
 
 }

@@ -14,6 +14,12 @@ public class TmallPropertyValue extends AbstractSQLExtentionModel
 	private String propertyValue;
 
 	private Integer propertyDisSeq;
+
+	
+	public void to(PropertyValueDTO valueDTO)
+	{
+		BeanUtils.copyProperties(this, valueDTO);
+	}
 	
 	public void from(PropertyValueDTO valueDTO)
 	{

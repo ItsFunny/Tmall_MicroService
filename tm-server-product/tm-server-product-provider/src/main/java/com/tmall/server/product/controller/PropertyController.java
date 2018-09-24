@@ -12,6 +12,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,9 +67,9 @@ public class PropertyController
 			detail = "添加" + propertyDTO.getPropertyName() + "属性";
 			// 添加
 			id = ((Number) idWorkService.nextId()).intValue();
-			if(id<0)
+			if (id < 0)
 			{
-				id*=-1;
+				id *= -1;
 			}
 			propertyDTO.setPropertyId(id);
 			for (PropertyValueDTO valueDTO : propertyDTO.getValues())
@@ -84,11 +86,38 @@ public class PropertyController
 				propertyDTO);
 		return propertyService.addPropertyAndValue(wrapper);
 	}
-	@PostMapping(value="/show",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResultDTO<PageResponseDTO<List<PropertyDTO>>>showProperties(@RequestBody PageRequestDTO pageRequestDTO)
+
+	@PostMapping(value = "/show", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<PageResponseDTO<List<PropertyDTO>>> showProperties(@RequestBody PageRequestDTO pageRequestDTO)
 	{
 		PageResponseDTO<List<PropertyDTO>> pageResponseDTO = propertyService.findByCondition(pageRequestDTO);
 		return ResultUtils.sucess(pageResponseDTO);
+	}
+
+	@GetMapping(value = "/{propertyId}/values", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<PropertyDTO> showPropertyValues(@PathVariable("propertyId") Integer propertyId)
+	{
+		return propertyService.showPropertyValues(propertyId);
+	}
+
+	// 这个跟上面的addProperty有重复好像
+	@PostMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<?> updateProperty(@RequestBody UserRequestDTO userRequestDTO)
+	{
+		Map<String, Object> props = userRequestDTO.getExtProps();
+		Object object = props.get(UserRequestConstant.PRODUCT_PROPERTY);
+		ObjectMapper mapper = new ObjectMapper();
+		PropertyDTO propertyDTO = mapper.convertValue(object, PropertyDTO.class);
+		String detail = "更新属性,更新属性id为:" + propertyDTO.getPropertyId() + "名为:" + propertyDTO.getPropertyName() + "的属性";
+		UserRecordAspectWrapper<PropertyDTO> wrapper = UserRecordFactory.create(userRequestDTO.getUser(), detail,
+				propertyDTO);
+		Object object2 = props.get(UserRequestConstant.PRODUCT_PROPERTY_DELETEIDS);
+		List<Long>deleteIds = null;
+		if(null!=object2)
+		{
+			deleteIds=mapper.convertValue(object2, List.class);
+		}
+		return propertyService.updateProperty(wrapper,deleteIds);
 	}
 
 }

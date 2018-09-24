@@ -23,6 +23,7 @@ public class PropertyDTO
 	private Integer propertyId;
 	private String propertyName;
 	private Integer propertyDisSeq;
+    private Boolean propertyIsSearch;
 	private List<PropertyValueDTO>values;
 	
 	@Data

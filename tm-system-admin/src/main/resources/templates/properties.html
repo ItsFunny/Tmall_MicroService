@@ -16,11 +16,31 @@
     
 </head>
 <script type="text/javascript">
-	var index=2;
-	function addPropValue(){
+	var index=0;
+	var delValueIds="";
+	var updateIds="";
+	var totalValueIds="";
+	function addPropValue(value,disSeq,valueId){
+		if(value==null){
+			value="";		
+		}
+		if(disSeq==null || disSeq==undefined){
+			disSeq=0;
+		}
+		if(valueId==null || valueId==undefined){
+			valueId=-1;
+		}
+		//这里需要考虑的三种情况:1.增加规格 2.删除已有规格 3.修改已有规格
 		index++;
-		var str=' <tr id="tr'+index+'"><td><input  class="form-control" name="propertyValue" placeholder="规格选项"></td><td><input  class="form-control" name="propertyValueDisSeq" placeholder="排序"> </td><td><button type="button" class="btn btn-default" title="删除" onclick="remove('+index+')"><i class="fa fa-trash-o"></i> 删除</button></td></tr>';
-		$("#valueBody").append(str);
+		var str=' <tr id="tr'+index+'"><td><input  class="form-control" name="propertyValue" propertyValueId="'+valueId+'" oninput="add2UpdateIds(this)" placeholder="规格选项" value="'+value+'"><input type="hidden" name="propertyValueId" value="'+valueId+'"></td><td><input  class="form-control" name="propertyValueDisSeq" placeholder="排序" value="'+disSeq+'"> </td><td><button type="button" class="btn btn-default" title="删除" onclick="remove('+index+')"><i class="fa fa-trash-o"></i> 删除</button></td></tr>';
+		$(".valueBody").append(str);
+	}
+	function add2UpdateIds(obj){
+		var propertyValueId=$(obj).attr("propertyValueId");
+		if(propertyValueId==null||propertyValueId==undefined){
+			return;
+		}
+		updateIds+=propertyValueId+",";
 	}
 	function save(){
 		alert($("#propetyForm").serialize());
@@ -32,9 +52,50 @@
 			}
 		},'json');
 	}
-	function remove(index){
+	function updateSave(obj){
+		if(delValueIds!=null && delValueIds !=undefined && delValueIds !=""){
+			$("#deleteIds").val(deleteIds);
+		}
+		if(updateIds!=null && updateIds !=undefined && updateIds !=""){
+			$("#updateIds").val(updateIds);
+		}
+		var data=$("#updatePropertyForm").serialize();
+		jQuery.get('/admin/api/v1/property/update',data,function(data){
+			alert(data.msg);
+			if(data.code==1){
+				location.reload();
+			}
+		},'json');
+	}
+	function remove(index,valueId){
 		var id="#tr"+index;
+		if(valueId!=null && valueId!=undefined){
+			//记录删除的id
+			delValueId+=valueId+",";
+		}
 		$(id).remove();
+	}
+	function showPropertyValues(pid){
+	$(".valueBody").empty();	
+	$("#updatePropertyId").val(pid);
+		delValueId="";
+		updateIds="";
+		jQuery.get('/admin/api/v1/property/'+pid+'/values',function(data){
+			if(data.code==1){
+				var property=data.data;
+				$("#propertyName").val(property.propertyName);
+				var values=data.data.values;
+				index=0;
+				if(values!=null && values.length>0){
+					for(var i=0;i<values.length;i++){
+						var v=values[i];
+						addPropValue(v.propertyValue,v.propertyDisSeq,v.propertyValueId);
+					}
+				}
+			}else{
+				alert(data.msg);
+			}
+		},'json');
 	}
 </script>
 
@@ -57,7 +118,7 @@
                             <div class="pull-left">
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
+                                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" onclick='javascript:$(".valueBody").empty();'><i class="fa fa-file-o"></i> 新建</button>
                                         <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
                                         
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
@@ -66,7 +127,7 @@
                             </div>
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-							                    规格名称：<input  >									
+							                    规格名称：<input type="text" name="searchKey"  >									
 									<button class="btn btn-default" >查询</button>                                    
                                 </div>
                             </div>
@@ -92,7 +153,7 @@
 					                          <td>${item.propertyId?c}</td>
 										      <td>${item.propertyName}</td>
 			                                  <td class="text-center">                                           
-			                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>                                           
+			                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#updateModel" onclick="showPropertyValues(${item.propertyId?c})">修改</button>                                           
 			                                  </td>
 				                          </tr>
 			                          	</#list>>
@@ -129,13 +190,13 @@
 			<table class="table table-bordered table-striped"  width="800px">
 		      	<tr>
 		      		<td>规格名称</td>
-		      		<td><input  class="form-control" name="propertyName" placeholder="规格名称" >  </td>
+		      		<td><input  class="form-control" name="propertyName" placeholder="规格名称" id="propertyName">  </td>
 		      	</tr>
 			 </table>				
 			 
 			 <!-- 规格选项 -->
 			 <div class="btn-group">
-                  <button type="button" class="btn btn-default" title="新建"  onclick="addPropValue()"><i class="fa fa-file-o"></i> 新增规格选项</button>
+                  <button type="button" class="btn btn-default" title="新建"  onclick='addPropValue()'><i class="fa fa-file-o"></i> 新增规格选项</button>
                   
              </div>
 			 
@@ -146,42 +207,8 @@
 				      <th class="sorting">排序</th>																
                       <th class="sorting">操作</th>	
                     </thead>
-                    <tbody id="valueBody">
-                      <tr id="tr0">
-                           
-				            <td>
-				            	<input  class="form-control" name="propertyValue" placeholder="规格选项"> 
-				            </td>
-				            <td>							
-				            	<input  class="form-control" name="propertyValueDisSeq" placeholder="排序"> 
-				            </td>
-							<td>
-								<button type="button" class="btn btn-default" title="删除" onclick="remove(0)"><i class="fa fa-trash-o"></i> 删除</button>
-							</td>
-                      </tr>
-					  <tr id="tr1">
-                         
-				            <td>
-				            	<input  class="form-control" name="propertyValue" placeholder="规格选项"> 
-				            </td>
-				            <td>
-				            	<input  class="form-control" name="propertyValueDisSeq" placeholder="排序"> 
-				            </td>
-							<td>
-								<button type="button" class="btn btn-default" title="删除" onclick="remove(1)"><i class="fa fa-trash-o"></i> 删除</button>
-							</td>
-                      </tr>
-					  <tr id="tr2">
-                            <td>
-				            	<input  class="form-control" name="propertyValue" placeholder="规格选项"> 
-				            </td>
-				            <td>
-				            	<input  class="form-control" name="propertyValueDisSeq" placeholder="排序"> 
-				            </td>
-							<td>
-								<button type="button" class="btn btn-default" title="删除" onclick="remove(2)"><i class="fa fa-trash-o"></i> 删除</button>
-							</td>
-                      </tr>
+                    <tbody class="valueBody">
+                   
                     </tbody>
 			  </table> 
 		</div>
@@ -194,7 +221,54 @@
 	</div>
 </div>    
 </form> 
+<form method="get" name="propertyForm" action="/admin/api/v1/property/addOrUpdate" id="updatePropertyForm">
+<!-- 编辑窗口 -->
+<div class="modal fade" id="updateModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">规格编辑</h3>
+		</div>
+		<div class="modal-body">							
+			
+			<table class="table table-bordered table-striped"  width="800px">
+		      	<tr>
+		      		<td>规格名称</td>
+		      		<td><input  class="form-control" name="propertyName" placeholder="规格名称" id="propertyName">  </td>
+		      	</tr>
+			 </table>				
+			 
+			 <!-- 规格选项 -->
+			 <div class="btn-group">
+                  <button type="button" class="btn btn-default" title="新建"  onclick='addPropValue()'><i class="fa fa-file-o"></i> 新增规格选项</button>
+                  
+             </div>
+			 
+			 <table class="table table-bordered table-striped table-hover dataTable">
+                    <thead>
+                        <tr>
+				      <th class="sorting">规格选项</th>
+				      <th class="sorting">排序</th>																
+                      <th class="sorting">操作</th>	
+                    </thead>
+                    <tbody class="valueBody">
+                   
+                    </tbody>
+			  </table> 
+		</div>
+		<div class="modal-footer">		
+			<input type="hidden" name="deleteIds" id="deleteIds">				
+			<input type="hidden" name="updateIds" id="updateIds">
+			<input type="hidden" name="propertyId" id="updatePropertyId">
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="updateSave()">保存</button>
 
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+		</div>
+	  </div>
+	</div>
+</div>    
+</form> 
 </body>
 
 </html>

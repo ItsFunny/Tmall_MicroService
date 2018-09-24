@@ -6,6 +6,8 @@
 */
 package com.tmall.common.wrapper;
 
+import java.util.Map;
+
 import com.tmall.common.dto.UserDTO;
 
 import lombok.Data;
@@ -28,6 +30,8 @@ public class UserRecordAspectWrapper<T>
 	String routingKey;
 
 	private T data;
+	
+	private Map<String, Object>extraProps;
 	
 	public UserRecordAspectWrapper(UserDTO user,String detail,String exchangeName,String routingKey,T data)
 	{

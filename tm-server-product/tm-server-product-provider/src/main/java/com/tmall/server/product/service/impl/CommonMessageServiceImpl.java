@@ -52,7 +52,8 @@ public class CommonMessageServiceImpl implements ICommonMessageService
 	{
 		MessageModel model = new MessageModel(event.getUuid(), eventJson, messageStatus);
 //		SQLExtentionDAOWrapper<Object> wrapper = holder.getBaseDao(SQLExtentionConstant.MESSAGE, (long) model.getMessageId().hashCode());
-		SQLExtentionDaoWrapper<MessageModel> wrapper = holder.getBaseDao(SQLExtentionConstant.MESSAGE, model.getMessageId().hashCode());
+		int hashCode = model.getMessageId().hashCode();
+		SQLExtentionDaoWrapper<MessageModel> wrapper = holder.getBaseDao(SQLExtentionConstant.MESSAGE, hashCode);
 		ISQLExtentionBaseCRUDDao<MessageModel> messageDao = wrapper.getDao();
 		model.setTableName(wrapper.getTableName());
 		Integer validCount = messageDao.insert(model);

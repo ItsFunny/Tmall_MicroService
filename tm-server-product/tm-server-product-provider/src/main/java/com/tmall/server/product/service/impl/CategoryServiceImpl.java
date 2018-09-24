@@ -264,12 +264,29 @@ public class CategoryServiceImpl extends AbstractMultipartDBPageService<TmallCat
 		criteria.andCategoryPidEqualTo(categoryPid);
 		// InnerSQLExtentionCRUDServiceImpl impl = this.new
 		// InnerSQLExtentionCRUDServiceImpl();
-		List<? extends ISQLExtentionBaseCRUDDao<TmallCategory>> daos = holder.getAllDaos(SQLExtentionConstant.CATEGORY);
+		DBInfo<TmallCategory>[] dbs = (DBInfo<TmallCategory>[]) holder.getAllDbinfos(SQLExtentionConstant.CATEGORY);
 		List<TmallCategory> categories = new ArrayList<>();
-		for (ISQLExtentionBaseCRUDDao<TmallCategory> dao : daos)
+		for (DBInfo<TmallCategory> dbInfo : dbs)
 		{
-			categories.addAll(dao.selectByExample(example));
+			ISQLExtentionBaseCRUDDao<TmallCategory> dao = dbInfo.getDao();
+			TableInfo<TmallCategory>[] tableInfos = dbInfo.getTables();
+			for (TableInfo<TmallCategory> tableInfo : tableInfos)
+			{
+				example.setTableName(tableInfo.getTableName());
+				List<TmallCategory> res = dao.selectByExample(example);
+				if(null!=res && !res.isEmpty())
+				{
+					categories.addAll(res);
+				}
+			}
 		}
+		
+//		List<? extends ISQLExtentionBaseCRUDDao<TmallCategory>> daos = holder.getAllDaos(SQLExtentionConstant.CATEGORY);
+//
+//		for (ISQLExtentionBaseCRUDDao<TmallCategory> dao : daos)
+//		{
+//			categories.addAll(dao.selectByExample(example));
+//		}
 		// List<TmallCategory> categories = impl.findByExample(example);
 		List<CategoryDTO> categoryDTOs = new ArrayList<>();
 		if (null != categories)
@@ -294,12 +311,28 @@ public class CategoryServiceImpl extends AbstractMultipartDBPageService<TmallCat
 
 		// InnerSQLExtentionCRUDServiceImpl impl = new
 		// InnerSQLExtentionCRUDServiceImpl();
-		List<? extends ISQLExtentionBaseCRUDDao<TmallCategory>> daos = holder.getAllDaos(SQLExtentionConstant.CATEGORY);
 		List<TmallCategory> categories = new ArrayList<>();
-		for (ISQLExtentionBaseCRUDDao<TmallCategory> dao : daos)
+		DBInfo<TmallCategory>[] dbs = (DBInfo<TmallCategory>[]) holder.getAllDbinfos(SQLExtentionConstant.CATEGORY);
+		for (DBInfo<TmallCategory> dbInfo : dbs)
 		{
-			categories.addAll(dao.selectByExample(example));
+			ISQLExtentionBaseCRUDDao<TmallCategory> dao = dbInfo.getDao();
+			TableInfo<TmallCategory>[] tables = dbInfo.getTables();
+			for (TableInfo<TmallCategory> tableInfo : tables)
+			{
+				example.setTableName(tableInfo.getTableName());
+				List<TmallCategory> categories2 = dao.selectByExample(example);
+				if(null!=categories2 && !categories2.isEmpty())
+				{
+					categories.addAll(categories2);
+				}
+			}
 		}
+//		List<? extends ISQLExtentionBaseCRUDDao<TmallCategory>> daos = holder.getAllDaos(SQLExtentionConstant.CATEGORY);
+//	
+//		for (ISQLExtentionBaseCRUDDao<TmallCategory> dao : daos)
+//		{
+//			categories.addAll(dao.selectByExample(example));
+//		}
 		// List<TmallCategory> categories = impl.findByExample(example);
 		List<CategoryDTO> dtos = new ArrayList<>();
 		if (null != categories)
@@ -327,12 +360,24 @@ public class CategoryServiceImpl extends AbstractMultipartDBPageService<TmallCat
 		criteria.andCategoryIdIn(idList);
 		// InnerSQLExtentionCRUDServiceImpl impl = new
 		// InnerSQLExtentionCRUDServiceImpl();
-		List<? extends ISQLExtentionBaseCRUDDao<TmallCategory>> daos = holder.getAllDaos(SQLExtentionConstant.CATEGORY);
+		DBInfo<TmallCategory>[] dbs = (DBInfo<TmallCategory>[]) holder.getAllDbinfos(SQLExtentionConstant.CATEGORY);
 		Integer validCount = 0;
-		for (ISQLExtentionBaseCRUDDao<TmallCategory> dao : daos)
+		for (DBInfo<TmallCategory> dbInfo : dbs)
 		{
-			validCount += dao.deleteByExample(example);
+			ISQLExtentionBaseCRUDDao<TmallCategory> dao = dbInfo.getDao();
+			TableInfo<TmallCategory>[] tables = dbInfo.getTables();
+			for (TableInfo<TmallCategory> tableInfo : tables)
+			{
+				validCount+=dao.deleteByExample(example);
+			}
 		}
+		
+//		List<? extends ISQLExtentionBaseCRUDDao<TmallCategory>> daos = holder.getAllDaos(SQLExtentionConstant.CATEGORY);
+//		
+//		for (ISQLExtentionBaseCRUDDao<TmallCategory> dao : daos)
+//		{
+//			validCount += dao.deleteByExample(example);
+//		}
 		// = impl.deleteInBatchByExample(example);
 		if (validCount != idList.size())
 		{

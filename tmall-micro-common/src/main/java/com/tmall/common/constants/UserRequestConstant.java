@@ -23,5 +23,7 @@ public interface UserRequestConstant
 	String PRODUCT_CATEGORY="categoryDTO";
 	
 	String PRODUCT_PROPERTY="propertyDTO";
+	
+	String PRODUCT_PROPERTY_DELETEIDS="propertyDTODeleteIds";
 
 }
