@@ -6,8 +6,12 @@
 */
 package com.tmall.server.product.config;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -37,6 +41,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -45,6 +51,9 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.joker.library.service.IdWorkerService;
 import com.joker.library.service.IdWorkerServiceTwitter;
 import com.joker.library.sqlextention.AbstractSQLExtentionModel;
@@ -281,6 +290,21 @@ public class ProductAPPServerConfiguraiton implements WebMvcConfigurer, Applicat
 		holderV3.config(extentionConfigProperty, context);
 	}
 
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
+	{
+		MappingJackson2HttpMessageConverter converter=new MappingJackson2HttpMessageConverter();
+		ObjectMapper mapper=new ObjectMapper();
+		SimpleModule module=new SimpleModule();
+		module.addSerializer(Long.class, ToStringSerializer.instance);
+		module.addSerializer(BigInteger.class, ToStringSerializer.instance);
+		mapper.registerModule(module);
+		converter.setObjectMapper(mapper);
+		converters.add(converter);
+	}
+
+	
+	
 	// 先暂时注释
 	// @Bean
 	// public RestAuthTokenInterceptor tokenInterceptor()

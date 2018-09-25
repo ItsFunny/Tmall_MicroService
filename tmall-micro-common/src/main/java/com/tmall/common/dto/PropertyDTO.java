@@ -8,6 +8,8 @@ package com.tmall.common.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.tmall.server.product.common.model.TmallPropertyValue;
 
 import lombok.Data;
@@ -29,6 +31,7 @@ public class PropertyDTO
 	@Data
 	public static class PropertyValueDTO
 	{
+		@JsonSerialize(using=ToStringSerializer.class)
 		private Long propertyValueId;
 
 		private Integer propertyId;

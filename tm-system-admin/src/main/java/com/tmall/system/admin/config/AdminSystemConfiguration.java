@@ -7,6 +7,9 @@
 */
 package com.tmall.system.admin.config;
 
+import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -20,12 +23,18 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.joker.library.service.IdWorkerService;
 import com.joker.library.service.IdWorkerServiceTwitter;
 import com.tmall.common.config.TmallConfigProperty;
@@ -52,6 +61,7 @@ public class AdminSystemConfiguration implements WebMvcConfigurer
 	private KeyProperty keyProperty;
 	@Autowired
 	private TmallConfigProperty configProperty;
+	
 //	@Autowired
 //	private TmallAdminConfigProperty tmallAdminConfigProperty;
 
@@ -147,4 +157,18 @@ public class AdminSystemConfiguration implements WebMvcConfigurer
 	{
 	}
 
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
+	{
+		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter=new MappingJackson2HttpMessageConverter();
+		ObjectMapper mapper=new ObjectMapper();
+		SimpleModule simpleModule=new SimpleModule();
+		simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+		simpleModule.addSerializer(BigInteger.class, ToStringSerializer.instance);
+		mapper.registerModule(simpleModule);
+		mappingJackson2HttpMessageConverter.setObjectMapper(mapper);
+		converters.add(mappingJackson2HttpMessageConverter);
+		converters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
+		WebMvcConfigurer.super.configureMessageConverters(converters);
+	}
 }

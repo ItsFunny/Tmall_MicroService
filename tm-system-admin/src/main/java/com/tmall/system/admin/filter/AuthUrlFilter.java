@@ -78,7 +78,7 @@ public class AuthUrlFilter implements Filter
 		if(null==instance)
 		{
 			
-			throw new TmallAdminException(ErrorCodeEnum.SERVER_NOT_EXISTS);
+			throw new TmallAdminException(ErrorCodeEnum.appendMsg(ErrorCodeEnum.SERVER_NOT_EXISTS, server));
 		}
 		String host = instance.getHost();
 		int port = instance.getPort();

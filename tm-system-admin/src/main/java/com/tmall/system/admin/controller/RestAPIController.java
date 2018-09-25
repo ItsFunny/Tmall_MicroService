@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.useRepresentation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -105,7 +106,7 @@ public class RestAPIController
 	private IInternalCategoryServiece internalCategoryService;
 	@Autowired
 	private IInternalStoreService innternalStoreService;
-	
+
 	@Autowired
 	private IInternalFacadedService internalFacadedService;
 
@@ -148,7 +149,6 @@ public class RestAPIController
 	// //调用store服务的接口 ,,这里记得改为通过zuul调用
 	// return facadedService.findStoreDetail(storeId);
 	// }
-
 
 	/*
 	 * 显示店铺详情
@@ -362,113 +362,132 @@ public class RestAPIController
 		ResultDTO<List<BrandDTO>> res = innternalStoreService.findAllBrands();
 		return res;
 	}
-	@PostMapping(value="/property/addOrUpdate",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResultDTO<?>addOrUpdateProperty(HttpServletRequest request)
+
+	@PostMapping(value = "/property/addOrUpdate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<?> addOrUpdateProperty(HttpServletRequest request)
 	{
-		//如果有propertyId,则表示是更新
+		// 如果有propertyId,则表示是更新
 		String propertyName = request.getParameter("propertyName");
-		String propertyDisSeqStr=StringUtils.defaultString(request.getParameter("propertyDisSeqStr"),"0");
+		String propertyDisSeqStr = StringUtils.defaultString(request.getParameter("propertyDisSeqStr"), "0");
 		String propertyIdStr = request.getParameter("propertyId");
-		Integer propertyId=null;
-		if(!StringUtils.isEmpty(propertyIdStr))
+		Integer propertyId = null;
+		if (!StringUtils.isEmpty(propertyIdStr))
 		{
-			propertyId=Integer.parseInt(propertyIdStr);
+			propertyId = Integer.parseInt(propertyIdStr);
 		}
-		
+
 		String[] values = request.getParameterValues("propertyValue");
 		String[] disSeqValues = request.getParameterValues("propertyValueDisSeq");
-		if(values==null || disSeqValues==null||values.length==0||values.length!=disSeqValues.length)
+		if (values == null || disSeqValues == null || values.length == 0 || values.length != disSeqValues.length)
 		{
 			return ResultUtils.fail("请补足数据,不可提交空数据");
 		}
-		List<PropertyValueDTO>valueDTOs=new ArrayList<>();
-		for(int i=0;i<values.length;i++)
+		List<PropertyValueDTO> valueDTOs = new ArrayList<>();
+		for (int i = 0; i < values.length; i++)
 		{
-			PropertyValueDTO valueDTO=new PropertyValueDTO();
+			PropertyValueDTO valueDTO = new PropertyValueDTO();
 			valueDTO.setPropertyDisSeq(Integer.parseInt(disSeqValues[i]));
 			valueDTO.setPropertyId(propertyId);
 			valueDTO.setPropertyValue(values[i]);
 			valueDTO.setPropertyValueId(idWorkerService.nextId());
 			valueDTOs.add(valueDTO);
 		}
-		PropertyDTO propertyDTO=new PropertyDTO();
+		PropertyDTO propertyDTO = new PropertyDTO();
 		propertyDTO.setPropertyDisSeq(Integer.parseInt(propertyDisSeqStr));
 		propertyDTO.setPropertyName(propertyName);
 		propertyDTO.setPropertyId(propertyId);
 		propertyDTO.setValues(valueDTOs);
-		UserRequestDTO userRequestDTO=new UserRequestDTO();
+		UserRequestDTO userRequestDTO = new UserRequestDTO();
 		userRequestDTO.setUser(AdminUtil.getLoginUser());
-		Map<String, Object>params=new HashMap<>();
+		Map<String, Object> params = new HashMap<>();
 		params.put(UserRequestConstant.PRODUCT_PROPERTY, propertyDTO);
 		userRequestDTO.setExtProps(params);
 		return propertyFeignService.addProperty(userRequestDTO);
 	}
-	@GetMapping(value="/property/{propertyId}/values",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResultDTO<PropertyDTO>showPropertyValues(@PathVariable("propertyId")Integer propertyId)
+
+	@GetMapping(value = "/property/{propertyId}/values", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<PropertyDTO> showPropertyValues(@PathVariable("propertyId") Integer propertyId)
 	{
 		ResultDTO<PropertyDTO> resultDTO = internalFacadedService.findPropertyValues(propertyId);
 		return resultDTO;
 	}
-	@GetMapping(value="/property/update",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResultDTO<?>updateProperty(HttpServletRequest request,HttpServletResponse response)
+
+	@GetMapping(value = "/property/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<?> updateProperty(HttpServletRequest request, HttpServletResponse response)
 	{
 		String deleteIdsStr = request.getParameter("deleteIds");
-		String updateIdsStr=request.getParameter("updateIds");
-		String propertyIdStr=request.getParameter("propertyId");
-		if(StringUtils.isEmpty(propertyIdStr))
+		String updateIdsStr = request.getParameter("updateIds");
+		String propertyIdStr = request.getParameter("propertyId");
+		if (StringUtils.isEmpty(propertyIdStr))
 		{
 			return ResultUtils.fail("属性的id不能为空");
 		}
-		Integer propertyId=Integer.parseInt(propertyIdStr);
-		List<String>updateIdList=new ArrayList<>();
-		//如果updateIdStr为空,表明并没有更新操作,全是
-		if(!StringUtils.isEmpty(updateIdsStr))
+		Integer propertyId = Integer.parseInt(propertyIdStr);
+		List<String> updateIdList = new ArrayList<>();
+		// 如果updateIdStr为空,表明并没有更新操作,全是
+		if (!StringUtils.isEmpty(updateIdsStr))
 		{
 			updateIdList.addAll(Arrays.asList(updateIdsStr.split(",")));
 		}
-		PropertyDTO propertyDTO=new PropertyDTO();
+		PropertyDTO propertyDTO = new PropertyDTO();
 		String propertyName = request.getParameter("propertyName");
-		String propertyDisSeqStr=StringUtils.defaultString(request.getParameter("propertyDisSeqStr"),"0");
+		String propertyDisSeqStr = StringUtils.defaultString(request.getParameter("propertyDisSeqStr"), "0");
 		propertyDTO.setPropertyName(propertyName);
 		propertyDTO.setPropertyDisSeq(Integer.parseInt(propertyDisSeqStr));
 		propertyDTO.setPropertyId(propertyId);
-		
+
 		String[] values = request.getParameterValues("propertyValue");
-		 String[] valueIds = request.getParameterValues("propertyValueId");
-		 String[] proDisSeqs = request.getParameterValues("propertyValueDisSeq");
-		 if(valueIds.length!=values.length||valueIds.length!=proDisSeqs.length)
-		 {
-			 return ResultUtils.fail("参数数目不一致,一个value对应一个id,对应一个排序号");
-		 }
-		 List<PropertyValueDTO>addOrUpdateDTOs=new ArrayList<>();
-		 for(int i=0;i<values.length;i++)
-		 {
-			 PropertyValueDTO valueDTO=new PropertyValueDTO();
-			 valueDTO.setPropertyId(propertyId);
-			 valueDTO.setPropertyDisSeq(Integer.parseInt(proDisSeqs[i]));
-			 valueDTO.setPropertyValue(values[i]);
-			 if(Long.parseLong(valueIds[i])-(-1)==0)
-			 {
-				 valueDTO.setPropertyValueId(idWorkerService.nextId());
-			 }else if(updateIdsStr.contains(valueIds[i]))
-			 {
-				 valueDTO.setPropertyValueId(Long.parseLong(valueIds[i]));
-				 addOrUpdateDTOs.add(valueDTO);
-			 }
-		 }
-		 propertyDTO.setValues(addOrUpdateDTOs);
-		 
-		 Map<String, Object>extraProps=new HashMap<>();
-		 extraProps.put(UserRequestConstant.PRODUCT_PROPERTY, propertyDTO);
-		 if(!StringUtils.isEmpty(deleteIdsStr))
-		 {
-			 extraProps.put(UserRequestConstant.PRODUCT_PROPERTY_DELETEIDS, Arrays.asList(deleteIdsStr.split(",")));
-		 }
-		 
-		 UserRequestDTO dto=new UserRequestDTO();
-		 dto.setUser(AdminUtil.getLoginUser());
-		 dto.setExtProps(extraProps);
-		 return internalFacadedService.updateProperty(dto);
+		String[] valueIds = request.getParameterValues("propertyValueId");
+		String[] proDisSeqs = request.getParameterValues("propertyValueDisSeq");
+		if (values == null || valueIds == null || proDisSeqs == null)
+		{
+			return ResultUtils.fail("参数错误,参数不能为空");
+		}
+		if (valueIds.length != values.length || valueIds.length != proDisSeqs.length)
+		{
+			return ResultUtils.fail("参数数目不一致,一个value对应一个id,对应一个排序号");
+		}
+		List<PropertyValueDTO> addOrUpdateDTOs = new ArrayList<>();
+		for (int i = 0; i < values.length; i++)
+		{
+			PropertyValueDTO valueDTO = new PropertyValueDTO();
+			valueDTO.setPropertyId(propertyId);
+			valueDTO.setPropertyDisSeq(Integer.parseInt(proDisSeqs[i]));
+			valueDTO.setPropertyValue(values[i]);
+			Long id = Long.parseLong(valueIds[i]);
+			if (id - (-1) == 0)
+			{
+				// 说明是新增的
+				valueDTO.setPropertyValueId(idWorkerService.nextId());
+			} else if (!updateIdList.contains(id.toString()))
+			{
+				continue;
+			} else
+			{
+				// 说明在更新列表中,则添加,否则continue
+				valueDTO.setPropertyValueId(id);
+			}
+			// else if(updateIdsStr.contains(valueIds[i])) //因为将更新的和添加的放一起了,所以这块先注销了
+			// {
+			// valueDTO.setPropertyValueId(Long.parseLong(valueIds[i]));
+			// }
+
+			addOrUpdateDTOs.add(valueDTO);
+		}
+		propertyDTO.setValues(addOrUpdateDTOs);
+
+		Map<String, Object> extraProps = new HashMap<>();
+		extraProps.put(UserRequestConstant.PRODUCT_PROPERTY, propertyDTO);
+		if (!StringUtils.isEmpty(deleteIdsStr))
+		{
+			extraProps.put(UserRequestConstant.PRODUCT_PROPERTY_DELETEIDS,
+					new HashSet<>(Arrays.asList(deleteIdsStr.split(","))));
+		}
+
+		UserRequestDTO dto = new UserRequestDTO();
+		dto.setUser(AdminUtil.getLoginUser());
+		dto.setExtProps(extraProps);
+		return internalFacadedService.updateProperty(dto);
 	}
 
 }

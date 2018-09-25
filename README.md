@@ -1,4 +1,6 @@
 
+关于分库分表的核心在library-project 下的sqlextention包中,核心是通过map存储,然后通过proxy代理dao 管理某个表的所有分库对应的dao类,内部又通过取模的方式取得表名,如果想通过另外一种策略:通过划分id 插入表的形式的话,新增一个抽象类..
+重复的CRUD太多,dao抽出公共的dao,Service也可以抽出,service的代码还未优化,tm-system-admin 中的other 是临时包,还未删除
 基础架构图:
   ![base_design_png](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design.png)
 ----------------------------------------------------------------------------------

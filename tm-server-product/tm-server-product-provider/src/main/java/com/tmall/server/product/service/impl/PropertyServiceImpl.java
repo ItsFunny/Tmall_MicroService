@@ -7,14 +7,10 @@
 */
 package com.tmall.server.product.service.impl;
 
-import static org.mockito.Mockito.validateMockitoUsage;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.codec.language.bm.Rule.RPattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -362,6 +358,7 @@ public class PropertyServiceImpl extends AbstractMultipartDBPageService<TmallPro
 		//删除过期的
 		if(null!=deleteIds&&!deleteIds.isEmpty())
 		{
+			log.info("[updateProperty]删除本地属性值,id为:{}",deleteIds);
 			DBInfo<TmallPropertyValue>[] allDbinfos = (DBInfo<TmallPropertyValue>[]) holder.getAllDbinfos(SQLExtentionConstant.PROPERTY_VALUE);
 			TmallPropertyValueExample example=new TmallPropertyValueExample();
 			com.tmall.server.product.common.model.TmallPropertyValueExample.Criteria criteria = example.createCriteria();
@@ -396,7 +393,7 @@ public class PropertyServiceImpl extends AbstractMultipartDBPageService<TmallPro
 				values.add(value);
 			});
 			int validCount = proxyDao.insertBatchSelective(SQLExtentionConstant.PROPERTY_VALUE, values);
-			if (validCount - values.size() != 0)
+			if (validCount - values.size() < 0)
 			{
 				log.error("[updateProperty]本地插入属性值,实际插入的与预期的不一致,预期插入:{}条,实际:{}", values.size(), validCount);
 				throw new TmallProductException(ErrorCodeEnum.INTERNAL_DB_ERROR);

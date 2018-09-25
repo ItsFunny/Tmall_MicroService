@@ -34,6 +34,8 @@ public class MessageSQLProxyExtentionDaoImpl implements ISQLExtentionProxyBaseCR
 	@Override
 	public ISQLExtentionBaseCRUDDao<MessageModel> getDetailConfigDao(Number uniqueKey)
 	{
+		System.out.println(uniqueKey.longValue());
+		System.out.println(uniqueKey.longValue()%daos.size());
 		return daos.get((int) (uniqueKey.longValue()%daos.size()));
 	}
 
