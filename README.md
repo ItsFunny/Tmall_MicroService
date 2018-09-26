@@ -1,6 +1,7 @@
 
 关于分库分表的核心在library-project 下的sqlextention包中,核心是通过map存储,然后通过proxy代理dao 管理某个表的所有分库对应的dao类,内部又通过取模的方式取得表名,如果想通过另外一种策略:通过划分id 插入表的形式的话,新增一个抽象类..
 重复的CRUD太多,dao抽出公共的dao,Service也可以抽出,service的代码还未优化,tm-system-admin 中的other 是临时包,还未删除
+本项目是第三次开发,第一次开发采用的是纯粹的SpringBoot单体系统的形式,第二次开发采用的是伪分布式(并没有涉及到服务注册等),通过rest调用的方式,第三次也就是本次开发采用SOA架构,在第二次的基础上进行了数据库分库分表,数据一致性的优化等
 基础架构图:
   ![base_design_png](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design.png)
 ----------------------------------------------------------------------------------
@@ -35,4 +36,3 @@ Decide to dev admin_system firstlly	   BaseFunction:v0.1 </br>
 Login_And__Auth_Processsion:
 ![simple_login_procession](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design_img/login_procession.png)
 2018-08-12
-	miss somebody,hah.. 
