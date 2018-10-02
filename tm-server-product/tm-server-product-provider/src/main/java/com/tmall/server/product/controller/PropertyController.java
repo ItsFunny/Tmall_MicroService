@@ -119,5 +119,11 @@ public class PropertyController
 		}
 		return propertyService.updateProperty(wrapper,deleteIds);
 	}
+	@PostMapping(value="/delete",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResultDTO<?>deleteProperties(@RequestBody UserRequestDTO userRequestDTO)
+	{
+		
+		return null;
+	}
 
 }

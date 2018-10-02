@@ -12,9 +12,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.joker.library.sqlextention.AbstractSQLExtentionpProxyBaseCRUDDao;
 import com.joker.library.sqlextention.ISQLExtentionBaseCRUDDao;
 import com.joker.library.sqlextention.ISQLExtentionProxyBaseCRUDDao;
 import com.tmall.server.product.common.model.TmallProperty;
+import com.tmall.server.product.common.model.TmallPropertyExample;
 import com.tmall.server.product.dao.TmallPropertyDao;
 
 /**
@@ -26,8 +28,9 @@ import com.tmall.server.product.dao.TmallPropertyDao;
  * @date 创建时间：2018年9月22日 下午1:58:30
  */
 @Repository("propertySQLExtentionProxyDaoImpl")
-public class PropertySQLExtentionProxyDaoImpl
-		implements ISQLExtentionProxyBaseCRUDDao<TmallProperty>, ISQLExtentionBaseCRUDDao<TmallProperty>
+//public class PropertySQLExtentionProxyDaoImpl
+//		implements ISQLExtentionProxyBaseCRUDDao<TmallProperty>, ISQLExtentionBaseCRUDDao<TmallProperty>
+public class PropertySQLExtentionProxyDaoImpl extends AbstractSQLExtentionpProxyBaseCRUDDao<TmallProperty>
 {
 	@Autowired
 	private List<TmallPropertyDao> daos;
@@ -51,14 +54,6 @@ public class PropertySQLExtentionProxyDaoImpl
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public int insertBatchSelective(String tableName,List<TmallProperty> list)
-	{
-		
-		return 0;
-	}
-
 	@Override
 	public int updateByExampleSelective(TmallProperty record, Object example)
 	{
@@ -80,12 +75,6 @@ public class PropertySQLExtentionProxyDaoImpl
 		return 0;
 	}
 
-	@Override
-	public int deleteByExample(Object example)
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public int deleteByPrimaryKey(Integer uniquekey)

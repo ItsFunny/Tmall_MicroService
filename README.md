@@ -4,6 +4,8 @@
 本项目是第三次开发,第一次开发采用的是纯粹的SpringBoot单体系统的形式,第二次开发采用的是伪分布式(并没有涉及到服务注册等),通过rest调用的方式,第三次也就是本次开发采用SOA架构,在第二次的基础上进行了数据库分库分表,数据一致性的优化等
 基础架构图:
   ![base_design_png](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design.png)
+数据库扩展类层级结构图:
+![数据库扩展类层次结构](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design_img/sql_extention_class.png)
 ----------------------------------------------------------------------------------
 技术选型:以SpringBoot为基础框架,Spring-cloud-eureka作为服务注册中心,Spring-cloud-config作为服务配置中心,Spring-cloud-zuul作为服务网关,spring-cloud-hystrix作为服务熔断处理工具,spring-cloud-hystrix-dashboard服务检测 采用RabbitMQ作为消息中间件
 持久层:Mybatis||DButils||JDBCTemplate

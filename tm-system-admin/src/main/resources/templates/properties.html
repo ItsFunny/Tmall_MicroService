@@ -20,6 +20,13 @@
 	var delValueIds="";
 	var updateIds="";
 	var totalValueIds="";
+	function batchDelete(){
+		var delIds="";
+		$('.property[type="checkbox"]:checked').each(function(){
+			delIds+=$(this).val()+",";
+		})
+		alert(delIds);
+	}
 	function addPropValue(value,disSeq,valueId){
 		if(value==null){
 			value="";		
@@ -124,7 +131,7 @@
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" onclick='javascript:$(".valueBody").empty();'><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+                                        <button type="button" class="btn btn-default" title="删除" onclick="batchDelete()"><i class="fa fa-trash-o"></i> 删除</button>
                                         
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
@@ -154,7 +161,7 @@
 			                      	<#if pageVO.data??>
 			                      		<#list pageVO.data as item>
 				                          <tr >
-				                              <td><input  type="checkbox" ></td>			                              
+				                              <td><input  class="property" type="checkbox" value="${item.propertyId?c}"></td>			                              
 					                          <td>${item.propertyId?c}</td>
 										      <td>${item.propertyName}</td>
 			                                  <td class="text-center">                                           

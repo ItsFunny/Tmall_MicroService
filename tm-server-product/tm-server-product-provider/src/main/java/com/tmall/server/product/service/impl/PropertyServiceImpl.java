@@ -402,4 +402,17 @@ public class PropertyServiceImpl extends AbstractMultipartDBPageService<TmallPro
 		return ResultUtils.sucess();
 	}
 
+	@RabbitMQTransaction
+	@Override
+	public ResultDTO<Integer> deleteProperty(UserRecordAspectWrapper<List<Integer>> wrapper)
+	{
+		List<Integer> datas = wrapper.getData();
+		if(null==datas || datas.isEmpty())
+		{
+			return ResultUtils.fail("参数不能为空");
+		}
+		
+		return null;
+	}
+
 }

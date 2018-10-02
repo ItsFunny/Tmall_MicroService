@@ -135,8 +135,9 @@
 			separator=",">
 			(#{item.propertyValueId},#{item.propertyId},#{item.propertyValue},#{item.propertyDisSeq})
 		</foreach>
-				on duplicate key update property_value=#{item.propertyValue},property_dis_seq=#{item.propertyDisSeq}
-		
+		on duplicate key update
+		property_value=values(property_value),property_dis_seq=values(property_dis_seq)
+
 	</insert>
 	<insert id="insert"
 		parameterType="com.tmall.server.product.common.model.TmallPropertyValue">

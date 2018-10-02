@@ -42,5 +42,8 @@ public interface IPropertyService
 	PageResponseDTO<List<PropertyDTO>>findByCondition(PageRequestDTO pageRequestDTO);
 	
 	ResultDTO<PropertyDTO>showPropertyValues(Integer propertyId);
+	
+	
+	ResultDTO<Integer>deleteProperty(UserRecordAspectWrapper<List<Integer>>wrapper);
 
 }
