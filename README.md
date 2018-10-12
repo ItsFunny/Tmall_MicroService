@@ -4,7 +4,7 @@
 基础架构图:
   ![base_design_png](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design.png)<br>
 服务及其系统间的调用方式:<br>
-![call_logic](https://github.com/ItsFunny/Tmall_MicroService/blob/master/call_logic.png)<br>
+![call_logic](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design_img/call_logic.png)<br>
 ----------------------------------------------------------------------------------
 技术选型:以SpringBoot为基础框架,Spring-cloud-eureka作为服务注册中心,Spring-cloud-config作为服务配置中心,Spring-cloud-zuul作为服务网关,spring-cloud-hystrix作为服务熔断处理工具,spring-cloud-hystrix-dashboard服务检测 采用RabbitMQ作为消息中间件
 持久层:Mybatis||DButils||JDBCTemplate
@@ -23,7 +23,7 @@
     superAdmin>subSuperAdmin>admin>subAdmin>employee =user</br>
 部分设计思路图:
 SSO流程的思路图:<br>
-![simple_login_procession](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design_img/login_procession.png)
+![simple_login_procession](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design_img/login_procession.png)<br>
 分库分表的类层次结构图v0.1(未优化)<br>
 ![数据库扩展类层次结构](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design_img/sql_extention_class.png)
 分布式下的数据一致性:无论是上游服务器还是下游服务器都需要开放一个消息接口供消息服务器查询状态,确保一致<br>
