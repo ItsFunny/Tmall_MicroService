@@ -7,7 +7,9 @@
 */
 package com.tmall.system.admin.config;
 
+import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import javax.servlet.Filter;
 
@@ -19,6 +21,9 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.MethodInterceptor;
+import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -39,8 +44,24 @@ import com.tmall.system.admin.shiro.TmallAuthRealm;
 })
 public class AdiminSystemSpringConfiguration 
 {
-	
-	
+	private class MyMethodInterecptor implements MethodInterceptor
+	{
+		private Object targe;
+		private Enhancer hancer=new Enhancer();
+		public Object create()
+		{
+			hancer.setSuperclass(targe.getClass().getSuperclass());
+			hancer.setCallback(this);
+			return hancer.create();
+		}
+		@Override
+		public Object intercept(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) throws Throwable
+		{
+			arg3.invokeSuper(arg0, arg2);
+			return null;
+		}
+		
+	}
 //	@Bean
 //	public TmallErrorDecoder tmallErrorDecoder()
 //	{
