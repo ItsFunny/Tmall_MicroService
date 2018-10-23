@@ -31,6 +31,12 @@ SSO流程的思路图:<br>
 ![top_service_logic](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design_img/data_consistent.png)
 下游服务器的接收流程:<br>
 ![down_logic](https://github.com/ItsFunny/Tmall_MicroService/blob/master/design_img/down_logic_consistent.png)<br>
+2018-10-2<br>
+  项目设计中的一些点:<br>
+  商品模块:商品模块数据库中最头疼的莫过于spu,sku这块,个人理解spu是某类商品或某类下的某种商品的属性集合 而sku则是具体某个商品的属性集合<br>
+  spu表中的部分参数:spu_id,spu_property_ids(这是一个String类型的,存放的是propertyId,用逗号分隔)....<br>
+  sku:sku_id,spu_id,sku_property_values(也是一个字符串,并且与spu中的property_ids是对应的关系),stock,price..<br>
+可以发现spu:sku=1:n spu:property=1:n,sku:property_value=1:n..<br>
 2018-06-13</br>
   15:00
     开始编写商铺后台管理,简单做了下功能图和角色图:(因为本人没有做过淘宝兼职,因此只是很low 的版本v0.2)</br>
