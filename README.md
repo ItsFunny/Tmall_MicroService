@@ -1,3 +1,5 @@
+2018-11-14 更:
+20号要去北京了,最近一直在学Go,Java先放一放了,Java i wont give up,应该等Go稳固下来这个project会重启,到时候一些api会用Go来写,至于前端,not sure yet,是一体还是分离暂定吧,一体的话肯定用Java的template,Go的template 忒蛋疼了,分离的话用node.js吧或react.js<br>
 2018-10-27 更:
 今天尝试重写一个分库分表demo的时候发现原先写的这个SQLExtention小结构的体系已经忘了..记得写文档....SQLExtention结构原先只有我和god知道啥意思,现在怕是只有god知道了,重新回顾下看看,然后尝试编写文档<br>
 
