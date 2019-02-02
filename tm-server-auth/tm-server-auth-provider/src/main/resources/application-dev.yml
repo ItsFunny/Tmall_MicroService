@@ -9,7 +9,7 @@ tmall:
     driver-class-name: com.mysql.jdbc.Driver
     amqp-enabled: false
     email-account: 18757883747@163.com
-    email-pwd: lvcong1215
+    email-pwd:
     email-host: smtp.163.com
     mysql-extention: user:2
     amqp-host: localhost
